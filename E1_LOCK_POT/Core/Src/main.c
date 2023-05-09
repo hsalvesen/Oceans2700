@@ -213,6 +213,16 @@ int main(void)
 	uint8_t led_on = 0;
 	uint32_t led_timestamp = 0;
 	uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
+	uint32_t predefined_angles_degrees[5] = {135, 45, 180, 0, 90};
+	uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
+	uint32_t upper_calibration = 3900;
+	uint32_t lower_calibration = 1200;
+	uint32_t tolerance = 150;
+
+	for (uint32_t i = 0; i < 5; i++)
+	{
+		predefined_angles_adc[i] = predefined_angles_degrees[i]*(upper_calibration - lower_calibration) / 180.0 + lower_calibration;
+	}
 
 	while (1)
 	{
@@ -228,7 +238,7 @@ int main(void)
 	    {
 	    // 135 degrees
 	    case 0:
-	        if (adcValue >= 3300 && adcValue <= 3500)
+	        if (adcValue >= (predefined_angles_adc[0] - tolerance) && adcValue <= (predefined_angles_adc[0] + tolerance))
 	        {
 	            if (state_timestamp[current_state] == 0)
 	            {
@@ -246,8 +256,9 @@ int main(void)
 	            state_timestamp[current_state] = 0;
 	        }
 	        break;
+	    // 45 degrees
 	    case 1:
-	        if (adcValue >= 1775 && adcValue <= 1975)
+	    	if (adcValue >= (predefined_angles_adc[1] - tolerance) && adcValue <= (predefined_angles_adc[1] + tolerance))
 	        {
 	            if (state_timestamp[current_state] == 0)
 	            {
@@ -267,7 +278,7 @@ int main(void)
 	        break;
 	    // 	180 degrees
 	    case 2:
-	        if (adcValue >= 3900)
+	    	if (adcValue >= (predefined_angles_adc[2] - tolerance) && adcValue <= (predefined_angles_adc[2] + tolerance))
 	        {
 	            if (state_timestamp[current_state] == 0)
 	            {
@@ -285,8 +296,9 @@ int main(void)
 	            state_timestamp[current_state] = 0;
 	        }
 	        break;
+	    // 0 degrees
 	    case 3:
-	        if (adcValue >= 1100 && adcValue <= 1300)
+	    	if (adcValue >= (predefined_angles_adc[3] - tolerance) && adcValue <= (predefined_angles_adc[3] + tolerance))
 	        {
 	            if (state_timestamp[current_state] == 0)
 	            {
@@ -304,8 +316,9 @@ int main(void)
 	            state_timestamp[current_state] = 0;
 	        }
 	        break;
+	    // 90 degrees
 	    case 4:
-	        if (adcValue >= 2550 && adcValue <= 2750)
+	    	if (adcValue >= (predefined_angles_adc[4] - tolerance) && adcValue <= (predefined_angles_adc[4] + tolerance))
 	        {
 	            if (state_timestamp[current_state] == 0)
 	            {
