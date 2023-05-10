@@ -215,9 +215,9 @@ int main(void)
 	uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
 	uint32_t predefined_angles_degrees[5] = {135, 45, 180, 0, 90};
 	uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
-	uint32_t upper_calibration = 3900;
+	uint32_t upper_calibration = 3800;
 	uint32_t lower_calibration = 1200;
-	uint32_t tolerance = 150;
+	uint32_t tolerance = 200;
 
 	for (uint32_t i = 0; i < 5; i++)
 	{

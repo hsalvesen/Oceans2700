@@ -1233,14 +1233,14 @@ int main(void)
  8000d72:	609a      	str	r2, [r3, #8]
  8000d74:	60da      	str	r2, [r3, #12]
  8000d76:	611a      	str	r2, [r3, #16]
-	uint32_t upper_calibration = 3900;
- 8000d78:	f640 733c 	movw	r3, #3900	; 0xf3c
+	uint32_t upper_calibration = 3800;
+ 8000d78:	f640 63d8 	movw	r3, #3800	; 0xed8
  8000d7c:	f8c7 30a8 	str.w	r3, [r7, #168]	; 0xa8
 	uint32_t lower_calibration = 1200;
  8000d80:	f44f 6396 	mov.w	r3, #1200	; 0x4b0
  8000d84:	f8c7 30a4 	str.w	r3, [r7, #164]	; 0xa4
-	uint32_t tolerance = 150;
- 8000d88:	2396      	movs	r3, #150	; 0x96
+	uint32_t tolerance = 200;
+ 8000d88:	23c8      	movs	r3, #200	; 0xc8
  8000d8a:	f8c7 30a0 	str.w	r3, [r7, #160]	; 0xa0
 
 	for (uint32_t i = 0; i < 5; i++)
