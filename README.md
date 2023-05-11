@@ -9,17 +9,22 @@ ___
 
 ## Group members, Responsibilities
 1. Joel Pivetta | 520447488       
-Exercise 1 : Safe Crack (servo peripheral)
+Exercise 1 : Safe Crack (servo peripheral), integration for Exercise 1 
+
 2. Haz Salvesen     | 490480278       
 Exercise 1 : Safe Crack (potentiometer, LED peripherals), Hardware, Documentation
+
 3. Lachlan Irving   | 490627792      
 Exercise 4 : Capacitive Touch, Minutes
+
 4. Matlyda Hayne    | 520471933       
-Exercise 3 : Sundial 
+Exercise 3 : Sundial (magnetometer)
+
 5. Samuel Richards  | 520482962       
 Exercise 2 : Knocking, GUI, Exercise 4 : Capacitive Touch
+
 6. Luis Sanabria    | 510432236       
-Exercise 3 : Sundial
+Exercise 3 : Sundial (LDRs)
 ___
 
 ## Roles
