@@ -4,6 +4,28 @@ Major Project
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
 technology for a 5-minute escape room experience.
 
+
+# Escape Room Storyline: The Bank Heist
+In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon.
+
+#### Exercise 1: Safe Crack
+
+Your first challenge is to crack the vault. This is no ordinary vault; it boasts an antiquated dial lock system that demands meticulous manipulation. Your ally in this endeavor is a specialized bank heist robot, designed to decode the right combination to pick the lock. As the robot deciphers each part of the combination, an LED illuminates, signaling your progress. With the robot's help, you breach the vault and secure the coveted artifact.
+
+#### Exercise 2: Report to Mission Control
+
+With the artifact in your possession, it's crucial to inform mission control. Luckily, the heist robot is equipped with a unique communication channel. Your task is to interface with this system, encoding your message in Morse code. Each carefully tapped dot and dash confirms the successful extraction of the artifact.
+
+#### Exercise 3: Hacking Police Radio Channel
+
+But success has its echoes, and the authorities are now alerted to a possible breach. Their radio chatter buzzes urgently. Your next challenge is to hack into the police radio channel, creating a diversion. You have at your disposal a sundial-like device, outfitted with a magnetometer, which you use to distort the magnetic field and jam the radio signals. The police are successfully redirected, buying you some much-needed time.
+
+#### Exercise 4: Exiting the Bank
+
+With the authorities temporarily misled, your escape path is clear, save for one last hurdle: a state-of-the-art security system operated by capacitive touch sensors. Your challenge is to discern the intricate pattern and cautiously navigate through it. However, the countdown clock relentlessly ticks away, adding to the mounting pressure.
+
+Undeterred, you deactivate the sensors and, with your team, make a swift exit, melting into the shadows just as the confused police return to the now silent bank. Your heist is a triumph: the priceless artifact is yours, and the legend of the impenetrable bank vault is no more.
+
 ___
 ___
 
@@ -18,13 +40,13 @@ Exercise 1 : Safe Crack (potentiometer, LED peripherals), Hardware, Documentatio
 Exercise 4 : Capacitive Touch, Minutes
 
 4. Matlyda Hayne    | 520471933       
-Exercise 3 : Sundial (magnetometer)
+Exercise 3 : Hacking Police Radio Channel (Sundial (magnetometer))
 
 5. Samuel Richards  | 520482962       
-Exercise 2 : Knocking, GUI, Exercise 4 : Capacitive Touch
+Exercise 2 : Report to Mission Control (Knocking), GUI, Exercise 4 : Exiting the Bank (Capacitive Touch) 
 
 6. Luis Sanabria    | 510432236       
-Exercise 3 : Sundial (LDRs)
+Exercise 3 : Hacking Police Radio Channe (Sundial (LDRs))
 ___
 
 ## Roles
@@ -52,7 +74,7 @@ This experience includes a simulated vault cracking sequence which is realised t
 ___
 
 ## Modularisation:
-Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order. 
+>> Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order. <<
 ___
 
 ## Functions:
@@ -102,53 +124,33 @@ ___
 ___
 
 
-# Exercise 2 : Reporting to Mission Control (Capacitive Touch)
+# Exercise 2 : Reporting to Mission Control (Knocking)
 
 ## High Level Overview:
 
-Exercise 2 explores UART communication on the STM32 microcontroller, where UART is an asynchronous serial communication protocol that allows two devices to communicate without sharing clock information. The exercise is divided into four tasks:
-
-1. Task 1 extends the serial module in week6-modular-design to include receiving serial data, and stores this data in a memory buffer. 
-2. Sends data with a defined terminating character when the transmission is complete.
-3. Replaces the serial receiving process with an interrupt based approach. 
-4. Replaces the serial transmission process with an interrupt based approach.
+xxx
 
 
 ___
 
 ## Modularisation
-This section was designed to be modular by splitting it into multiple functions which can be individually called - e.g. the enableUSART, transmit_string, and receive_string functions.
+xxx
 ___
 
 ## Functions
 - enableUSART1: Enable GPIO C and USART1's clocks, set GPIO C to use UART as alternate function, set the baud rate and ready USART 1 for both receive and transmit
-- enableInterrupts: Configures and enables external interrupts for EXTI0.
-- enableLEDs: Enable clock for Port E (LEDs), get the most significant 16 bits of port mode register as that is where the mode for the LEDs are defined
-- enableInterrupts: Generate an interrupt upon receiving data and set priority and enable interrupts
-- USART1_EXTI25_IRQHandler: Allow main function to occur.
+- xxx
 
 ## User Instructions
-The user needs to build and load the function onto the discovery board and load putty through their terminal at a baud rate of 115200. After that point when the user enters a string into putty the string is stored in a buffer and then transmitted back to putty so the user can see what they transmitted. A new line is also added. 
+xxx
 ___
 
 ## Constraints and Limitations:
-The system is constrained by the amount of USART ports available on the device, as well as the type of characters that can be sent over the USART bus. Additionally, when transmitting high amounts of data the USART protocol might not be fast enough or have enough error checking.
+xxx
 ___
 
 ## Testing Procedure:
-
-Since this system uses a real-time system, debugging using breakpoints is often not possible. Thus, most debugging was done by printing a lot of data to the serial port of the computer. Such as:
-
-```
-Hello40
-Hello40
-Hello40
-Hello40
-Hello40
-```
-
-
-This did make it quite difficult to debug when it was a serial issue, but all issues were eventually resolved. We used a list of testing strings which contained a variety of characters. We then made sure that when typed into one Serial Console, the input was mirrored in the Serial Console on the other computer.
+xxx
 ___
 
 # Exercise 3 - Hardware timer:
