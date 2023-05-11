@@ -8,7 +8,9 @@ ___
 ___
 
 ## Group members, Responsibilities
-1. Joel Pivetta     | 520447488       | Exercise 1 : Safe Crack (servo peripheral)
+1. Joel Pivetta
+520447488       
+Exercise 1 : Safe Crack (servo peripheral)
 2. Haz Salvesen     | 490480278       | Exercise 1 : Safe Crack (potentiometer, LED peripherals), Hardware, Documentation
 3. Lachlan Irving   | 490627792       | Exercise 4 : Capacitive Touch, Minutes
 4. Matlyda Hayne    | 520471933       | Exercise 3 : Sundial 
