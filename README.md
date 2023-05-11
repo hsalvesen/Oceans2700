@@ -41,15 +41,14 @@ ___
 # Exercise 1 : Safe Crack
 
 ## High Level Overview:
-This experience includes a simulated vault cracking sequence which is realised through the interaction between an STM32F303 Discovery board, a potentiometer, a lock-picking robot's servo, and an LED light. The concept is centered around the notion of a vault with a dial lock. The dial, represented by the potentiometer, needs to be manipulated in a certain pattern to 'crack' the vault's code, similar to how a lock-picking robot would function. The STM32F303 Discovery board is the heart of the system, responsible for interfacing with the potentiometer and mimicking the movements of a lock-picking robot's servo.
+This experience includes a simulated vault cracking sequence which is realised through the interaction between an STM32F303 Discovery board, a potentiometer, a lock-picking robot's servo, and an LED light. The concept is centered around the notion of a vault with a dial lock. The dial, represented by the potentiometer, rests on a Cartesian plane and needs to be manipulated in a certain pattern to 'crack' the vault's code, similar to how a lock-picking robot would function. The STM32F303 Discovery board is the heart of the system, responsible for interfacing with the potentiometer and mimicking the movements of a lock-picking robot's servo.
 
 ## Subtasks
 1. Interfacing with Potentiometer: The STM32F303 Discovery board must be programmed to read the analog inputs from the potentiometer, which represents the dial on the vault. The position of the dial is determined by the resistance of the potentiometer, which changes as it is turned.
 2. Mimicking Lock-Picking Robot's Servo: Based on the analog inputs from the potentiometer, the board will simulate the actions of a lock-picking robot's servo. This includes rotating the dial to certain positions and pausing for a specified amount of time to mimic the process of 'feeling' for the correct combination.
-3. Checking Combination: The board will be programmed to recognize specific sequences of movements as combinations. For example, if the dial moves to the right to 30, then left to 20, and finally right to 10, this could be recognized as a correct combination.
+3. Checking Combination: The board will be programmed to recognise specific sequences of movements as combinations. For example, if the dial, on  moves to the right to 30 degrees, then left to 20 degrees, and finally right to 10 degrees, this could be recognized as a correct combination.
 4. LED Light Activation: Once a correct combination is entered, the board will send a signal to light up the LED. This serves as a visual confirmation that the correct combination has been entered and the vault is 'unlocked'.
 
-NB: Since the final task is an extension of this task, only the final task is shown, so R4 contains the actual string to be stepped through, whilst R5 holds each byte or character. The binary value of this register is then displayed in the 8 LEDs.
 ___
 
 ## Modularisation:
@@ -57,35 +56,53 @@ Numerous functions perform specific tasks, and follows an intuitive design with 
 ___
 
 ## Functions:
-- setGPIO: Enables GPIOA and GPIOE for the button and LEDs, and sets GPIOE output.
-- enableInterrupts: Configures and enables external interrupts for EXTI0.
-- EXTI0_IRQHandler: Handles the EXTI0 interrupt by running the button press handler and resetting the interrupt.
-- main: Sets GPIO, assigns the show_pattern function as the button press handler, enables interrupts, and enters an infinite loop.
-- show_pattern: Displays an ASCII character pattern on the LEDs, cycling through the characters of the string "Michael" on each button press, and disables the button after the last character. By changing one comment code, it can also go back to the beginning of the string and show "Michael" again and again. 
+- angle_conversion: Converts pre-defined angles into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
+- ...
 ___
 
 ## User Instructions
-The program starts there are no lights on. If the input button is pressed, the board switches to the ASCII character stepping mode and then pressing the buttons steps through the ASCII character that is defined.
+1. Starting the Program: Upon uploading the code to the STM32F303 Discovery board, the escape room simulation will automatically start.
+
+2. Servo Movements: The servo, representing the lock-picking robot, will begin at its origin point (90 degrees). It will then rotate towards its final angle before resetting back to 0 degrees. This cycle of movement will continue until the correct angle is entered via the lock dial, represented by the potentiometer.
+
+3. Entering the Correct Angle: As a user, you will manipulate the potentiometer to set the correct angle. The program has a small tolerance for accuracy, so it doesn't need to be exact.
+
+4. LED Indication: Once you've set the potentiometer to the correct angle, a green LED on the Discovery board will turn on for 3 seconds before turning off. This serves as your signal that you've entered the correct angle on the lock dial.
+
+5. Repeating the Process: The servo will then start moving towards the next predefined angle. You will need to repeat the process of setting the potentiometer to the correct angle for the new servo position. This cycle will continue until all 5 predefined angles have been entered correctly, in sequence.
+
+Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise.
+
+Remember, the objective is to accurately follow the servo's movements with the lock dial (potentiometer), entering the correct sequence of 5 angles.
 ___
 
 ## Constraints & Limitations:
-Limitation in scope: 
-The code is specific to STM32F303 and may not be used with other hardware, limiting its adaptability. The code is written in C, however, and so is much more portable than assembly code. All that needs to be changed to make this code work with another device is to change the I/O definitions. 
-Lack of scalability: 
-The code was developed for the specific task of controlling eight LEDs, and modifications to the program will be required to handle different numbers of LEDs, restricting its scalability.
-Input limitations: The program relies on a single input button to step through the ASCII characters, making it less user-friendly and less efficient in handling multiple inputs.
+Wiring Issues: One potential limitation of this exercise is the instability of the wiring. The wires connecting the components can sometimes become loose, disrupting the communication between the potentiometer, servo, and STM32F303 Discovery board. If any malfunction is observed, it's advisable to check and fix the wiring connections before resetting and attempting the exercise again.
+
+Servo Angle Limitation: The servo's rotation is constrained between 0 and 180 degrees. This limitation is inherent to the servo's physical properties and cannot be altered. As such, it's crucial to ensure that the angles coded in the program fall within this range.
+
+Potentiometer Rotation: Unlike the servo, the potentiometer can rotate beyond 180 degrees. This discrepancy might cause confusion while attempting to match the potentiometer's position with the servo's angle. Users will need to mentally map the potentiometer's full rotation to the servo's 0 to 180-degree range.
+
+Input Voltage Calibration: The potentiometer's calibration is another crucial aspect. The input voltage should be set to 3V to ensure accurate readings. Any deviation from this voltage might lead to incorrect detection of the dial position and hence, failure in unlocking the vault.
+
+Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to erratic behavior of the board and disrupt the escape room simulation.
 ___
 
 ## Testing Proceedures:
-In order to check that the anticlockwise and clockwise functions worked as expected, different inputs for R1 and R2 were provided and it wasverified that only one LED was on at a given time. The selected LED moved either clockwise or anticlockwise around the circle of LEDs.
-The ASCII to LED pattern mapping was tested and verified by checking that each ASCII character in the string provided in the code generates the expected LED pattern on the board.
-The string stepping functionality was tested by pressing the input button and verifying that the LED pattern changes to the next ASCII character in the string.
-The wraparound functions was checked by verifying that the binary bits are wrapped around when going clockwise or anticlockwise, and that the LED pattern was still correct.
+Directional Rotation Test: By providing different inputs via the potentiometer, we can test the lock-picking robot's servo ability to mimic both anticlockwise and clockwise rotations. Verification will involve ensuring that the servo's direction of rotation matches the potentiometer's movement.
+
+LED Confirmation Test: The LED light should only activate upon entering a correct angle. Test this by providing a range of correct and incorrect inputs, and verifying that the LED lights up only for correct inputs.
+
+Angle-to-Servo Mapping Test: To verify that each angle set via the potentiometer generates the expected servo movement, set predefined angles and observe the corresponding servo actions.
+
+Sequence Stepping Test: Similar to string stepping functionality, we should test the system's ability to progress through the sequence of angles. After entering each correct angle, the system should move to the next step in the sequence. This can be tested by entering correct angles and verifying the progression to the subsequent servo positions.
+
+Wraparound Test: Like the wraparound function for binary bits, the potentiometer's rotation should wrap around within the 0-180 degrees range. This can be tested by rotating the potentiometer beyond 180 degrees and verifying that the system correctly interprets this as a wraparound within the servo's range.
 ___
 ___
 
 
-# Exercise 2 - Serial Communication:
+# Exercise 2 : Reporting to Mission Control (Capacitive Touch)
 
 ## High Level Overview:
 
