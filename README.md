@@ -22,7 +22,7 @@ But success has its echoes, and the authorities are now alerted to a possible br
 
 #### Exercise 4: Exiting the Bank
 
-With the authorities temporarily misled, your escape path is clear, save for one last hurdle: a state-of-the-art security system operated by capacitive touch sensors. Your challenge is to discern the intricate pattern and cautiously navigate through it. However, the countdown clock relentlessly ticks away, adding to the mounting pressure.
+With the authorities temporarily misled, your escape path is clear, save for one last hurdle: a state-of-the-art security system operated by capacitive touch sensors. Your challenge is to discern the intricate pattern and cautiously navigate through it.
 
 Undeterred, you deactivate the sensors and, with your team, make a swift exit, melting into the shadows just as the confused police return to the now silent bank. Your heist is a triumph: the priceless artifact is yours, and the legend of the impenetrable bank vault is no more.
 
