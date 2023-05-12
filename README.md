@@ -39,7 +39,7 @@ Exercise 1 : Safe Crack (potentiometer, LED peripherals), Hardware, Documentatio
 3. Lachlan Irving   | 490627792      
 Exercise 4 : Capacitive Touch, Minutes
 
-4. Matlyda Hayne    | 520471933       
+4. Matylda Hayne    | 520471933       
 Exercise 3 : Hacking Police Radio Channel (Sundial (magnetometer))
 
 5. Samuel Richards  | 520482962       
