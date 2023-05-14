@@ -1,4 +1,12 @@
 
+___
+### Date 
+
+27-04-2023
+___
+## Agenda
+Getting to know one another, setting up the Github, delegating tasks and getting started. 
+___
 
 | Present  | Apologies | Absent |
 | ------------- | ------------- | ------------- |
@@ -8,14 +16,9 @@
 | Lachland  |    |    |
 | Joel |    |   |
 |   |   |   |
-___
-### Date 
 
-27-04-2023
 ___
-### Agenda
-Getting to know one another, setting up the Github, delegating tasks and getting started. 
-___
+
 #### Minutes
 
         
