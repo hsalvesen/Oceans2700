@@ -18,7 +18,7 @@ ___
 
 ___
 
-#### Minutes
+## Minutes
 
         
 **09:00**  
@@ -60,7 +60,7 @@ ___
           Google Docs made, Github made, ideas fleshed out, actionables written
           
 ___
-### Actionables
+## Actionables
 
 **Haz + Joel**  
           
