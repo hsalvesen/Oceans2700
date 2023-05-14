@@ -195,30 +195,29 @@ int main(void)
 	uint16_t reset_angle = 1600;
 	uint8_t correct_entry = 0;
 
-
-
-
 	uint8_t current_state = 0;
-		uint8_t led_on = 0;
-		uint32_t led_timestamp = 0;
-		uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
-		uint32_t predefined_angles_degrees[5] = {135, 45, 180, 0, 90};
-		uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
-		uint32_t angles_robot[5] = {0, 0, 0, 0, 0};
-		uint32_t robot_zero_angle = 650;
-		uint32_t upper_calibration = 3800;
-		uint32_t lower_calibration = 1200;
-		uint32_t tolerance = 400;
+	uint8_t led_on = 0;
+	uint32_t led_timestamp = 0;
+	uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
+	uint32_t predefined_angles_degrees[5];
+	uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
+	uint32_t angles_robot[5] = {0, 0, 0, 0, 0};
+	uint32_t robot_zero_angle = 650;
+	uint32_t upper_calibration = 3800;
+	uint32_t lower_calibration = 1200;
+	uint32_t tolerance = 400;
 
-		uint32_t degrees_to_servo = 1900/180;
+	uint32_t degrees_to_servo = 1900/180;
 
-		for (uint32_t i = 0; i < 5; i++)
-		{
-			angles_robot[i] = predefined_angles_degrees[i]*degrees_to_servo + robot_zero_angle;
-			predefined_angles_adc[i] = predefined_angles_degrees[i]*(upper_calibration - lower_calibration) / 180.0 + lower_calibration;
-		}
+	for (uint32_t i = 0; i < 5; i++)
+	{
+	    predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
 
-			uint8_t num_entries = (sizeof(angles_robot)/sizeof(angles_robot[0]));
+	    angles_robot[i] = predefined_angles_degrees[i]*degrees_to_servo + robot_zero_angle;
+	    predefined_angles_adc[i] = predefined_angles_degrees[i]*(upper_calibration - lower_calibration) / 180.0 + lower_calibration;
+	}
+
+	uint8_t num_entries = (sizeof(angles_robot)/sizeof(angles_robot[0]));
 
 	// delay for initialisation of the lidar
 	for (uint8_t i = 0; i < num_entries; i++)
@@ -688,7 +687,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 2000;
+  sConfigOC.Pulse = 1650;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
