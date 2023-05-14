@@ -6,6 +6,11 @@ N/A
 
 #### Absent       
 N/A
+
+| ####Present  | Apologies | Absent |
+| ------------- | ------------- | ------------- |
+| Content Cell  | Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  | Content Cell  |
 ___
 ### Date 
 
