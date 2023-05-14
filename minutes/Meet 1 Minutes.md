@@ -1,8 +1,11 @@
-#### Present     Luoyi, Lachlan, Haz
+#### Present     
+Luoyi, Lachlan, Haz
 
-#### Apologies    N/A
+#### Apologies    
+N/A
 
-#### Absent       N/A
+#### Absent       
+N/A
 ___
 ### Date 
 
