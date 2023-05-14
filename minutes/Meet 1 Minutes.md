@@ -46,7 +46,8 @@ ___
           
 **10:30**   
 
-          Ideas are run past Jesse, who stands there, menacingly.
+          Ideas are run past Jesse, who stands there, shakes his head, spits on us.
+          (Figuratively).
           
 **11:00**   
 
