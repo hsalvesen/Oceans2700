@@ -11,7 +11,7 @@
 ___
 ### Date 
 
-31-03-2023
+27-04-2023
 ___
 ### Agenda
 Getting to know one another, setting up the Github, delegating tasks and getting started. 
@@ -21,44 +21,63 @@ ___
         
 **09:00**  
           
-          2/3 team arrived, Luoyi & Haz
+          4/5 team arrived, Luis in absentia.
           
-**09:10**  
+**09:50**  
           
-          Jesse and Khit begin...
+          Team takes on Lachland. We are now 5/6 present.
           
 **09:20**  
           
-          3/3 team arrived! Lachlan is in the building!
+          Stuart arrives to run through the project  
+
+**09:45**
           
-**09:45**  
-          
-          Jesse and Khit finished their spiel.  
+          Stuart, Jesse and Khit's spiel: over.
 
 **10:00**   
 
-          Luoyi:     Task 1.  
-          Lachlan:   Task 2 
-          Haz:       Task 3
+          We have a group of six; we should commit to three ideas that we will do well.
+
+          The ideas that are deciding between are: 
+          - Servo position to crack a rotational lock | Haz + Joel
+          - Capacitive touch | Sam + Lachlan
+          - Sundial idea| Matylda + Luis
           
 **10:30**   
 
+          Ideas are run past Jesse, who stands there, menacingly.
+          
+**11:00**   
+
           Lachlan heads to get food
           
+**11:30**   
+
+          Google Docs made, Github made, ideas fleshed out, actionables written
           
 ___
 ### Actionables
 
-**Lachlan**  
+**Haz + Joel**  
           
-          Getting started with Exercise 2
+          Goals for this week: Can we move a servo and read from a potentiometer
           
-**Louyi**  
+**Sam + Lachland**  
           
-          Get full implementation of Exercise 1 working
+          Goals for this week: Can we interface with capacitive touch?
           
-**Haz**  
+**Matylda + Luis**  
           
-          Create a skeleton for Excercise 2
+          Goals for this week: Can we interface with LDRs and the magnetometer
+          1.      Collect necessary hardware requirements: A tonne of LDRs, Cardboard for structure 
+          2.      Figure out how to take LDR data into code
+          3.      Test an LDR
+          4.      Test two (one on, one off)
+          5.      Figure out how magnetometer works
+          6.      Figure out how to calibrate magnetometer
+          7.      Figure out how to display position of magnetometer on LED display
+          8.      Build casing for sundial
+
           
         
