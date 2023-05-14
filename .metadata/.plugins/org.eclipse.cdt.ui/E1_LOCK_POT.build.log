@@ -1,51 +1,10 @@
-09:39:19 **** Incremental Build of configuration Debug for project E1_LOCK_POT ****
+14:45:52 **** Incremental Build of configuration Debug for project E1_LOCK_POT ****
 make -j7 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_TIM_IC_CaptureCallback':
-../Core/Src/main.c:113:10: warning: unused variable 'buffer' [-Wunused-variable]
-  113 |  uint8_t buffer[32];
-      |          ^~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:144:30: warning: initialization of 'LedRegister *' from incompatible pointer type 'uint8_t *' {aka 'unsigned char *'} [-Wincompatible-pointer-types]
-  144 |  LedRegister *led_register = ((uint8_t*)&(GPIOE->ODR)) + 1;
-      |                              ^
-../Core/Src/main.c:447:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-  447 |   sprintf(string_to_send, "%hu,%hu,%hd,%hd,%hd\r\n", last_period, lidar_distance*10, roll_rate, pitch_rate, yaw_rate);
-      |   ^~~~~~~
-../Core/Src/main.c:447:3: warning: incompatible implicit declaration of built-in function 'sprintf'
-../Core/Src/main.c:30:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-   29 | #include "math.h"
-  +++ |+#include <stdio.h>
-   30 | 
-../Core/Src/main.c:447:11: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
-  447 |   sprintf(string_to_send, "%hu,%hu,%hd,%hd,%hd\r\n", last_period, lidar_distance*10, roll_rate, pitch_rate, yaw_rate);
-      |           ^~~~~~~~~~~~~~
-      |           |
-      |           uint8_t * {aka unsigned char *}
-../Core/Src/main.c:447:11: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
-../Core/Src/main.c:440:16: warning: unused variable 'read_values_now' [-Wunused-variable]
-  440 |   volatile int read_values_now = 0;
-      |                ^~~~~~~~~~~~~~~
-../Core/Src/main.c:436:11: warning: unused variable 'led_values' [-Wunused-variable]
-  436 |   uint8_t led_values = pow(2, lidar_ranges);
-      |           ^~~~~~~~~~
-../Core/Src/main.c:148:20: warning: variable 'return_value' set but not used [-Wunused-but-set-variable]
-  148 |  HAL_StatusTypeDef return_value = 0x00;
-      |                    ^~~~~~~~~~~~
-../Core/Src/main.c:144:15: warning: unused variable 'led_register' [-Wunused-variable]
-  144 |  LedRegister *led_register = ((uint8_t*)&(GPIOE->ODR)) + 1;
-      |               ^~~~~~~~~~~~
-arm-none-eabi-gcc -o "E1_LOCK_POT.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/haz/Documents/GitHub/HJLLMS/E1_LOCK_POT/STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="E1_LOCK_POT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: E1_LOCK_POT.elf
- 
 arm-none-eabi-size   E1_LOCK_POT.elf 
-arm-none-eabi-objdump -h -S  E1_LOCK_POT.elf  > "E1_LOCK_POT.list"
    text	   data	    bss	    dec	    hex	filename
   38420	    176	   2760	  41356	   a18c	E1_LOCK_POT.elf
 Finished building: default.size.stdout
  
-Finished building: E1_LOCK_POT.list
- 
 
-09:39:20 Build Finished. 0 errors, 9 warnings. (took 597ms)
+14:45:52 Build Finished. 0 errors, 0 warnings. (took 244ms)
 

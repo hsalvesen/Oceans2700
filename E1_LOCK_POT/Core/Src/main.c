@@ -135,20 +135,14 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
-	uint8_t string_to_send[64] = "This is a string !\r\n";
-
 	enable_clocks();
 	initialise_board();
 
 	LedRegister *led_register = ((uint8_t*)&(GPIOE->ODR)) + 1;
 
-	SerialInitialise(BAUD_115200, &USART1_PORT, 0x00);
-
 	HAL_StatusTypeDef return_value = 0x00;
 
 	volatile uint16_t vertical_PWM = 1000;
-	volatile uint16_t horizontal_PWM = 1000;
 
   /* USER CODE END 1 */
 
@@ -197,262 +191,201 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+
+	uint16_t reset_angle = 1600;
+	uint8_t correct_entry = 0;
 
 
-	// reset lidar board
-	uint8_t reset_value = 0x00;
-	return_value = HAL_I2C_Mem_Write(&hi2c1, LIDAR_WR, 0x00, 1, &reset_value, 1, 10);
 
-	uint8_t PWM_direction_clockwise = 1;
+
+	uint8_t current_state = 0;
+		uint8_t led_on = 0;
+		uint32_t led_timestamp = 0;
+		uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
+		uint32_t predefined_angles_degrees[5] = {135, 45, 180, 0, 90};
+		uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
+		uint32_t angles_robot[5] = {0, 0, 0, 0, 0};
+		uint32_t robot_zero_angle = 650;
+		uint32_t upper_calibration = 3800;
+		uint32_t lower_calibration = 1200;
+		uint32_t tolerance = 400;
+
+		uint32_t degrees_to_servo = 1900/180;
+
+		for (uint32_t i = 0; i < 5; i++)
+		{
+			angles_robot[i] = predefined_angles_degrees[i]*degrees_to_servo + robot_zero_angle;
+			predefined_angles_adc[i] = predefined_angles_degrees[i]*(upper_calibration - lower_calibration) / 180.0 + lower_calibration;
+		}
+
+			uint8_t num_entries = (sizeof(angles_robot)/sizeof(angles_robot[0]));
 
 	// delay for initialisation of the lidar
-	HAL_Delay(100);
-
-	uint8_t current_state = 0;
-	uint8_t led_on = 0;
-	uint32_t led_timestamp = 0;
-	uint32_t state_timestamp[5] = {0, 0, 0, 0, 0};
-	uint32_t predefined_angles_degrees[5] = {135, 45, 180, 0, 90};
-	uint32_t predefined_angles_adc[5] = {0, 0, 0, 0, 0};
-	uint32_t upper_calibration = 3800;
-	uint32_t lower_calibration = 1200;
-	uint32_t tolerance = 200;
-
-	for (uint32_t i = 0; i < 5; i++)
+	for (uint8_t i = 0; i < num_entries; i++)
 	{
-		predefined_angles_adc[i] = predefined_angles_degrees[i]*(upper_calibration - lower_calibration) / 180.0 + lower_calibration;
-	}
-
-	while (1)
+		correct_entry = 0;
+		HAL_Delay(1000);
+	while (vertical_PWM != angles_robot[i])
 	{
-	    uint32_t adcValue = 0;
-	    HAL_ADC_Start(&hadc1); // Start ADC1 (or the appropriate ADCx for your specific microcontroller)
-	    if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
-	    {
-	        adcValue = HAL_ADC_GetValue(&hadc1); // Read the ADC value
-	    }
-	    HAL_ADC_Stop(&hadc1);
-
-	    switch (current_state)
-	    {
-	    // 135 degrees
-	    case 0:
-	        if (adcValue >= (predefined_angles_adc[0] - tolerance) && adcValue <= (predefined_angles_adc[0] + tolerance))
-	        {
-	            if (state_timestamp[current_state] == 0)
-	            {
-	                state_timestamp[current_state] = HAL_GetTick();
-	            }
-	            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
-	            {
-	                current_state = 1;
-	                led_on = 1;
-	                led_timestamp = HAL_GetTick();
-	            }
-	        }
-	        else
-	        {
-	            state_timestamp[current_state] = 0;
-	        }
-	        break;
-	    // 45 degrees
-	    case 1:
-	    	if (adcValue >= (predefined_angles_adc[1] - tolerance) && adcValue <= (predefined_angles_adc[1] + tolerance))
-	        {
-	            if (state_timestamp[current_state] == 0)
-	            {
-	                state_timestamp[current_state] = HAL_GetTick();
-	            }
-	            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
-	            {
-	                current_state = 2;
-	                led_on = 1;
-	                led_timestamp = HAL_GetTick();
-	            }
-	        }
-	        else
-	        {
-	            state_timestamp[current_state] = 0;
-	        }
-	        break;
-	    // 	180 degrees
-	    case 2:
-	    	if (adcValue >= (predefined_angles_adc[2] - tolerance) && adcValue <= (predefined_angles_adc[2] + tolerance))
-	        {
-	            if (state_timestamp[current_state] == 0)
-	            {
-	                state_timestamp[current_state] = HAL_GetTick();
-	            }
-	            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
-	            {
-	                current_state = 3;
-	                led_on = 1;
-	                led_timestamp = HAL_GetTick();
-	            }
-	        }
-	        else
-	        {
-	            state_timestamp[current_state] = 0;
-	        }
-	        break;
-	    // 0 degrees
-	    case 3:
-	    	if (adcValue >= (predefined_angles_adc[3] - tolerance) && adcValue <= (predefined_angles_adc[3] + tolerance))
-	        {
-	            if (state_timestamp[current_state] == 0)
-	            {
-	                state_timestamp[current_state] = HAL_GetTick();
-	            }
-	            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
-	            {
-	                current_state = 4;
-	                led_on = 1;
-	                led_timestamp = HAL_GetTick();
-	            }
-	        }
-	        else
-	        {
-	            state_timestamp[current_state] = 0;
-	        }
-	        break;
-	    // 90 degrees
-	    case 4:
-	    	if (adcValue >= (predefined_angles_adc[4] - tolerance) && adcValue <= (predefined_angles_adc[4] + tolerance))
-	        {
-	            if (state_timestamp[current_state] == 0)
-	            {
-	                state_timestamp[current_state] = HAL_GetTick();
-	            }
-	            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
-	            {
-	                current_state = 5;
-	                led_on = 2;
-	            }
-	        }
-	        else
-	              {
-	                  state_timestamp[current_state] = 0;
-	              }
-	              break;
-	          default:
-	              break;
-	          }
-
-		  if (led_on)
-		  {
-			  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_SET); // Turn on the LED
-			  if (led_on == 1 && HAL_GetTick() - led_timestamp >= 3000) // Check if 3 seconds have passed and led_on is not 2
-			  {
-				  led_on = 0;
-				  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET); // Turn off the LED
-			  }
-		  }
-		  else
-		  {
-			  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET); // Turn off the LED
-		  }
-
-
-
-		if (PWM_direction_clockwise == 1) {
-			vertical_PWM += 3;
-			horizontal_PWM += 3;
+		if (vertical_PWM < angles_robot[i]) {
+			vertical_PWM += 5;
 		}
 		else {
-			vertical_PWM -= 3;
-			horizontal_PWM -= 3;
+			vertical_PWM -= 5;
 		}
-
-		if (vertical_PWM > 1900) {
-			vertical_PWM = 1900;
-			PWM_direction_clockwise = 0;
-		}
-		if (vertical_PWM < 1200) {
-			vertical_PWM = 1200;
-			PWM_direction_clockwise = 1;
-		}
-
 		TIM2->CCR1 = vertical_PWM;
-		TIM2->CCR2 = horizontal_PWM;
-
-		uint8_t xMSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x29, 1, &xMSB, 1, 10);
-		uint8_t xLSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x28, 1, &xLSB, 1, 10);
-		int16_t yaw_rate = ((xMSB << 8) | xLSB);
-
-		uint8_t yMSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x2B, 1, &yMSB, 1, 10);
-		uint8_t yLSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x2A, 1, &yLSB, 1, 10);
-		int16_t pitch_rate = ((yMSB << 8) | yLSB);
-
-		uint8_t zMSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x2D, 1, &zMSB, 1, 10);
-		uint8_t zLSB = 0x00;
-		HAL_I2C_Mem_Read(&hi2c1,gyro_rd, 0x2C, 1, &zLSB, 1, 10);
-		int16_t roll_rate = ((zMSB << 8) | zLSB);
-
-//		if (pitch_rate < 0)
-//			led_register->led_groups.led_pair_1 = 0b01;
-//		else
-//			led_register->led_groups.led_pair_1 = 0b10;
-//
-//		if (yaw_rate < 0)
-//			led_register->led_groups.led_pair_2 = 1;
-//		else
-//			led_register->led_groups.led_pair_2 = 2;
-
-
-		uint8_t lidar_value = 0x03;
-		return_value = HAL_I2C_Mem_Write(&hi2c1, LIDAR_WR, 0x00, 1, &lidar_value, 1, 100);
-
-		lidar_value = 0xff;
-
-		uint8_t lidar_MSBa = 0x00;
-		uint8_t lidar_LSBa = 0x00;
-
-		volatile uint16_t lidar_distance = 0xff;
-
-		uint16_t timeout;
-
-		while ((lidar_value & 0x01) != 0x00) {
-			return_value = HAL_I2C_Mem_Read(&hi2c1, LIDAR_RD, 0x01, 1, &lidar_value, 1, 100);
-
-			return_value = HAL_I2C_Mem_Read(&hi2c1, LIDAR_RD, 0x0f, 1, &lidar_MSBa, 1, 100);
-			return_value = HAL_I2C_Mem_Read(&hi2c1, LIDAR_RD, 0x10, 1, &lidar_LSBa, 1, 100);
-
-			lidar_distance = ((lidar_MSBa << 8) | lidar_LSBa);
-			timeout += 1;
-			if (timeout > 0xff)
-				break;
+	}
+	HAL_Delay(1000);
+	while (vertical_PWM != reset_angle)
+	{
+		if (vertical_PWM < reset_angle) {
+			vertical_PWM += 5;
 		}
-
-		uint8_t lidar_ranges = lidar_distance / (100/4); // 100cm broken into 4 groups
-		if (lidar_ranges > 3)
-			lidar_ranges = 3;
-
-		uint8_t led_values = pow(2, lidar_ranges);
-
-//		led_register->led_groups.led_set_of_4 = led_values;
-
-		volatile int read_values_now = 0;
-
-		if (last_period > 4000)
-			last_period = 5000;
-		if (lidar_distance > 4000)
-			lidar_distance = 5500;
-
-		sprintf(string_to_send, "%hu,%hu,%hd,%hd,%hd\r\n", last_period, lidar_distance*10, roll_rate, pitch_rate, yaw_rate);
-
-		SerialOutputString(string_to_send, &USART1_PORT);
-
-
-    /* USER CODE END WHILE */
+		else {
+			vertical_PWM -= 5;
+		}
+		TIM2->CCR1 = vertical_PWM;
+	}
     /* USER CODE BEGIN 3 */
+		{
+		    uint32_t adcValue = 0;
+		    HAL_ADC_Start(&hadc1); // Start ADC1 (or the appropriate ADCx for your specific microcontroller)
+		    if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
+		    {
+		        adcValue = HAL_ADC_GetValue(&hadc1); // Read the ADC value
+		    }
+		    HAL_ADC_Stop(&hadc1);
+
+		    switch (current_state)
+		    {
+		    // 135 degrees
+		    case 0:
+		        if (adcValue >= (predefined_angles_adc[0] - tolerance) && adcValue <= (predefined_angles_adc[0] + tolerance))
+		        {
+		            if (state_timestamp[current_state] == 0)
+		            {
+		                state_timestamp[current_state] = HAL_GetTick();
+		            }
+		            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
+		            {
+		                current_state = 1;
+		                led_on = 1;
+		                correct_entry = 1;
+		                led_timestamp = HAL_GetTick();
+		            }
+		        }
+		        else
+		        {
+		            state_timestamp[current_state] = 0;
+		        }
+		        break;
+		    // 45 degrees
+		    case 1:
+		    	if (adcValue >= (predefined_angles_adc[1] - tolerance) && adcValue <= (predefined_angles_adc[1] + tolerance))
+		        {
+		            if (state_timestamp[current_state] == 0)
+		            {
+		                state_timestamp[current_state] = HAL_GetTick();
+		            }
+		            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
+		            {
+		                current_state = 2;
+		                led_on = 1;
+		                correct_entry = 1;
+		                led_timestamp = HAL_GetTick();
+		            }
+		        }
+		        else
+		        {
+		            state_timestamp[current_state] = 0;
+		        }
+		        break;
+		    // 	180 degrees
+		    case 2:
+		    	if (adcValue >= (predefined_angles_adc[2] - tolerance) && adcValue <= (predefined_angles_adc[2] + tolerance))
+		        {
+		            if (state_timestamp[current_state] == 0)
+		            {
+		                state_timestamp[current_state] = HAL_GetTick();
+		            }
+		            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
+		            {
+		                current_state = 3;
+		                led_on = 1;
+		                correct_entry = 1;
+		                led_timestamp = HAL_GetTick();
+		            }
+		        }
+		        else
+		        {
+		            state_timestamp[current_state] = 0;
+		        }
+		        break;
+		    // 0 degrees
+		    case 3:
+		    	if (adcValue >= (predefined_angles_adc[3] - tolerance) && adcValue <= (predefined_angles_adc[3] + tolerance))
+		        {
+		            if (state_timestamp[current_state] == 0)
+		            {
+		                state_timestamp[current_state] = HAL_GetTick();
+		            }
+		            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
+		            {
+		                current_state = 4;
+		                led_on = 1;
+		                correct_entry = 1;
+		                led_timestamp = HAL_GetTick();
+		            }
+		        }
+		        else
+		        {
+		            state_timestamp[current_state] = 0;
+		        }
+		        break;
+		    // 90 degrees
+		    case 4:
+		    	if (adcValue >= (predefined_angles_adc[4] - tolerance) && adcValue <= (predefined_angles_adc[4] + tolerance))
+		        {
+		            if (state_timestamp[current_state] == 0)
+		            {
+		                state_timestamp[current_state] = HAL_GetTick();
+		            }
+		            else if (HAL_GetTick() - state_timestamp[current_state] > 1000)
+		            {
+		                current_state = 5;
+		                led_on = 2;
+		                correct_entry = 1;
+		            }
+		        }
+		        else
+		              {
+		                  state_timestamp[current_state] = 0;
+		              }
+		              break;
+		          default:
+		              break;
+		          }
+
+			  if (led_on)
+			  {
+				  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_SET); // Turn on the LED
+				  if (led_on == 1 && HAL_GetTick() - led_timestamp >= 3000) // Check if 3 seconds have passed and led_on is not 2
+				  {
+					  led_on = 0;
+					  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET); // Turn off the LED
+				  }
+			  }
+			  else
+			  {
+				  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET); // Turn off the LED
+			  }
+	if (correct_entry != 1)
+	{
+		i = i-1;
+	}
 	}
   /* USER CODE END 3 */
+	}
 }
 
 /**
