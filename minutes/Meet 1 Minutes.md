@@ -2,12 +2,12 @@
 
 | Present  | Apologies | Absent |
 | ------------- | ------------- | ------------- |
-| Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  |
+| Haz  | Luis |    |
+| Sam  |   |   |
+| Matylda  |    |   |
+| Lachland  |    |    |
+| Joel |    |   |
+|   |   |   |
 ___
 ### Date 
 
