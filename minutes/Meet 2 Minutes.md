@@ -36,7 +36,7 @@ ___
 
 **10:00**   
 
-          - Rotational Lock -> Dedicated to Harry and Louis
+          - Rotational Lock -> Dedicated to Harry and Joel
           - Sundial -> Louis and Tilly
           - Capacitive Touch -> Lachlan and Sam
           
