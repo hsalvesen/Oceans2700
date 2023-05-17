@@ -119,6 +119,10 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define LED_PIN         GPIO_PIN_7
 #define LED_GPIO_PORT   GPIOE
+#define FINISHED_LED_PIN         GPIO_PIN_8
+#define FINISHED_LED_GPIO_PORT   GPIOE
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

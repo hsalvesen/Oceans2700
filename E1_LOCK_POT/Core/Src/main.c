@@ -354,6 +354,9 @@ int main(void)
 		                current_state = 5;
 		                led_on = 2;
 		                correct_entry = 1;
+		                // Unlock
+		                HAL_GPIO_WritePin(FINISHED_LED_GPIO_PORT, FINISHED_LED_PIN, GPIO_PIN_SET);
+
 		            }
 		        }
 		        else
@@ -785,6 +788,14 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
+  HAL_GPIO_WritePin(FINISHED_LED_GPIO_PORT, FINISHED_LED_PIN, GPIO_PIN_RESET);
+
+  GPIO_InitStruct.Pin = FINISHED_LED_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(FINISHED_LED_GPIO_PORT, &GPIO_InitStruct);
+
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
