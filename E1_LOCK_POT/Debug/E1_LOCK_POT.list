@@ -41,11 +41,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   00017c8c  00000000  00000000  000599b1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000c17a8  00000000  00000000  0007163d  2**0
+ 19 .debug_str    000c17be  00000000  00000000  0007163d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000050  00000000  00000000  00132de5  2**0
+ 20 .comment      00000050  00000000  00000000  00132dfb  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  0000503c  00000000  00000000  00132e38  2**2
+ 21 .debug_frame  0000503c  00000000  00000000  00132e4c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1620,7 +1620,7 @@ int main(void)
  8000fd4:	2301      	movs	r3, #1
  8000fd6:	f887 3087 	strb.w	r3, [r7, #135]	; 0x87
 		                // Unlock
-		                HAL_GPIO_WritePin(FINISHED_LED_GPIO_PORT, FINISHED_LED_PIN, GPIO_PIN_SET);
+		                HAL_GPIO_WritePin(FINISHED_LOCK_GPIO_PORT, FINISHED_LOCK_PIN, GPIO_PIN_SET);
  8000fda:	2201      	movs	r2, #1
  8000fdc:	f44f 7180 	mov.w	r1, #256	; 0x100
  8000fe0:	4827      	ldr	r0, [pc, #156]	; (8001080 <main+0x618>)
@@ -2715,13 +2715,13 @@ static void MX_GPIO_Init(void)
  8001610:	f001 fe56 	bl	80032c0 <HAL_GPIO_Init>
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
-  HAL_GPIO_WritePin(FINISHED_LED_GPIO_PORT, FINISHED_LED_PIN, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(FINISHED_LOCK_GPIO_PORT, FINISHED_LOCK_PIN, GPIO_PIN_RESET);
  8001614:	2200      	movs	r2, #0
  8001616:	f44f 7180 	mov.w	r1, #256	; 0x100
  800161a:	480c      	ldr	r0, [pc, #48]	; (800164c <MX_GPIO_Init+0x124>)
  800161c:	f001 ffe2 	bl	80035e4 <HAL_GPIO_WritePin>
 
-  GPIO_InitStruct.Pin = FINISHED_LED_PIN;
+  GPIO_InitStruct.Pin = FINISHED_LOCK_PIN;
  8001620:	f44f 7380 	mov.w	r3, #256	; 0x100
  8001624:	617b      	str	r3, [r7, #20]
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -2733,7 +2733,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
  800162e:	2300      	movs	r3, #0
  8001630:	623b      	str	r3, [r7, #32]
-  HAL_GPIO_Init(FINISHED_LED_GPIO_PORT, &GPIO_InitStruct);
+  HAL_GPIO_Init(FINISHED_LOCK_GPIO_PORT, &GPIO_InitStruct);
  8001632:	f107 0314 	add.w	r3, r7, #20
  8001636:	4619      	mov	r1, r3
  8001638:	4804      	ldr	r0, [pc, #16]	; (800164c <MX_GPIO_Init+0x124>)
