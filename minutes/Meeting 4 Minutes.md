@@ -4,8 +4,7 @@
 11-05-2023
 ___
 ## Agenda
-Finalising the delegation of tasks, identifying what aspects of the course content can assist each task, and breaking the larger tasks down 
-into smaller ones. 
+Escape room planning 
 ___
 
 | Present  | Apologies | Absent |
@@ -28,41 +27,41 @@ ___
           
 **09:50**  
           
-          Talk to Jesse and Khit about possible ideas and we finalise on bank heist as the theme. 
+          Meeting with Jesse and Khit and explained all three tasks. They reinforced that with our larger group we need more ideas and more complexity so we had to re-evaluate whether or not the sun-dial was the right idea.
 
 **09:45**
           
-          Three main areas of escape room established and divided between the team.
+          Haz explained the concept of his idea using tinkercad and the group agreed that the idea matched the theme and uses a multiude of the sensors provided to us.
 
 **10:00**   
 
-          - Rotational Lock -> Dedicated to Harry and Louis
-          - Sundial -> Louis and Tilly
-          - Capacitive Touch -> Lachlan and Sam
+          - Rotational Lock -> Harry and Joel setting up practical components of the design and understanding what they may need to purchase to create a working box and other wires that are necessary for functionality
+          - Sundial -> Tilly found a breadboard and Luis went to JayCar to collect some LDRs in order to conduct testing
+          - Capacitive Touch -> 
+          - Knock Test -> While development of capacitive touch is delayed Sam developed a module for knocking using an accelerometer so that when a sequence is knocked in the correct order using morse code the esacpe room can then move onto the rotational lock segment.
           
 **10:30**   
 
-          Jesse indicates that given the larger number of our group our ideas will need to contain more complexity.
-          
+          Despite possible assumptions that there might be too much going on in our escape room the team is confident that when the modules are complete the different segments will  work in a smooth order that can be understood by the marker and our group as well.
 
 **11:30**   
 
-          Ideas and code so far pushed onto Github
+          All code and explanation of code flow pushed to github.
           
 ___
 ## Actionables
 
 **Haz + Joel**  
           
-          Goals for this week: Finish task and work on the design of the challenge for presentation day.
+          Goals for this week: Finish documentation for submission next week and design builds for both the knock test and capacitive touch as they are the modules that are nearest completion.
           
 **Sam + Lachland**  
           
-          Goals for this week: Develop GUI so that there is a strong user interface for the participants in week 13. 
+          Goals for this week: Try to finish capacitive touch by the end of next weeks lab.
           
 **Matylda + Luis**  
           
-          Goals for this week: Continue to develop interface for parts involving actuators and sensors. 
+          Goals for this week: Continue working on sun dial code and identify what needs to be obtained for the functionality of the test. 
 
           
         
