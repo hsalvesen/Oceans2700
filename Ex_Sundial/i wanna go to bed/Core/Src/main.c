@@ -16,6 +16,15 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
+
+/*CHANGES
+ *
+ * - ODR from 220 to 10
+ * - data reg for continuous swapped from 0x22 to 0x20 x
+ * - commented out magreg 0x57 assigning x
+ *
+ */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include <math.h>
@@ -51,7 +60,13 @@ static void MX_I2C1_Init(void);
 
 #define LSM303AGR_CFG_REG_A_M 0x60  /* Configuration register A magnetic field */
 
+
+
 #define LSM303AGR_ODR_220_HZ ((uint8_t) 0x1C)  /*!< Output Data Rate = 220 Hz */
+
+#define LSM303AGR_ODR_10_HZ               ((uint8_t)0x20)  /*!< Output Data Rate = 10 Hz */
+
+
 
 #define LSM303AGR_M_SENSITIVITY_XY_1_3Ga     1100  /*!< magnetometer X Y axes sensitivity for 1.3 Ga full scale [LSB/Ga] */
 
@@ -61,6 +76,7 @@ static void MX_I2C1_Init(void);
 
 #define LSM303AGR_M_SENSITIVITY_Z_1_9Ga      760   /*!< magnetometer Z axis sensitivity for 1.9 Ga full scale [LSB/Ga] */
 
+#define ARRAY_SIZE 30 //size of array for the data taken to average
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,6 +106,13 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void shuffleArray(float array[], float degrees){
+	for(int i = 1; i < ARRAY_SIZE; i ++){
+		array[i - 1] = array[i];
+	}
+	array[ARRAY_SIZE - 1] = degrees;
+}
 
 /* USER CODE END 0 */
 
@@ -132,6 +155,13 @@ int main(void)
   char buffer2[MAX_CHAR];
   	HAL_StatusTypeDef returnValue, stat, check, odr;
 
+  	//VARIABLES FRO AVERAGE FUNCTION
+  	float array[ARRAY_SIZE];
+  	float average = 0;
+  	int count = 0;
+  	float sum = 0;
+
+
   	HAL_Init();
   		SystemClock_Config();
 
@@ -165,19 +195,57 @@ int main(void)
 
   		uint8_t configValue = LSM303AGR_ODR_220_HZ;
   		odr = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, LSM303AGR_CFG_REG_A_M, 1, &configValue, 1, 10);
-  		if (check != HAL_OK)
-		{
-			strcpy(buffer1, "You done fucked up\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else if(check == HAL_OK){
-			strcpy(buffer1, "odr slay\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else{
-			strcpy(buffer1, "not slay\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
+//  		if (check != HAL_OK)
+//		{
+//			strcpy(buffer1, "You done fucked up\r\n");
+//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+//		}
+//		else if(check == HAL_OK){
+//			strcpy(buffer1, "odr slay\r\n");
+//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+//		}
+//		else{
+//			strcpy(buffer1, "not slay\r\n");
+//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+//		}
+
+  		uint8_t mode = LSM303AGR_BlockUpdate_Continuous;
+  		  		check = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
+  		//  		if (check != HAL_OK)
+  		//		{
+  		//			strcpy(buffer1, "You done fucked up\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+  		//		else if(check == HAL_OK){
+  		//			strcpy(buffer1, "HAL CONTIN OKAY\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+  		//		else{
+  		//			strcpy(buffer1, "nah\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+
+
+
+  		  		uint8_t magregValue = 0x57;
+  				 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
+  		//
+  		//		if (returnValue != HAL_OK)
+  		//		{
+  		//			strcpy(buffer1, "You done fucked up\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+  		//		else if(returnValue == HAL_OK){
+  		//			strcpy(buffer1, "HAL OKAY\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+  		//		else{
+  		//			strcpy(buffer1, "nah\r\n");
+  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+  		//		}
+
+
+
 
 
   /* USER CODE END 2 */
@@ -275,40 +343,7 @@ int main(void)
 //  		uint8_t mode = 0x00;  // Set the value for continuous mode
 //  		  			HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
 
-  		uint8_t mode = LSM303AGR_BlockUpdate_Continuous;
-  		check = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
-  		if (check != HAL_OK)
-		{
-			strcpy(buffer1, "You done fucked up\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else if(check == HAL_OK){
-			strcpy(buffer1, "HAL OKAY\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else{
-			strcpy(buffer1, "nah\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
 
-
-
-  		uint8_t magregValue = 0x57;
-		 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
-
-		if (returnValue != HAL_OK)
-		{
-			strcpy(buffer1, "You done fucked up\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else if(returnValue == HAL_OK){
-			strcpy(buffer1, "HAL OKAY\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
-		else{
-			strcpy(buffer1, "nah\r\n");
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-		}
 
 //
 //  		uint8_t regValue = 0x00;  // Set the desired value, in this case, 0x00
@@ -323,13 +358,13 @@ int main(void)
 
 
 
-			float sens = 0.001;
+			float sens = (1); //1LSB/1.5mg
 
 
 			//raw values unconverted
 			//int8_t magXm = 0x00;
-			int8_t magXm;
-			HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 10);
+			uint8_t magXm;
+			HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 1000);
 
 //			if (stat != HAL_OK){
 //				strcpy(buffer1, "HAL AINT OKAY BRO\r\n");
@@ -341,8 +376,8 @@ int main(void)
 //				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
 //			}
 			//int8_t magXl = 0x00;
-			int8_t magXl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 10);
+			uint8_t magXl;
+			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 1000);
 			//ADC Sensitivity * sensor sensitivity * data
 
 			int16_t magX = (((magXm << 8) | magXl));
@@ -352,35 +387,141 @@ int main(void)
 
 
 			//int8_t magYm = 0x00;
-			int8_t magYm;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 10);
+			uint8_t magYm;
+			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 1000);
 			//int8_t magYl = 0x00;
-			int8_t magYl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 10);
+			uint8_t magYl;
+			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 1000);
 			int16_t magY = (((magYm << 8) | magYl));
 
 			//float mag_y = magY * LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
 			float mag_y = magY* sens;
 
 			//int8_t magZm = 0x00;
-			int8_t magZm;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 10);
+			uint8_t magZm;
+			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 1000);
 			//int8_t magZl = 0x00;
-			int8_t magZl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 10);
+			uint8_t magZl;
+			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 1000);
 			int16_t magZ = (((magZm << 8) | magZl));
 
 			//float mag_z = magZ * LSM303AGR_M_SENSITIVITY_Z_1_3Ga;
 			float mag_z = magZ * sens;
 
-			sprintf(buffer1, "magXm: %d, magXl: %d\r\nmagYm: %d, magYl: %d \r\nmagZm: %d, magZl: %d\r\n", magXm, magXl, magYm, magYl, magZm, magZl);
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			//CONVERTING TO DEGREES
+
+			double degrees, y_on_x;
+			double pi = 3.14159;
+			if(mag_x != 0 && mag_y != 0){
+//				y_on_x = (mag_y/mag_x);
+//				degrees = atan(y_on_x)*(180/pi);
+//				while(degrees >= 360){
+//					degrees = degrees - 360;
+//				}
+//				if(degrees < 0){
+//					degrees = degrees + 360;
+//				}
+
+				//determining which quadrant the mag is facing
+				if(mag_x > 0 && mag_y > 0){
+					y_on_x = (mag_y/mag_x);
+					degrees = atan(y_on_x)*(180/pi);
+					while(degrees >= 360){
+						degrees = degrees - 360;
+					}
+				}
+				else if (mag_x < 0 && mag_y > 0){
+					y_on_x = (mag_y/mag_x);
+					degrees = atan(y_on_x)*(180/pi) + 180;
+					while(degrees >= 360){
+						degrees = degrees - 360;
+					}
+				}
+				else if (mag_x < 0 && mag_y < 0){
+					y_on_x = (mag_y/mag_x);
+					degrees = atan(y_on_x)*(180/pi) + 180;
+					while(degrees >= 360){
+						degrees = degrees - 360;
+					}
+				}
+				else if (mag_x > 0 && mag_y < 0){
+					y_on_x = (mag_y/mag_x);
+					degrees = atan(y_on_x)*(180/pi) + 360;
+					while(degrees >= 360){
+						degrees = degrees - 360;
+					}
+				}
+				else{
+//					sprintf(buffer1, "degrees are fucked \r\n");
+//					HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+				}
+
+			}
+			else if(mag_x == 0 && mag_y > 0){
+				degrees = 90;
+			}
+			else if(mag_x == 0 && mag_y < 0){
+				degrees = 270;
+			}
+			else if(mag_y == 0 && mag_x > 0){
+				degrees = 0;
+			}
+			else if (mag_y == 0 && mag_x < 0){
+				degrees = 180;
+			}
 
 
-			sprintf(buffer2, "MAGNOTOMETER magX = %.4f magY = %.4f magZ = %.4f\r\n", mag_x, mag_y, mag_z);
+			//AVERAGING
+			if (array[ARRAY_SIZE - 1] == 0){
+				array[count] = degrees;
+				count ++;
+			}
+			else{
+				//shuffle the array
+				shuffleArray(array, degrees);
+
+				sum = 0;
+				for(int i = 0; i < ARRAY_SIZE; i ++){
+					sum += array[i];
+				}
+				average = sum/ARRAY_SIZE;
+
+
+			}
+
+
+
+
+//			//printing lsb and msb of x y z
+//			sprintf(buffer1, "magXm: %d, magXl: %d\r\nmagYm: %d, magYl: %d \r\nmagZm: %d, magZl: %d\r\n", magXm, magXl, magYm, magYl, magZm, magZl);
+//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+
+//			//printing raw values
+//			sprintf(buffer2, "MAGNOTOMETER magX = %d magY = %d magZ = %d\r\n", magX, magY, magZ);
+//			//sprintf(buffer2, "magXm %d \r\n", magXm);
+//			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
+
+			sprintf(buffer2, " x %d, y %d, z %d \r\n", magX, magY, magZ);
 			//sprintf(buffer2, "magXm %d \r\n", magXm);
 			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
-			HAL_Delay(1000);
+
+			//printing degrees
+			sprintf(buffer1, "d %.2f\r\n", degrees);
+			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+//			if (array[ARRAY_SIZE - 1] == 0){
+//				sprintf(buffer1, "average degree: %.2f\r\n", degrees);
+//				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+//			}
+
+
+
+
+			//printing y on x
+//			sprintf(buffer1, "y on x: %.5f\r\n", y_on_x);
+//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			HAL_Delay(200);
   		}
   /* USER CODE END 3 */
 }
