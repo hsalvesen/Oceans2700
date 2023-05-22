@@ -60,8 +60,8 @@ all: main-build
 main-build: khithelp.elf secondary-outputs
 
 # Tool invocations
-khithelp.elf khithelp.map: $(OBJS) $(USER_OBJS) C:\Users\Matylda\OneDrive\University\2023\Semester\ One\MTRX2700\i\ wanna\ go\ to\ bed\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "khithelp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Matylda\OneDrive\University\2023\Semester One\MTRX2700\i wanna go to bed\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="khithelp.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+khithelp.elf khithelp.map: $(OBJS) $(USER_OBJS) C:\Users\sanlu\Documents\Uni\Year\ 2\ part\ 2\Sem\ 1\MTRX2700\Major\ Project\HJLLMS\Ex_Sundial\i\ wanna\ go\ to\ bed\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "khithelp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\sanlu\Documents\Uni\Year 2 part 2\Sem 1\MTRX2700\Major Project\HJLLMS\Ex_Sundial\i wanna go to bed\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="khithelp.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

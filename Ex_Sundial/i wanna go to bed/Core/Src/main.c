@@ -16,24 +16,8 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
-/*CHANGES
- *
- * - ODR from 220 to 10
- * - data reg for continuous swapped from 0x22 to 0x20 x
- * - commented out magreg 0x57 assigning x
- *
- */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-
-#include "serial.h"
-#include "serialise.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -93,16 +77,16 @@ static void MX_I2C1_Init(void);
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+
 I2C_HandleTypeDef hi2c1;
 
 UART_HandleTypeDef huart1;
 
-I2C_HandleTypeDef I2cHandle;
+/* USER CODE BEGIN PV */
 
 volatile int LED_POS = 0;
 volatile uint8_t* led_output_display = ((uint8_t*)&(GPIOE->ODR)) + 1;
-
-/* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
@@ -111,12 +95,128 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+//define sConfig struct type to be used in ADC_select functions
+ADC_ChannelConfTypeDef sConfig = {0};
+
+
+void enable_clocks() {
+
+RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOCEN | RCC_AHBENR_GPIOEEN;
+}
+
+
+void ADC_select_CH2 (void){
+sConfig.Channel = ADC_CHANNEL_2;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH3 (void){
+sConfig.Channel = ADC_CHANNEL_3;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH4 (void){
+sConfig.Channel = ADC_CHANNEL_4;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH5 (void){
+sConfig.Channel = ADC_CHANNEL_5;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH6 (void){
+sConfig.Channel = ADC_CHANNEL_6;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH7 (void){
+sConfig.Channel = ADC_CHANNEL_7;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH8 (void){
+sConfig.Channel = ADC_CHANNEL_8;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
+void ADC_select_CH9 (void){
+sConfig.Channel = ADC_CHANNEL_9;
+sConfig.Rank = ADC_REGULAR_RANK_1;
+sConfig.SingleDiff = ADC_SINGLE_ENDED;
+sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+sConfig.OffsetNumber = ADC_OFFSET_NONE;
+sConfig.Offset = 0;
+if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+{
+  Error_Handler();
+}
+}
+
 
 void shuffleArray(float array[], float degrees){
 	for(int i = 1; i < ARRAY_SIZE; i ++){
@@ -127,8 +227,6 @@ void shuffleArray(float array[], float degrees){
 
 void enableLED()
 {
-	RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
-
 	//only take important bits (first 16) of LED output register
 	uint16_t* portReg = ((uint16_t*)&(GPIOE->MODER))+1;
 
@@ -155,6 +253,7 @@ void turnOnAll(){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	enable_clocks();
 
   /* USER CODE END 1 */
 
@@ -178,8 +277,24 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
-  enableLED();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+
+  void (*LDRChannels[8])() = {
+		  &ADC_select_CH2,
+		  &ADC_select_CH3,
+		  &ADC_select_CH4,
+		  &ADC_select_CH5,
+		  &ADC_select_CH6,
+		  &ADC_select_CH7,
+		  &ADC_select_CH8,
+		  &ADC_select_CH9
+  };
+
+  // Array to record LDR status
+  int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+  int solution = 2;
 
   //huart1.Init.BaudRate = 115200;
 
@@ -197,8 +312,8 @@ int main(void)
   	int count = 0;
   	float sum = 0;
 
-  	srand(time(NULL));
-  	int solution = rand() % 8;
+  	//srand(time(NULL));
+  	//int solution = rand() % 8;
 
   	HAL_Init();
   		SystemClock_Config();
@@ -214,400 +329,247 @@ int main(void)
 
 
   //MAGNETOMETER
-//  	uint8_t magregValue = 0x57;
-//  	 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
-//
-//	if (returnValue != HAL_OK)
-//	{
-//		strcpy(buffer1, "You done fucked up\r\n");
-//		HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//	}
-//	else if(returnValue == HAL_OK){
-//		strcpy(buffer1, "HAL OKAY\r\n");
-//		HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//	}
-//	else{
-//		strcpy(buffer1, "nah\r\n");
-//		HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//	}
 
   		uint8_t configValue = LSM303AGR_ODR_220_HZ;
   		odr = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, LSM303AGR_CFG_REG_A_M, 1, &configValue, 1, 10);
-//  		if (check != HAL_OK)
-//		{
-//			strcpy(buffer1, "You done fucked up\r\n");
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//
-//
-//		}
-//		else if(check == HAL_OK){
-//			strcpy(buffer1, "odr slay\r\n");
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//		}
-//		else{
-//			strcpy(buffer1, "not slay\r\n");
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//		}
+
 
   		uint8_t mode = LSM303AGR_BlockUpdate_Continuous;
   		  		check = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
-  		//  		if (check != HAL_OK)
-  		//		{
-  		//			strcpy(buffer1, "You done fucked up\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
-  		//		else if(check == HAL_OK){
-  		//			strcpy(buffer1, "HAL CONTIN OKAY\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
-  		//		else{
-  		//			strcpy(buffer1, "nah\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
 
 
 
   		  		uint8_t magregValue = 0x57;
   				 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
-  		//
-  		//		if (returnValue != HAL_OK)
-  		//		{
-  		//			strcpy(buffer1, "You done fucked up\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
-  		//		else if(returnValue == HAL_OK){
-  		//			strcpy(buffer1, "HAL OKAY\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
-  		//		else{
-  		//			strcpy(buffer1, "nah\r\n");
-  		//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-  		//		}
 
 
+  // MAGNETOMETER LOOP START
+  while (1){
 
+
+	   //MAGNETOMETER
+	  	float sens = (1); //1LSB/1.5mg
+
+
+	  	//raw values unconverted
+	  	//int8_t magXm = 0x00;
+	  	uint8_t magXm;
+	  	HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 1000);
+
+	  	//int8_t magXl = 0x00;
+	  	uint8_t magXl;
+	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 1000);
+	  	//ADC Sensitivity * sensor sensitivity * data
+
+	  	int16_t magX = (((magXm << 8) | magXl));
+
+	  	//float mag_x = magX *LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
+	  	float mag_x = magX* sens;
+
+
+	  	//int8_t magYm = 0x00;
+	  	uint8_t magYm;
+	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 1000);
+	  	//int8_t magYl = 0x00;
+	  	uint8_t magYl;
+	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 1000);
+	  	int16_t magY = (((magYm << 8) | magYl));
+
+	  	//float mag_y = magY * LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
+	  	float mag_y = magY* sens;
+
+	  	//int8_t magZm = 0x00;
+	  	uint8_t magZm;
+	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 1000);
+	  	//int8_t magZl = 0x00;
+	  	uint8_t magZl;
+	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 1000);
+	  	int16_t magZ = (((magZm << 8) | magZl));
+
+	  	//float mag_z = magZ * LSM303AGR_M_SENSITIVITY_Z_1_3Ga;
+	  	float mag_z = magZ * sens;
+
+	  	//CONVERTING TO DEGREES
+
+	  	double degrees, y_on_x;
+	  	double pi = 3.14159;
+	  			if(mag_x != 0 && mag_y != 0){
+
+	  	  				//determining which quadrant the mag is facing
+	  	  				if(mag_x > 0 && mag_y > 0){
+	  	  					y_on_x = (mag_y/mag_x);
+	  	  					degrees = atan(y_on_x)*(180/pi);
+	  	  					while(degrees >= 360){
+	  	  						degrees = degrees - 360;
+	  	  					}
+	  	  				}
+	  	  				else if (mag_x < 0 && mag_y > 0){
+	  	  					y_on_x = (mag_y/mag_x);
+	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
+	  	  					while(degrees >= 360){
+	  	  						degrees = degrees - 360;
+	  	  					}
+	  	  				}
+	  	  				else if (mag_x < 0 && mag_y < 0){
+	  	  					y_on_x = (mag_y/mag_x);
+	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
+	  	  					while(degrees >= 360){
+	  	  						degrees = degrees - 360;
+	  	  					}
+	  	  				}
+	  	  				else if (mag_x > 0 && mag_y < 0){
+	  	  					y_on_x = (mag_y/mag_x);
+	  	  					degrees = atan(y_on_x)*(180/pi) + 360;
+	  	  					while(degrees >= 360){
+	  	  						degrees = degrees - 360;
+	  	  					}
+	  	  				}
+	  	  				else{
+
+	  	  				}
+
+	  	  			}
+	  	  			else if(mag_x == 0 && mag_y > 0){
+	  	  				degrees = 90;
+	  	  			}
+	  	  			else if(mag_x == 0 && mag_y < 0){
+	  	  				degrees = 270;
+	  	  			}
+	  	  			else if(mag_y == 0 && mag_x > 0){
+	  	  				degrees = 0;
+	  	  			}
+	  	  			else if (mag_y == 0 && mag_x < 0){
+	  	  				degrees = 180;
+	  	  			}
+
+
+	  	  			//AVERAGING
+	  	  			if (array[ARRAY_SIZE - 1] == 0){
+	  	  				array[count] = degrees;
+	  	  				count ++;
+
+	  	  			}
+	  	  			else{
+	  	  				//shuffle the array
+	  	  				shuffleArray(array, degrees);
+
+	  	  				sum = 0;
+	  	  				for(int i = 0; i < ARRAY_SIZE; i ++){
+	  	  					sum += array[i];
+	  	  				}
+
+	  	  				average = (sum/ARRAY_SIZE);
+
+	  	  				sprintf(buffer1, "%.2f, %.2f, ", array[0], array[ARRAY_SIZE - 1]);
+	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+	  	  				sprintf(buffer1, "%.2f, ", average);
+	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+	  	  			}
+
+	  	  			sprintf(buffer1, "%d\r\n", solution);
+	  	  			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+	  	  			//LED DISPLAY
+	  	  			//first sort into one of 8 categories
+	  	  			if(average > 67.5 && average < 112.5 && solution == 1){
+	  	  				turnOnLED(1);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 22.5 && average < 67.5 && solution == 2){
+	  	  				turnOnLED(2);
+	  	  				break;
+	  	  			}
+	  	  			else if (((degrees < 360 && degrees > 337.5) || (degrees > 0 && degrees < 22.5)) && solution == 3){ //something weird for 0 - 360
+	  	  				turnOnLED(3);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 292.5 && average < 337.5 && solution == 4){
+	  	  				turnOnLED(4);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 247.5 && average < 292.5 && solution == 5){
+	  	  				turnOnLED(5);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 202.5 && average < 247.5 && solution == 6){
+	  	  				turnOnLED(6);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 157.5 && average < 202.5 && solution == 7){
+	  	  				turnOnLED(7);
+	  	  				break;
+	  	  			}
+	  	  			else if (average > 112.5 && average < 157.5 && solution == 0){
+	  	  				turnOnLED(0);
+	  	  				break;
+	  	  			}
+	  	  			else{
+	  	  				//turn on all LED's
+	  	  				turnOnAll();
+
+	  	  			}
+
+	  	  			HAL_Delay(100);
+	  	    	}
+  // END MAGNETOMETER LOOP
+
+
+  // START ADC LOOP
+  // calibrate ADC1
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+
+  // while the system is still searching for solutions
+  int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
+  ADC_Solutions[solution] = 1;
+  int SolCounter = 0;
+  while (SolCounter < 1){
+	// Poll each LED in sequence
+	for (int i = 0; i < 8; i++){
+		LDRChannels[i]();
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		int ADC_val = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+		// read the value from ADC, full range is 12 bits
+		uint8_t scale = ADC_val / (0xfff / 8);  // divide the scale into 8 even partitions (for 8 leds)
+
+		// Mark LED to be triggered
+		if (scale > 3) {
+			LDRs[i] = 1;
+		} else {
+			LDRs[i] = 0;
+		}
+	}
+
+	// Check if solution is a match+
+	for (int i = 0; i <= 8; i++){
+		if (i == 8){
+			SolCounter++;
+		}
+		else if (LDRs[i] == ADC_Solutions[i]){
+			continue;
+		} else{
+			break;
+		}
+	}
+  }
+
+  // Send Serial Code to core STM32 discovery board. - TEMP
+  turnOnAll();
 
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  	while (1)
-  		{
+  while (1)
+  {
 
-			sprintf(test, "test! \n\r");
-			SerialOutputString(test, &USART1_PORT);
+	    /* USER CODE END 3 */
 
-//  			float sensor_sens = (1/3.9); //1g/3.9mg
-//  			float adc_sens = 0.00024; //1
-//
-//
-//  			//raw values unconverted
-//  			uint8_t xMSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x29, 1, &xMSB, 1, 10);
-//			uint8_t xLSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x28, 1, &xLSB, 1, 10);
-//			//ADC Sensitivity * sensor sensitivity * data
-//			int16_t accX = (((xMSB << 8) | xLSB));
-//
-////			// Zero padding
-////			if (accX > 64000) {
-////				accX = 0;
-////			}
-////
-////			float acc_x = accX;
-//			float acc_x = accX * sensor_sens* adc_sens;
-//
-//			//Jesse's idea, data * FS/minimum resolution of ADC
-//			//int16_t accX = (((xMSB << 8) | xLSB)*pow(2, 13));
-//
-//			uint8_t yMSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2B, 1, &yMSB, 1, 10);
-//			uint8_t yLSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2A, 1, &yLSB, 1, 10);
-//			int16_t accY = (((yMSB << 8) | yLSB));
-//
-//			// Zero padding
-////			if (accY > 64000) {
-////				accY = 0;
-////			}
-////
-////			float acc_y = accY;
-//			float acc_y = accY * sensor_sens * adc_sens;
-//
-//
-//			uint8_t zMSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2D, 1, &zMSB, 1, 10);
-//			uint8_t zLSB = 0x00;
-//			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2C, 1, &zLSB, 1, 10);
-//			int16_t accZ = (((zMSB << 8) | zLSB));
-//
-////			// Zero padding
-////			if (accZ > 64000) {
-////				accZ = 0;
-////			}
-////
-////			float acc_z = accZ;
-//			float acc_z = accZ * sensor_sens * adc_sens;
-//			//float acc_z = accZ*pow(2,13);
-//
-//			sprintf(buffer1, "ACCELEROMETER accX = %.3f accY = %.3f accZ = %.3f\r\n", acc_x, acc_y, acc_z);
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//			HAL_Delay(500);
-
-
-//  			uint8_t xMSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x29, 1, &xMSB, 1, 10);
-//  			uint8_t xLSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x28, 1, &xLSB, 1, 10);
-//  			int16_t accX = ((((xMSB << 8) | xLSB)));
-//
-//  			uint8_t yMSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2B, 1, &yMSB, 1, 10);
-//  			uint8_t yLSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2A, 1, &yLSB, 1, 10);
-//  			int16_t accY = ((((yMSB << 8) | yLSB))*pow(2, 12)*2);
-//
-//  			uint8_t zMSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2D, 1, &zMSB, 1, 10);
-//  			uint8_t zLSB = 0x00;
-//  			HAL_I2C_Mem_Read(&hi2c1,ACC_READ, 0x2C, 1, &zLSB, 1, 10);
-//  			float accZfloat = ((((zMSB << 8) | zLSB))*pow(2, 12)*2);
-//  			int16_t accZ = ((((zMSB << 8) | zLSB))*pow(2, 12)*2);
-//
-//  			sprintf(buffer, "accX = %d accY = %d accZ = %d, accZf: %.2f\r\n", accX, accY, accZ, accZfloat);
-//  			HAL_UART_Transmit(&huart1, buffer, strlen(buffer), HAL_MAX_DELAY);
-//  			HAL_Delay(500);
-
-			//MAGNETOMETER
-
-//  		uint8_t mode = 0x00;  // Set the value for continuous mode
-//  		  			HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
-
-
-
-//
-//  		uint8_t regValue = 0x00;  // Set the desired value, in this case, 0x00
-//
-		// Write to the OFFSET_X_REG (register address 0x45)
-//		HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x45, 1, &regValue, 1, 10);
-
-//  		LSM303AGR_CFG_REG_A_M = 0x00;
-
-  			//uint8_t mode = LSM303AGR_BlockUpdate_Continuous;
-  			//HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x22, 1, &mode, 1, 10);
-
-
-
-			float sens = (1); //1LSB/1.5mg
-
-
-			//raw values unconverted
-			//int8_t magXm = 0x00;
-			uint8_t magXm;
-			HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 1000);
-
-//			if (stat != HAL_OK){
-//				strcpy(buffer1, "HAL AINT OKAY BRO\r\n");
-//				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//			}
-//			else if(stat == HAL_OK){
-//
-//				strcpy(buffer1, "HAL OKAY\r\n");
-//				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//			}
-			//int8_t magXl = 0x00;
-			uint8_t magXl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 1000);
-			//ADC Sensitivity * sensor sensitivity * data
-
-			int16_t magX = (((magXm << 8) | magXl));
-
-			//float mag_x = magX *LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
-			float mag_x = magX* sens;
-
-
-			//int8_t magYm = 0x00;
-			uint8_t magYm;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 1000);
-			//int8_t magYl = 0x00;
-			uint8_t magYl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 1000);
-			int16_t magY = (((magYm << 8) | magYl));
-
-			//float mag_y = magY * LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
-			float mag_y = magY* sens;
-
-			//int8_t magZm = 0x00;
-			uint8_t magZm;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 1000);
-			//int8_t magZl = 0x00;
-			uint8_t magZl;
-			HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 1000);
-			int16_t magZ = (((magZm << 8) | magZl));
-
-			//float mag_z = magZ * LSM303AGR_M_SENSITIVITY_Z_1_3Ga;
-			float mag_z = magZ * sens;
-
-			//CONVERTING TO DEGREES
-
-			double degrees, y_on_x;
-			double pi = 3.14159;
-			if(mag_x != 0 && mag_y != 0){
-//				y_on_x = (mag_y/mag_x);
-//				degrees = atan(y_on_x)*(180/pi);
-//				while(degrees >= 360){
-//					degrees = degrees - 360;
-//				}
-//				if(degrees < 0){
-//					degrees = degrees + 360;
-//				}
-
-				//determining which quadrant the mag is facing
-				if(mag_x > 0 && mag_y > 0){
-					y_on_x = (mag_y/mag_x);
-					degrees = atan(y_on_x)*(180/pi);
-					while(degrees >= 360){
-						degrees = degrees - 360;
-					}
-				}
-				else if (mag_x < 0 && mag_y > 0){
-					y_on_x = (mag_y/mag_x);
-					degrees = atan(y_on_x)*(180/pi) + 180;
-					while(degrees >= 360){
-						degrees = degrees - 360;
-					}
-				}
-				else if (mag_x < 0 && mag_y < 0){
-					y_on_x = (mag_y/mag_x);
-					degrees = atan(y_on_x)*(180/pi) + 180;
-					while(degrees >= 360){
-						degrees = degrees - 360;
-					}
-				}
-				else if (mag_x > 0 && mag_y < 0){
-					y_on_x = (mag_y/mag_x);
-					degrees = atan(y_on_x)*(180/pi) + 360;
-					while(degrees >= 360){
-						degrees = degrees - 360;
-					}
-				}
-				else{
-//					sprintf(buffer1, "degrees are fucked \r\n");
-//					HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-				}
-
-			}
-			else if(mag_x == 0 && mag_y > 0){
-				degrees = 90;
-			}
-			else if(mag_x == 0 && mag_y < 0){
-				degrees = 270;
-			}
-			else if(mag_y == 0 && mag_x > 0){
-				degrees = 0;
-			}
-			else if (mag_y == 0 && mag_x < 0){
-				degrees = 180;
-			}
-
-
-			//AVERAGING
-			if (array[ARRAY_SIZE - 1] == 0){
-				array[count] = degrees;
-				count ++;
-				sprintf(countString, "%d, %.2f, %.2f\r\n", count, array[0], array[ARRAY_SIZE - 1]);
-				SerialOutputString(countString, &USART1_PORT);
-			}
-			else{
-				//shuffle the array
-				shuffleArray(array, degrees);
-
-				sum = 0;
-				for(int i = 0; i < ARRAY_SIZE; i ++){
-					sum += array[i];
-				}
-
-				average = (sum/ARRAY_SIZE);
-
-				sprintf(buffer1, "%.2f, %.2f, ", array[0], array[ARRAY_SIZE - 1]);
-				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-
-				sprintf(buffer1, "%.2f, ", average);
-				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-			}
-
-			sprintf(buffer1, "%d\r\n", solution);
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-
-			//LED DISPLAY
-			//first sort into one of 8 categories
-			if(average > 67.5 && average < 112.5 && solution == 1){
-				turnOnLED(1);
-			}
-			else if (average > 22.5 && average < 67.5 && solution == 2){
-				turnOnLED(2);
-			}
-			else if (((degrees < 360 && degrees > 337.5) || (degrees > 0 && degrees < 22.5)) && solution == 3){ //something weird for 0 - 360
-				turnOnLED(3);
-			}
-			else if (average > 292.5 && average < 337.5 && solution == 4){
-				turnOnLED(4);
-			}
-			else if (average > 247.5 && average < 292.5 && solution == 5){
-				turnOnLED(5);
-			}
-			else if (average > 202.5 && average < 247.5 && solution == 6){
-				turnOnLED(6);
-			}
-			else if (average > 157.5 && average < 202.5 && solution == 7){
-				turnOnLED(7);
-			}
-			else if (average > 112.5 && average < 157.5 && solution == 0){
-				turnOnLED(0);
-			}
-			else{
-				//turn on all LED's
-				turnOnAll();
-
-			}
-
-
-
-
-
-
-//			//printing lsb and msb of x y z
-//			sprintf(buffer1, "magXm: %d, magXl: %d\r\nmagYm: %d, magYl: %d \r\nmagZm: %d, magZl: %d\r\n", magXm, magXl, magYm, magYl, magZm, magZl);
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-
-
-//			//printing raw values
-//			sprintf(buffer2, "MAGNOTOMETER magX = %d magY = %d magZ = %d\r\n", magX, magY, magZ);
-//			//sprintf(buffer2, "magXm %d \r\n", magXm);
-//			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
-
-//			sprintf(buffer2, "%d, %d, %d, \r\n", magX, magY, magZ);
-//			//sprintf(buffer2, "magXm %d \r\n", magXm);
-//			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
-//
-			//printing degrees
-			sprintf(buffer1, "%.2f \r\n", degrees);
-			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//
-////			if (array[ARRAY_SIZE - 1] == 0){
-//				sprintf(buffer1, "%.2f\r\n", average);
-//				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-
-
-
-
-			//printing y on x
-//			sprintf(buffer1, "y on x: %.5f\r\n", y_on_x);
-//			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-			HAL_Delay(100);
-  		}
-  /* USER CODE END 3 */
+  }
 }
 
 /**
@@ -649,13 +611,136 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_I2C1
+                              |RCC_PERIPHCLK_ADC12;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_MultiModeTypeDef multimode = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Common config
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc1.Init.LowPowerAutoWait = DISABLE;
+  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure the ADC multi-mode
+  */
+  multimode.Mode = ADC_MODE_INDEPENDENT;
+  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+//  sConfig.Channel = ADC_CHANNEL_2;
+//  sConfig.Rank = ADC_REGULAR_RANK_1;
+//  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+//  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+//  sConfig.Offset = 0;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_2;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_3;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_4;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_5;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_6;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_7;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Regular Channel
+//  */
+//  sConfig.Rank = ADC_REGULAR_RANK_8;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
 }
 
 /**
