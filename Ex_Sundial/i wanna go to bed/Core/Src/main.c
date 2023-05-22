@@ -27,7 +27,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <math.h>
+
+#include "serial.h"
+#include "serialise.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -77,6 +83,8 @@ static void MX_I2C1_Init(void);
 #define LSM303AGR_M_SENSITIVITY_Z_1_9Ga      760   /*!< magnetometer Z axis sensitivity for 1.9 Ga full scale [LSB/Ga] */
 
 #define ARRAY_SIZE 30 //size of array for the data taken to average
+
+#define LED_OUTPUT 0x5555
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,6 +98,9 @@ I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart1;
 
 I2C_HandleTypeDef I2cHandle;
+
+volatile int LED_POS = 0;
+volatile uint8_t* led_output_display = ((uint8_t*)&(GPIOE->ODR)) + 1;
 
 /* USER CODE BEGIN PV */
 
@@ -112,6 +123,27 @@ void shuffleArray(float array[], float degrees){
 		array[i - 1] = array[i];
 	}
 	array[ARRAY_SIZE - 1] = degrees;
+}
+
+void enableLED()
+{
+	RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
+
+	//only take important bits (first 16) of LED output register
+	uint16_t* portReg = ((uint16_t*)&(GPIOE->MODER))+1;
+
+	//set LED pins to output
+	*portReg = LED_OUTPUT;
+}
+
+void turnOnLED(int pos){
+	LED_POS = pos;
+	*led_output_display = 1UL << LED_POS;
+
+}
+
+void turnOnAll(){
+	*led_output_display = LED_OUTPUT;
 }
 
 /* USER CODE END 0 */
@@ -146,6 +178,7 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
+  enableLED();
   /* USER CODE BEGIN 2 */
 
   //huart1.Init.BaudRate = 115200;
@@ -155,12 +188,17 @@ int main(void)
   char buffer2[MAX_CHAR];
   	HAL_StatusTypeDef returnValue, stat, check, odr;
 
+  	uint8_t test[64];
+  	uint8_t countString[64];
+  	uint8_t string[64];
   	//VARIABLES FRO AVERAGE FUNCTION
-  	float array[ARRAY_SIZE];
+  	float array[ARRAY_SIZE] = {0};
   	float average = 0;
   	int count = 0;
   	float sum = 0;
 
+  	srand(time(NULL));
+  	int solution = rand() % 8;
 
   	HAL_Init();
   		SystemClock_Config();
@@ -199,6 +237,8 @@ int main(void)
 //		{
 //			strcpy(buffer1, "You done fucked up\r\n");
 //			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+//
+//
 //		}
 //		else if(check == HAL_OK){
 //			strcpy(buffer1, "odr slay\r\n");
@@ -255,8 +295,9 @@ int main(void)
   	while (1)
   		{
 
+			sprintf(test, "test! \n\r");
+			SerialOutputString(test, &USART1_PORT);
 
-//
 //  			float sensor_sens = (1/3.9); //1g/3.9mg
 //  			float adc_sens = 0.00024; //1
 //
@@ -475,6 +516,8 @@ int main(void)
 			if (array[ARRAY_SIZE - 1] == 0){
 				array[count] = degrees;
 				count ++;
+				sprintf(countString, "%d, %.2f, %.2f\r\n", count, array[0], array[ARRAY_SIZE - 1]);
+				SerialOutputString(countString, &USART1_PORT);
 			}
 			else{
 				//shuffle the array
@@ -484,10 +527,52 @@ int main(void)
 				for(int i = 0; i < ARRAY_SIZE; i ++){
 					sum += array[i];
 				}
-				average = sum/ARRAY_SIZE;
 
+				average = (sum/ARRAY_SIZE);
+
+				sprintf(buffer1, "%.2f, %.2f, ", array[0], array[ARRAY_SIZE - 1]);
+				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+				sprintf(buffer1, "%.2f, ", average);
+				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			}
+
+			sprintf(buffer1, "%d\r\n", solution);
+			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+			//LED DISPLAY
+			//first sort into one of 8 categories
+			if(average > 67.5 && average < 112.5 && solution == 1){
+				turnOnLED(1);
+			}
+			else if (average > 22.5 && average < 67.5 && solution == 2){
+				turnOnLED(2);
+			}
+			else if (((degrees < 360 && degrees > 337.5) || (degrees > 0 && degrees < 22.5)) && solution == 3){ //something weird for 0 - 360
+				turnOnLED(3);
+			}
+			else if (average > 292.5 && average < 337.5 && solution == 4){
+				turnOnLED(4);
+			}
+			else if (average > 247.5 && average < 292.5 && solution == 5){
+				turnOnLED(5);
+			}
+			else if (average > 202.5 && average < 247.5 && solution == 6){
+				turnOnLED(6);
+			}
+			else if (average > 157.5 && average < 202.5 && solution == 7){
+				turnOnLED(7);
+			}
+			else if (average > 112.5 && average < 157.5 && solution == 0){
+				turnOnLED(0);
+			}
+			else{
+				//turn on all LED's
+				turnOnAll();
 
 			}
+
+
 
 
 
@@ -502,18 +587,17 @@ int main(void)
 //			//sprintf(buffer2, "magXm %d \r\n", magXm);
 //			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
 
-			sprintf(buffer2, " x %d, y %d, z %d \r\n", magX, magY, magZ);
-			//sprintf(buffer2, "magXm %d \r\n", magXm);
-			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
-
+//			sprintf(buffer2, "%d, %d, %d, \r\n", magX, magY, magZ);
+//			//sprintf(buffer2, "magXm %d \r\n", magXm);
+//			HAL_UART_Transmit(&huart1, buffer2, strlen(buffer2), HAL_MAX_DELAY);
+//
 			//printing degrees
-			sprintf(buffer1, "d %.2f\r\n", degrees);
+			sprintf(buffer1, "%.2f \r\n", degrees);
 			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-
-//			if (array[ARRAY_SIZE - 1] == 0){
-//				sprintf(buffer1, "average degree: %.2f\r\n", degrees);
+//
+////			if (array[ARRAY_SIZE - 1] == 0){
+//				sprintf(buffer1, "%.2f\r\n", average);
 //				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-//			}
 
 
 
@@ -521,7 +605,7 @@ int main(void)
 			//printing y on x
 //			sprintf(buffer1, "y on x: %.5f\r\n", y_on_x);
 //			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-			HAL_Delay(200);
+			HAL_Delay(100);
   		}
   /* USER CODE END 3 */
 }
