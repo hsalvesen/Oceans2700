@@ -1,4 +1,4 @@
-# HJLLMS 
+# Ocean's 2700
 Major Project
 
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
@@ -8,19 +8,19 @@ technology for a 5-minute escape room experience.
 # Escape Room Storyline: The Bank Heist
 In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon.
 
-#### Exercise 1: Safe Crack
+### Exercise 1: Safe Crack
 
 Your first challenge is to crack the vault. This is no ordinary vault; it boasts an antiquated dial lock system that demands meticulous manipulation. Your ally in this endeavor is a specialized bank heist robot, designed to decode the right combination to pick the lock. As the robot deciphers each part of the combination, an LED illuminates, signaling your progress. With the robot's help, you breach the vault and secure the coveted artifact.
 
-#### Exercise 2: Report to Mission Control
+### Exercise 2: Report to Mission Control
 
 With the artifact in your possession, it's crucial to inform mission control. Luckily, the heist robot is equipped with a unique communication channel. Your task is to interface with this system, encoding your message in Morse code. Each carefully tapped dot and dash confirms the successful extraction of the artifact.
 
-#### Exercise 3: Hacking Police Radio Channel
+### Exercise 3: Hacking Police Radio Channel
 
 But success has its echoes, and the authorities are now alerted to a possible breach. Their radio chatter buzzes urgently. Your next challenge is to hack into the police radio channel, creating a diversion. You have at your disposal a sundial-like device, outfitted with a magnetometer, which you use to distort the magnetic field and jam the radio signals. The police are successfully redirected, buying you some much-needed time.
 
-#### Exercise 4: Exiting the Bank
+### Exercise 4: Exiting the Bank
 
 With the authorities temporarily misled, your escape path is clear, save for one last hurdle: a state-of-the-art security system operated by capacitive touch sensors. Your challenge is to discern the intricate pattern and cautiously navigate through it.
 
@@ -74,18 +74,27 @@ This experience includes a simulated vault cracking sequence which is realised t
 ___
 
 ## Modularisation:
->> Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order. <<
+Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order.
 ___
 
 ## Functions:
-- angle_conversion: Converts pre-defined angles into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
-- ...
+- angle_generation: Creates 5 randomised angles between 0 and 180 degrees based on current SysTick value.
+```
+for (uint32_t i = 0; i < 5; i++)
+	{
+		   predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
+    }
+ ```
+- angle_conversion: Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
+- state_machine: Enables a stepping through of each of the 5 lock combinations. 
+- communicate: Communicates that the module has been completed to our GUI.
+
 ___
 
 ## User Instructions
 1. Starting the Program: Upon uploading the code to the STM32F303 Discovery board, the escape room simulation will automatically start.
 
-2. Servo Movements: The servo, representing the lock-picking robot, will begin at its origin point (90 degrees). It will then rotate towards its final angle before resetting back to 0 degrees. This cycle of movement will continue until the correct angle is entered via the lock dial, represented by the potentiometer.
+2. Servo Movements: The servo, representing the lock-picking robot, will begin at its origin point (90 degrees). It will then rotate towards its final angle before resetting back to 90 degrees. This cycle of movement will continue until the correct angle is entered via the lock dial, represented by the potentiometer, and held there for 3 seconds.
 
 3. Entering the Correct Angle: As a user, you will manipulate the potentiometer to set the correct angle. The program has a small tolerance for accuracy, so it doesn't need to be exact.
 
@@ -93,7 +102,7 @@ ___
 
 5. Repeating the Process: The servo will then start moving towards the next predefined angle. You will need to repeat the process of setting the potentiometer to the correct angle for the new servo position. This cycle will continue until all 5 predefined angles have been entered correctly, in sequence.
 
-Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise.
+Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise. The first of the four rectangles will light up green on the GUI.
 
 Remember, the objective is to accurately follow the servo's movements with the lock dial (potentiometer), entering the correct sequence of 5 angles.
 ___
@@ -124,22 +133,26 @@ ___
 ___
 
 
-# Exercise 2 : Reporting to Mission Control (Knocking)
+# Exercise 2 : Reporting to Mission Control
 
 ## High Level Overview:
-
-xxx
-
+This scenario involves an encoded message delivery operation simulated via interactions between the lock-picking robot and manual Morse code translation. The premise hinges on the idea of a message coded in Morse that needs to be relayed accurately by tapping on the robot's accelerometer. The GUI acts as a channel that can report back if the correct message has been sent and recieved by Mission Control
 
 ___
+## Subtasks
+1. Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letterm into its corresponding Morse signal.
+2. Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter. 
+3. Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully.
 
+Completion of the Exercise: After the correct sequence of Morse code has been entered, second rectangle on the GUI will light up green, signaling the completion of the second exercise.
+
+___
 ## Modularisation
 xxx
 ___
 
 ## Functions
-- enableUSART1: Enable GPIO C and USART1's clocks, set GPIO C to use UART as alternate function, set the baud rate and ready USART 1 for both receive and transmit
-- xxx
+- 
 
 ## User Instructions
 xxx
@@ -153,72 +166,49 @@ ___
 xxx
 ___
 
-# Exercise 3 - Hardware timer:
+# Exercise 3 - Radio Wave Interference:
+## High Level Overview:
+This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 difference ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage devider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
 
-Exercise 3 focuses on creating a module that interfaces with hardware timers. The exercise contains two tasks:
-
-1) a function in the timer module that triggers a callback function at regular intervals. The interval is set during the module initialisation process.
-
-2) a function that triggers a one-time callback function after a specified delay in milliseconds. This function accepts the delay and the callback function pointer as inputs.
 ___
+
+## Subtasks
+1. Interfacing with GPIO for LED display: The STM32F303 Discovery board must be able to manipulate the state of its LEDs for communication purposes between the system flow and the user.
+2. Interfacing with Magnetometer: Then Discovery board's integrated magnetometer must be activated, configured and read from to determine the board's bearing relative to its surrounding magnetic field. This magnetic field is produced by strong surrounding magnets which can be manipulated by the user. The raw reading recieved must be sorted into 8 bins to mirror the 8 chambers of interfaced ADCs and checked against the internally stored solution.
+3. Interfacing with ADCs: The Discovery board must be able to recieve and process analog inputs for all 8 sectors containing seperate LDR voltage divider circuits simultaneously. It must then  tuned to determine which of these circuits have been triggered and compare that to an internally stored solution.
+___
+
 ## Modularisation
-Sub-exercises follow the general routine:
-Initialise:
-- Discovery board
-- External hardware timer
-Set parameters
-- Check hardware timer count against a user specified delay value.
+XXXX
+___
 
 ## Functions:
-- enable_clocks: Enables required clocks for GPIO and TIM2.
-- initialise_board: Initializes the LED pins on the board.
-- timer_module_init: Initializes the timer module with a specified interval and regular interval callback.
-- set_one_shot_callback: Sets a one-shot callback with a specified delay.
-- TIM2_IRQHandler: Handles regular interval callbacks and one-shot callbacks for the TIM2 interrupt.
-- regular_interval_cb: Toggles the LEDs as a regular interval callback function.
-- one_shot_cb: Turns on all LEDs, waits for a certain time, and then turns them off as a one-shot callback function.
-- main: Disables interrupts, enables required clocks, initializes the board, configures TIM2 timer, enables interrupts, initializes the timer module, sets a one-shot callback, and enters an infinite loop.
-pressed: Detected when button is pressed -> checks if unpressed
-unpressed: Detected button is unpressed from pressed -> restarts script with new settings
+XXXX
 ___
 ## User instructions:
-A user can change the conditions of each delay script by changing either 2 saved values in any of the sub exercises: 
-- timer_module_init(1000, regular_interval_cb); // Change regular callback time (in milliseconds)
-- set_one_shot_callback(3000, one_shot_cb); // Change 1 shot CB begin time (in milliseconds)
-With a PRESCALER value of 8 and multiplied by 1000, the DELAY value will be a delay in ns, then ms.
+XXXX
 ___
 
 ## Constraints and Limitations:
-Both DELAY and PRESCALER values are unsigned 32 bit values (in the case of using TIMx_ARR, it can only be 32 bits using TIM_2 which is used in this exercise), as such the script will not function outside these parameters (e.g. a negative value).
+XXXX
 ___
 
 #### Test cases:
-1. Implement delay (without visual indicator)
-    1. The test parameters include: a delay value of 10, prescaler of 8000. When stepping through code, code is delayed until the hardware timer CNT value exceeds 10 before proceeding with an infinite loop. This is as expected
-    2. The test parameters include: a delay value of 5000, prescaler of 8000. When stepping through code, code is delayed until the hardware timer CNT value exceeds 5000 before proceeding with an infinite loop. This is as expected
-    3. The test parameters include: a delay value of 0, prescaler of 8000. When stepping through code, code is not delayed and proceeds with the infinite loop. This is as expected.
-2. Implement delay (without visual indicator) + button input changes prescaler value
-    1. The test parameters include: a delay value of 5000, prescaler of 8000. When code is run, a pattern on LEDs turns on. After 5 seconds the pattern alternates to all on is off, all off is on. This occurs every 5 seconds. This is expected
-    2. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. After 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds. This is expected
-    3. The test parameters include: a delay value of 5000, prescaler of 16000. When code is run, a pattern on LEDs turns on. After 10 seconds the pattern alternates to all on is off, all off is on. This occurs every 10 seconds. This is expected
-    4. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. Initially after 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds until a user button is pressed. The delay will then increase to 5.0 seconds. Pressing the button 2 more times on top of this increases delay to 10 seconds. This is expected.
-3. Implement delay with ARPE and ARR 
-    1. The test parameters include: a delay value of 5000, prescaler of 8000. When code is run, a pattern on LEDs turns on. After 5 seconds the pattern alternates to all on is off, all off is on. This occurs every 5 seconds. This is expected
-    2. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. After 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds. This is expected
-    3. The test parameters include: a delay value of 5000, prescaler of 16000. When code is run, a pattern on LEDs turns on. After 10 seconds the pattern alternates to all on is off, all off is on. This occurs every 10 seconds. This is expected
-___
+XXXX
 ___
 
 
-# Exercise 4 - Integration: 
+# Exercise 4 - Capacitive Touch: 
 
 
 ## High Level Overview:
-Exercise 4 serves as an integration exercise, combining most of the functions created in prior exercises. The main objective is to perform a sequence of operations on three STM32 discovery boards that are connected via UARTs. The task involves are:
 
-a) When a button is pressed, trigger the transmission of a string containing a number(in ASCII) over serial.
-b) When a string containing a number is received, incorporate a timer based delay before subtracting 1 from the number and transmitting to back to the source. The time delay should be equal the number received multiplied by 100ms (i.e. receive 8, wait for 800ms, 7 is 700ms, etc). When the number is zero, do not transmit.
-c) When a number is received, turn on that many LED lights. If the number is larger than 8, turn on all lights for an even number, and no lights for an odd number.
+
+___
+
+## Subtasks
+xxx
+
 ___
 
 ## Modularisation:

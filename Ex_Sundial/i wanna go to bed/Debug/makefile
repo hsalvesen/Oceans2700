@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := khithelp
+BUILD_ARTIFACT_NAME := Integration test
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-khithelp.elf \
+Integration\ test.elf \
 
 MAP_FILES += \
-khithelp.map \
+Integration\ test.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-khithelp.list \
+Integration\ test.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: khithelp.elf secondary-outputs
+main-build: Integration\ test.elf secondary-outputs
 
 # Tool invocations
-khithelp.elf khithelp.map: $(OBJS) $(USER_OBJS) C:\Users\sanlu\Documents\Uni\Year\ 2\ part\ 2\Sem\ 1\MTRX2700\Major\ Project\HJLLMS\Ex_Sundial\i\ wanna\ go\ to\ bed\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "khithelp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\sanlu\Documents\Uni\Year 2 part 2\Sem 1\MTRX2700\Major Project\HJLLMS\Ex_Sundial\i wanna go to bed\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="khithelp.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Integration\ test.elf Integration\ test.map: $(OBJS) $(USER_OBJS) C:\Users\sanlu\Documents\Uni\Year\ 2\ part\ 2\Sem\ 1\MTRX2700\Major\ Project\HJLLMS\Ex_Sundial\i\ wanna\ go\ to\ bed\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Integration test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\sanlu\Documents\Uni\Year 2 part 2\Sem 1\MTRX2700\Major Project\HJLLMS\Ex_Sundial\i wanna go to bed\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Integration test.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-khithelp.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "khithelp.list"
+Integration\ test.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Integration test.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout khithelp.elf khithelp.list khithelp.map
+	-$(RM) Integration\ test.elf Integration\ test.list Integration\ test.map Integration\\ test.elf default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

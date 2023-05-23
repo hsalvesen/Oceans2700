@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "ADC_channel_select.h"
 I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart1;
 
@@ -107,115 +108,12 @@ static void MX_ADC1_Init(void);
 ADC_ChannelConfTypeDef sConfig = {0};
 
 
+
 void enable_clocks() {
 
 RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOCEN | RCC_AHBENR_GPIOEEN;
 }
 
-
-void ADC_select_CH2 (void){
-sConfig.Channel = ADC_CHANNEL_2;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH3 (void){
-sConfig.Channel = ADC_CHANNEL_3;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH4 (void){
-sConfig.Channel = ADC_CHANNEL_4;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH5 (void){
-sConfig.Channel = ADC_CHANNEL_5;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH6 (void){
-sConfig.Channel = ADC_CHANNEL_6;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH7 (void){
-sConfig.Channel = ADC_CHANNEL_7;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH8 (void){
-sConfig.Channel = ADC_CHANNEL_8;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
-
-void ADC_select_CH9 (void){
-sConfig.Channel = ADC_CHANNEL_9;
-sConfig.Rank = ADC_REGULAR_RANK_1;
-sConfig.SingleDiff = ADC_SINGLE_ENDED;
-sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-sConfig.OffsetNumber = ADC_OFFSET_NONE;
-sConfig.Offset = 0;
-if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-{
-  Error_Handler();
-}
-}
 
 
 void shuffleArray(float array[], float degrees){
@@ -280,19 +178,7 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
-  void (*LDRChannels[8])() = {
-		  &ADC_select_CH2,
-		  &ADC_select_CH3,
-		  &ADC_select_CH4,
-		  &ADC_select_CH5,
-		  &ADC_select_CH6,
-		  &ADC_select_CH7,
-		  &ADC_select_CH8,
-		  &ADC_select_CH9
-  };
 
-  // Array to record LDR status
-  int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
   int solution = 2;
 
@@ -516,17 +402,33 @@ int main(void)
 
 
   // START ADC LOOP
-  // calibrate ADC1
-  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+
+  // function pointer list to change channels
+  void (*LDRChannels[8])() = {
+		  &ADC_select_CH2,
+		  &ADC_select_CH3,
+		  &ADC_select_CH4,
+		  &ADC_select_CH5,
+		  &ADC_select_CH6,
+		  &ADC_select_CH7,
+		  &ADC_select_CH8,
+		  &ADC_select_CH9
+  };
+
+  // Array to record LDR status
+  int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
   // while the system is still searching for solutions
   int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
   ADC_Solutions[solution] = 1;
   int SolCounter = 0;
+
+  // calibrate ADC1
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   while (SolCounter < 1){
 	// Poll each LED in sequence
 	for (int i = 0; i < 8; i++){
-		LDRChannels[i]();
+		LDRChannels[i](&hadc1, &sConfig);
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
 		int ADC_val = HAL_ADC_GetValue(&hadc1);
