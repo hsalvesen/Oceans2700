@@ -8,19 +8,19 @@ technology for a 5-minute escape room experience.
 # Escape Room Storyline: The Bank Heist
 In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon.
 
-#### Exercise 1: Safe Crack
+### Exercise 1: Safe Crack
 
 Your first challenge is to crack the vault. This is no ordinary vault; it boasts an antiquated dial lock system that demands meticulous manipulation. Your ally in this endeavor is a specialized bank heist robot, designed to decode the right combination to pick the lock. As the robot deciphers each part of the combination, an LED illuminates, signaling your progress. With the robot's help, you breach the vault and secure the coveted artifact.
 
-#### Exercise 2: Report to Mission Control
+### Exercise 2: Report to Mission Control
 
 With the artifact in your possession, it's crucial to inform mission control. Luckily, the heist robot is equipped with a unique communication channel. Your task is to interface with this system, encoding your message in Morse code. Each carefully tapped dot and dash confirms the successful extraction of the artifact.
 
-#### Exercise 3: Hacking Police Radio Channel
+### Exercise 3: Hacking Police Radio Channel
 
 But success has its echoes, and the authorities are now alerted to a possible breach. Their radio chatter buzzes urgently. Your next challenge is to hack into the police radio channel, creating a diversion. You have at your disposal a sundial-like device, outfitted with a magnetometer, which you use to distort the magnetic field and jam the radio signals. The police are successfully redirected, buying you some much-needed time.
 
-#### Exercise 4: Exiting the Bank
+### Exercise 4: Exiting the Bank
 
 With the authorities temporarily misled, your escape path is clear, save for one last hurdle: a state-of-the-art security system operated by capacitive touch sensors. Your challenge is to discern the intricate pattern and cautiously navigate through it.
 
