@@ -94,7 +94,7 @@ ___
 ## User Instructions
 1. Starting the Program: Upon uploading the code to the STM32F303 Discovery board, the escape room simulation will automatically start.
 
-2. Servo Movements: The servo, representing the lock-picking robot, will begin at its origin point (90 degrees). It will then rotate towards its final angle before resetting back to 0 degrees. This cycle of movement will continue until the correct angle is entered via the lock dial, represented by the potentiometer.
+2. Servo Movements: The servo, representing the lock-picking robot, will begin at its origin point (90 degrees). It will then rotate towards its final angle before resetting back to 90 degrees. This cycle of movement will continue until the correct angle is entered via the lock dial, represented by the potentiometer, and held there for 3 seconds.
 
 3. Entering the Correct Angle: As a user, you will manipulate the potentiometer to set the correct angle. The program has a small tolerance for accuracy, so it doesn't need to be exact.
 
@@ -133,7 +133,7 @@ ___
 ___
 
 
-# Exercise 2 : Reporting to Mission Control (Knocking)
+# Exercise 2 : Reporting to Mission Control
 
 ## High Level Overview:
 
@@ -147,8 +147,7 @@ xxx
 ___
 
 ## Functions
-- enableUSART1: Enable GPIO C and USART1's clocks, set GPIO C to use UART as alternate function, set the baud rate and ready USART 1 for both receive and transmit
-- xxx
+- 
 
 ## User Instructions
 xxx
@@ -162,7 +161,7 @@ ___
 xxx
 ___
 
-# Exercise 3 - Hardware timer:
+# Exercise 3 - Radio Wave Interference:
 
 Exercise 3 focuses on creating a module that interfaces with hardware timers. The exercise contains two tasks:
 
@@ -219,15 +218,12 @@ ___
 ___
 
 
-# Exercise 4 - Integration: 
+# Exercise 4 - Capacitive Touch: 
 
 
 ## High Level Overview:
-Exercise 4 serves as an integration exercise, combining most of the functions created in prior exercises. The main objective is to perform a sequence of operations on three STM32 discovery boards that are connected via UARTs. The task involves are:
 
-a) When a button is pressed, trigger the transmission of a string containing a number(in ASCII) over serial.
-b) When a string containing a number is received, incorporate a timer based delay before subtracting 1 from the number and transmitting to back to the source. The time delay should be equal the number received multiplied by 100ms (i.e. receive 8, wait for 800ms, 7 is 700ms, etc). When the number is zero, do not transmit.
-c) When a number is received, turn on that many LED lights. If the number is larger than 8, turn on all lights for an even number, and no lights for an odd number.
+
 ___
 
 ## Modularisation:
