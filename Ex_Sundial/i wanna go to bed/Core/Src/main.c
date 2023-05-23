@@ -178,19 +178,7 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
-  void (*LDRChannels[8])() = {
-		  &ADC_select_CH2,
-		  &ADC_select_CH3,
-		  &ADC_select_CH4,
-		  &ADC_select_CH5,
-		  &ADC_select_CH6,
-		  &ADC_select_CH7,
-		  &ADC_select_CH8,
-		  &ADC_select_CH9
-  };
 
-  // Array to record LDR status
-  int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
   int solution = 2;
 
@@ -414,13 +402,29 @@ int main(void)
 
 
   // START ADC LOOP
-  // calibrate ADC1
-  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+
+  // function pointer list to change channels
+  void (*LDRChannels[8])() = {
+		  &ADC_select_CH2,
+		  &ADC_select_CH3,
+		  &ADC_select_CH4,
+		  &ADC_select_CH5,
+		  &ADC_select_CH6,
+		  &ADC_select_CH7,
+		  &ADC_select_CH8,
+		  &ADC_select_CH9
+  };
+
+  // Array to record LDR status
+  int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
   // while the system is still searching for solutions
   int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
   ADC_Solutions[solution] = 1;
   int SolCounter = 0;
+
+  // calibrate ADC1
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   while (SolCounter < 1){
 	// Poll each LED in sequence
 	for (int i = 0; i < 8; i++){
