@@ -167,60 +167,34 @@ xxx
 ___
 
 # Exercise 3 - Radio Wave Interference:
+## High Level Overview:
+This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 difference ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage devider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
 
-xxx
 ___
 
 ## Subtasks
-xxx
+1. Interfacing with GPIO for LED display: The STM32F303 Discovery board must be able to manipulate the state of its LEDs for communication purposes between the system flow and the user.
+2. Interfacing with Magnetometer: Then Discovery board's integrated magnetometer must be activated, configured and read from to determine the board's bearing relative to its surrounding magnetic field. This magnetic field is produced by strong surrounding magnets which can be manipulated by the user. The raw reading recieved must be sorted into 8 bins to mirror the 8 chambers of interfaced ADCs and checked against the internally stored solution.
+3. Interfacing with ADCs: The Discovery board must be able to recieve and process analog inputs for all 8 sectors containing seperate LDR voltage divider circuits simultaneously. It must then  tuned to determine which of these circuits have been triggered and compare that to an internally stored solution.
 ___
 
 ## Modularisation
-Sub-exercises follow the general routine:
-Initialise:
-- Discovery board
-- External hardware timer
-Set parameters
-- Check hardware timer count against a user specified delay value.
+XXXX
+___
 
 ## Functions:
-- enable_clocks: Enables required clocks for GPIO and TIM2.
-- initialise_board: Initializes the LED pins on the board.
-- timer_module_init: Initializes the timer module with a specified interval and regular interval callback.
-- set_one_shot_callback: Sets a one-shot callback with a specified delay.
-- TIM2_IRQHandler: Handles regular interval callbacks and one-shot callbacks for the TIM2 interrupt.
-- regular_interval_cb: Toggles the LEDs as a regular interval callback function.
-- one_shot_cb: Turns on all LEDs, waits for a certain time, and then turns them off as a one-shot callback function.
-- main: Disables interrupts, enables required clocks, initializes the board, configures TIM2 timer, enables interrupts, initializes the timer module, sets a one-shot callback, and enters an infinite loop.
-pressed: Detected when button is pressed -> checks if unpressed
-unpressed: Detected button is unpressed from pressed -> restarts script with new settings
+XXXX
 ___
 ## User instructions:
-A user can change the conditions of each delay script by changing either 2 saved values in any of the sub exercises: 
-- timer_module_init(1000, regular_interval_cb); // Change regular callback time (in milliseconds)
-- set_one_shot_callback(3000, one_shot_cb); // Change 1 shot CB begin time (in milliseconds)
-With a PRESCALER value of 8 and multiplied by 1000, the DELAY value will be a delay in ns, then ms.
+XXXX
 ___
 
 ## Constraints and Limitations:
-Both DELAY and PRESCALER values are unsigned 32 bit values (in the case of using TIMx_ARR, it can only be 32 bits using TIM_2 which is used in this exercise), as such the script will not function outside these parameters (e.g. a negative value).
+XXXX
 ___
 
 #### Test cases:
-1. Implement delay (without visual indicator)
-    1. The test parameters include: a delay value of 10, prescaler of 8000. When stepping through code, code is delayed until the hardware timer CNT value exceeds 10 before proceeding with an infinite loop. This is as expected
-    2. The test parameters include: a delay value of 5000, prescaler of 8000. When stepping through code, code is delayed until the hardware timer CNT value exceeds 5000 before proceeding with an infinite loop. This is as expected
-    3. The test parameters include: a delay value of 0, prescaler of 8000. When stepping through code, code is not delayed and proceeds with the infinite loop. This is as expected.
-2. Implement delay (without visual indicator) + button input changes prescaler value
-    1. The test parameters include: a delay value of 5000, prescaler of 8000. When code is run, a pattern on LEDs turns on. After 5 seconds the pattern alternates to all on is off, all off is on. This occurs every 5 seconds. This is expected
-    2. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. After 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds. This is expected
-    3. The test parameters include: a delay value of 5000, prescaler of 16000. When code is run, a pattern on LEDs turns on. After 10 seconds the pattern alternates to all on is off, all off is on. This occurs every 10 seconds. This is expected
-    4. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. Initially after 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds until a user button is pressed. The delay will then increase to 5.0 seconds. Pressing the button 2 more times on top of this increases delay to 10 seconds. This is expected.
-3. Implement delay with ARPE and ARR 
-    1. The test parameters include: a delay value of 5000, prescaler of 8000. When code is run, a pattern on LEDs turns on. After 5 seconds the pattern alternates to all on is off, all off is on. This occurs every 5 seconds. This is expected
-    2. The test parameters include: a delay value of 5000, prescaler of 4000. When code is run, a pattern on LEDs turns on. After 2.5 seconds the pattern alternates to all on is off, all off is on. This occurs every 2.5 seconds. This is expected
-    3. The test parameters include: a delay value of 5000, prescaler of 16000. When code is run, a pattern on LEDs turns on. After 10 seconds the pattern alternates to all on is off, all off is on. This occurs every 10 seconds. This is expected
-___
+XXXX
 ___
 
 
