@@ -136,12 +136,15 @@ ___
 # Exercise 2 : Reporting to Mission Control
 
 ## High Level Overview:
-
-xxx
-
+This scenario involves an encoded message delivery operation simulated via interactions between the lock-picking robot and manual Morse code translation. The premise hinges on the idea of a message coded in Morse that needs to be relayed accurately by tapping on the robot's accelerometer. The GUI acts as a channel that can report back if the correct message has been sent and recieved by Mission Control
 
 ___
+## Subtasks
+1. Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letterm into its corresponding Morse signal.
+2. Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter. 
+3. Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully, and the GUI will report this
 
+___
 ## Modularisation
 xxx
 ___
@@ -163,12 +166,13 @@ ___
 
 # Exercise 3 - Radio Wave Interference:
 
-Exercise 3 focuses on creating a module that interfaces with hardware timers. The exercise contains two tasks:
-
-1) a function in the timer module that triggers a callback function at regular intervals. The interval is set during the module initialisation process.
-
-2) a function that triggers a one-time callback function after a specified delay in milliseconds. This function accepts the delay and the callback function pointer as inputs.
+xxx
 ___
+
+## Subtasks
+xxx
+___
+
 ## Modularisation
 Sub-exercises follow the general routine:
 Initialise:
@@ -223,6 +227,11 @@ ___
 
 ## High Level Overview:
 
+
+___
+
+## Subtasks
+xxx
 
 ___
 
