@@ -74,7 +74,7 @@ This experience includes a simulated vault cracking sequence which is realised t
 ___
 
 ## Modularisation:
->> Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order. <<
+Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order.
 ___
 
 ## Functions:
