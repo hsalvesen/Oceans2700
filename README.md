@@ -78,8 +78,17 @@ ___
 ___
 
 ## Functions:
-- angle_conversion: Converts pre-defined angles into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
-- ...
+- angle_generation: Creates 5 randomised angles between 0 and 180 degrees based on current SysTick value.
+```
+for (uint32_t i = 0; i < 5; i++)
+	{
+		   predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
+    }
+ ```
+- angle_conversion: Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
+- state_machine: Enables a stepping through of each of the 5 lock combinations. 
+- communicate: Communicates that the module has been completed to our GUI.
+
 ___
 
 ## User Instructions
