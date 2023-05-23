@@ -60,8 +60,8 @@ all: main-build
 main-build: Integration\ test.elf secondary-outputs
 
 # Tool invocations
-Integration\ test.elf Integration\ test.map: $(OBJS) $(USER_OBJS) C:\Users\sanlu\Documents\Uni\Year\ 2\ part\ 2\Sem\ 1\MTRX2700\Major\ Project\HJLLMS\Ex_Sundial\i\ wanna\ go\ to\ bed\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Integration test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\sanlu\Documents\Uni\Year 2 part 2\Sem 1\MTRX2700\Major Project\HJLLMS\Ex_Sundial\i wanna go to bed\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Integration test.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Integration\ test.elf Integration\ test.map: $(OBJS) $(USER_OBJS) C:\Users\Matylda\HJLLMS\Ex_Sundial\Integration\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Integration test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Matylda\HJLLMS\Ex_Sundial\Integration\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Integration test.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

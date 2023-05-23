@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdlib.h>;
+#include <stdio.h>
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -66,9 +69,10 @@ static void MX_I2C1_Init(void);
 
 #define LSM303AGR_M_SENSITIVITY_Z_1_9Ga      760   /*!< magnetometer Z axis sensitivity for 1.9 Ga full scale [LSB/Ga] */
 
-#define ARRAY_SIZE 30 //size of array for the data taken to average
+#define ARRAY_SIZE 10 //size of array for the data taken to average
 
-#define LED_OUTPUT 0x5555
+#define LED_ALL 0xffff
+#define LED_FOUR 0x5555
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -87,6 +91,7 @@ UART_HandleTypeDef huart1;
 
 volatile int LED_POS = 0;
 volatile uint8_t* led_output_display = ((uint8_t*)&(GPIOE->ODR)) + 1;
+volatile uint32_t systickValue = 0;
 
 /* USER CODE END PV */
 
@@ -231,7 +236,7 @@ void enableLED()
 	uint16_t* portReg = ((uint16_t*)&(GPIOE->MODER))+1;
 
 	//set LED pins to output
-	*portReg = LED_OUTPUT;
+	*portReg = LED_FOUR;
 }
 
 void turnOnLED(int pos){
@@ -241,8 +246,27 @@ void turnOnLED(int pos){
 }
 
 void turnOnAll(){
-	*led_output_display = LED_OUTPUT;
+	*led_output_display = LED_ALL;
 }
+
+void turnOnFour(){
+	*led_output_display = LED_FOUR;
+}
+
+
+//TWO FUNCTIONS USED FOR RANDOMISING
+// SysTick callback function
+void HAL_SYSTICK_Callback(void)
+{
+    systickValue++; // Increment SysTick value
+}
+
+// Randomizing function using SysTick value
+uint8_t GenerateRandomNumber(void)
+{
+    return (uint8_t)(systickValue % 8); // Return the remainder of systickValue divided by 8 (0 to 7)
+}
+
 
 /* USER CODE END 0 */
 
@@ -294,7 +318,10 @@ int main(void)
   // Array to record LDR status
   int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-  int solution = 2;
+  int solution = 1;
+
+//
+//  solution = HAL_GetTick() % 8;
 
   //huart1.Init.BaudRate = 115200;
 
@@ -311,6 +338,8 @@ int main(void)
   	float average = 0;
   	int count = 0;
   	float sum = 0;
+
+  	int solved = 0;
 
   	//srand(time(NULL));
   	//int solution = rand() % 8;
@@ -339,225 +368,232 @@ int main(void)
 
 
 
-  		  		uint8_t magregValue = 0x57;
-  				 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
+		uint8_t magregValue = 0x57;
+		 returnValue = HAL_I2C_Mem_Write(&hi2c1, MAG_WRITE, 0x20, 1, &magregValue, 1, 10);
+
+			 // MAGNETOMETER LOOP START
+			   while (1){
 
 
-  // MAGNETOMETER LOOP START
-  while (1){
+
+				   sprintf(buffer1, "%d", solution);
+				   HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
 
 
-	   //MAGNETOMETER
-	  	float sens = (1); //1LSB/1.5mg
+
+			 	   //MAGNETOMETER
+			 	  	float sens = (1); //1LSB/1.5mg
 
 
-	  	//raw values unconverted
-	  	//int8_t magXm = 0x00;
-	  	uint8_t magXm;
-	  	HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 1000);
+			 	  	//raw values unconverted
+			 	  	//int8_t magXm = 0x00;
+			 	  	uint8_t magXm;
+			 	  	HAL_I2C_Mem_Read(&hi2c1, MAG_READ, 0x69, 1, &magXm, 1, 1000);
 
-	  	//int8_t magXl = 0x00;
-	  	uint8_t magXl;
-	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 1000);
-	  	//ADC Sensitivity * sensor sensitivity * data
+			 	  	//int8_t magXl = 0x00;
+			 	  	uint8_t magXl;
+			 	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x68, 1, &magXl, 1, 1000);
+			 	  	//ADC Sensitivity * sensor sensitivity * data
 
-	  	int16_t magX = (((magXm << 8) | magXl));
+			 	  	int16_t magX = (((magXm << 8) | magXl));
 
-	  	//float mag_x = magX *LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
-	  	float mag_x = magX* sens;
-
-
-	  	//int8_t magYm = 0x00;
-	  	uint8_t magYm;
-	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 1000);
-	  	//int8_t magYl = 0x00;
-	  	uint8_t magYl;
-	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 1000);
-	  	int16_t magY = (((magYm << 8) | magYl));
-
-	  	//float mag_y = magY * LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
-	  	float mag_y = magY* sens;
-
-	  	//int8_t magZm = 0x00;
-	  	uint8_t magZm;
-	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 1000);
-	  	//int8_t magZl = 0x00;
-	  	uint8_t magZl;
-	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 1000);
-	  	int16_t magZ = (((magZm << 8) | magZl));
-
-	  	//float mag_z = magZ * LSM303AGR_M_SENSITIVITY_Z_1_3Ga;
-	  	float mag_z = magZ * sens;
-
-	  	//CONVERTING TO DEGREES
-
-	  	double degrees, y_on_x;
-	  	double pi = 3.14159;
-	  			if(mag_x != 0 && mag_y != 0){
-
-	  	  				//determining which quadrant the mag is facing
-	  	  				if(mag_x > 0 && mag_y > 0){
-	  	  					y_on_x = (mag_y/mag_x);
-	  	  					degrees = atan(y_on_x)*(180/pi);
-	  	  					while(degrees >= 360){
-	  	  						degrees = degrees - 360;
-	  	  					}
-	  	  				}
-	  	  				else if (mag_x < 0 && mag_y > 0){
-	  	  					y_on_x = (mag_y/mag_x);
-	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
-	  	  					while(degrees >= 360){
-	  	  						degrees = degrees - 360;
-	  	  					}
-	  	  				}
-	  	  				else if (mag_x < 0 && mag_y < 0){
-	  	  					y_on_x = (mag_y/mag_x);
-	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
-	  	  					while(degrees >= 360){
-	  	  						degrees = degrees - 360;
-	  	  					}
-	  	  				}
-	  	  				else if (mag_x > 0 && mag_y < 0){
-	  	  					y_on_x = (mag_y/mag_x);
-	  	  					degrees = atan(y_on_x)*(180/pi) + 360;
-	  	  					while(degrees >= 360){
-	  	  						degrees = degrees - 360;
-	  	  					}
-	  	  				}
-	  	  				else{
-
-	  	  				}
-
-	  	  			}
-	  	  			else if(mag_x == 0 && mag_y > 0){
-	  	  				degrees = 90;
-	  	  			}
-	  	  			else if(mag_x == 0 && mag_y < 0){
-	  	  				degrees = 270;
-	  	  			}
-	  	  			else if(mag_y == 0 && mag_x > 0){
-	  	  				degrees = 0;
-	  	  			}
-	  	  			else if (mag_y == 0 && mag_x < 0){
-	  	  				degrees = 180;
-	  	  			}
+			 	  	//float mag_x = magX *LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
+			 	  	float mag_x = magX* sens;
 
 
-	  	  			//AVERAGING
-	  	  			if (array[ARRAY_SIZE - 1] == 0){
-	  	  				array[count] = degrees;
-	  	  				count ++;
+			 	  	//int8_t magYm = 0x00;
+			 	  	uint8_t magYm;
+			 	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6B, 1, &magYm, 1, 1000);
+			 	  	//int8_t magYl = 0x00;
+			 	  	uint8_t magYl;
+			 	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6A, 1, &magYl, 1, 1000);
+			 	  	int16_t magY = (((magYm << 8) | magYl));
 
-	  	  			}
-	  	  			else{
-	  	  				//shuffle the array
-	  	  				shuffleArray(array, degrees);
+			 	  	//float mag_y = magY * LSM303AGR_M_SENSITIVITY_XY_1_3Ga;
+			 	  	float mag_y = magY* sens;
 
-	  	  				sum = 0;
-	  	  				for(int i = 0; i < ARRAY_SIZE; i ++){
-	  	  					sum += array[i];
-	  	  				}
+			 	  	//int8_t magZm = 0x00;
+			 	  	uint8_t magZm;
+			 	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6D, 1, &magZm, 1, 1000);
+			 	  	//int8_t magZl = 0x00;
+			 	  	uint8_t magZl;
+			 	  	HAL_I2C_Mem_Read(&hi2c1,MAG_READ, 0x6C, 1, &magZl, 1, 1000);
+			 	  	int16_t magZ = (((magZm << 8) | magZl));
 
-	  	  				average = (sum/ARRAY_SIZE);
+			 	  	//float mag_z = magZ * LSM303AGR_M_SENSITIVITY_Z_1_3Ga;
+			 	  	float mag_z = magZ * sens;
 
-	  	  				sprintf(buffer1, "%.2f, %.2f, ", array[0], array[ARRAY_SIZE - 1]);
-	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			 	  	//CONVERTING TO DEGREES
 
-	  	  				sprintf(buffer1, "%.2f, ", average);
-	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
-	  	  			}
+			 	  	double degrees, y_on_x;
+			 	  	double pi = 3.14159;
+			 	  			if(mag_x != 0 && mag_y != 0){
 
-	  	  			sprintf(buffer1, "%d\r\n", solution);
-	  	  			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			 	  	  				//determining which quadrant the mag is facing
+			 	  	  				if(mag_x > 0 && mag_y > 0){
+			 	  	  					y_on_x = (mag_y/mag_x);
+			 	  	  					degrees = atan(y_on_x)*(180/pi);
+			 	  	  					while(degrees >= 360){
+			 	  	  						degrees = degrees - 360;
+			 	  	  					}
+			 	  	  				}
+			 	  	  				else if (mag_x < 0 && mag_y > 0){
+			 	  	  					y_on_x = (mag_y/mag_x);
+			 	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
+			 	  	  					while(degrees >= 360){
+			 	  	  						degrees = degrees - 360;
+			 	  	  					}
+			 	  	  				}
+			 	  	  				else if (mag_x < 0 && mag_y < 0){
+			 	  	  					y_on_x = (mag_y/mag_x);
+			 	  	  					degrees = atan(y_on_x)*(180/pi) + 180;
+			 	  	  					while(degrees >= 360){
+			 	  	  						degrees = degrees - 360;
+			 	  	  					}
+			 	  	  				}
+			 	  	  				else if (mag_x > 0 && mag_y < 0){
+			 	  	  					y_on_x = (mag_y/mag_x);
+			 	  	  					degrees = atan(y_on_x)*(180/pi) + 360;
+			 	  	  					while(degrees >= 360){
+			 	  	  						degrees = degrees - 360;
+			 	  	  					}
+			 	  	  				}
+			 	  	  				else{
 
-	  	  			//LED DISPLAY
-	  	  			//first sort into one of 8 categories
-	  	  			if(average > 67.5 && average < 112.5 && solution == 1){
-	  	  				turnOnLED(1);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 22.5 && average < 67.5 && solution == 2){
-	  	  				turnOnLED(2);
-	  	  				break;
-	  	  			}
-	  	  			else if (((degrees < 360 && degrees > 337.5) || (degrees > 0 && degrees < 22.5)) && solution == 3){ //something weird for 0 - 360
-	  	  				turnOnLED(3);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 292.5 && average < 337.5 && solution == 4){
-	  	  				turnOnLED(4);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 247.5 && average < 292.5 && solution == 5){
-	  	  				turnOnLED(5);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 202.5 && average < 247.5 && solution == 6){
-	  	  				turnOnLED(6);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 157.5 && average < 202.5 && solution == 7){
-	  	  				turnOnLED(7);
-	  	  				break;
-	  	  			}
-	  	  			else if (average > 112.5 && average < 157.5 && solution == 0){
-	  	  				turnOnLED(0);
-	  	  				break;
-	  	  			}
-	  	  			else{
-	  	  				//turn on all LED's
-	  	  				turnOnAll();
+			 	  	  				}
 
-	  	  			}
-
-	  	  			HAL_Delay(100);
-	  	    	}
-  // END MAGNETOMETER LOOP
+			 	  	  			}
+			 	  	  			else if(mag_x == 0 && mag_y > 0){
+			 	  	  				degrees = 90;
+			 	  	  			}
+			 	  	  			else if(mag_x == 0 && mag_y < 0){
+			 	  	  				degrees = 270;
+			 	  	  			}
+			 	  	  			else if(mag_y == 0 && mag_x > 0){
+			 	  	  				degrees = 0;
+			 	  	  			}
+			 	  	  			else if (mag_y == 0 && mag_x < 0){
+			 	  	  				degrees = 180;
+			 	  	  			}
 
 
-  // START ADC LOOP
-  // calibrate ADC1
-  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+			 	  	  			//AVERAGING
+			 	  	  			if (array[ARRAY_SIZE - 1] == 0){
+			 	  	  				array[count] = degrees;
+			 	  	  				count ++;
 
-  // while the system is still searching for solutions
-  int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
-  ADC_Solutions[solution] = 1;
-  int SolCounter = 0;
-  while (SolCounter < 1){
-	// Poll each LED in sequence
-	for (int i = 0; i < 8; i++){
-		LDRChannels[i]();
-		HAL_ADC_Start(&hadc1);
-		HAL_ADC_PollForConversion(&hadc1, 1000);
-		int ADC_val = HAL_ADC_GetValue(&hadc1);
-		HAL_ADC_Stop(&hadc1);
+			 	  	  			}
+			 	  	  			else{
+			 	  	  				//shuffle the array
+			 	  	  				shuffleArray(array, degrees);
 
-		// read the value from ADC, full range is 12 bits
-		uint8_t scale = ADC_val / (0xfff / 8);  // divide the scale into 8 even partitions (for 8 leds)
+			 	  	  				sum = 0;
+			 	  	  				for(int i = 0; i < ARRAY_SIZE; i ++){
+			 	  	  					sum += array[i];
+			 	  	  				}
 
-		// Mark LED to be triggered
-		if (scale > 3) {
-			LDRs[i] = 1;
-		} else {
-			LDRs[i] = 0;
-		}
-	}
+			 	  	  				average = (sum/ARRAY_SIZE);
 
-	// Check if solution is a match+
-	for (int i = 0; i <= 8; i++){
-		if (i == 8){
-			SolCounter++;
-		}
-		else if (LDRs[i] == ADC_Solutions[i]){
-			continue;
-		} else{
-			break;
-		}
-	}
-  }
+			 	  	  				sprintf(buffer1, "%.2f, %.2f, ", array[0], array[ARRAY_SIZE - 1]);
+			 	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
 
-  // Send Serial Code to core STM32 discovery board. - TEMP
-  turnOnAll();
+			 	  	  				sprintf(buffer1, "%.2f, ", average);
+			 	  	  				HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+			 	  	  			}
+
+			 	  	  			sprintf(buffer1, "%d\r\n", solution);
+			 	  	  			HAL_UART_Transmit(&huart1, buffer1, strlen(buffer1), HAL_MAX_DELAY);
+
+			 	  	  			//LED DISPLAY
+			 	  	  			//first sort into one of 8 categories
+			 	  	  			if(average > 67.5 && average < 112.5 && solution == 1){
+			 	  	  				turnOnLED(2);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 22.5 && average < 67.5 && solution == 2){
+			 	  	  				turnOnLED(3);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (((degrees < 360 && degrees > 337.5) || (degrees > 0 && degrees < 22.5)) && solution == 3){ //something weird for 0 - 360
+			 	  	  				turnOnLED(4);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 292.5 && average < 337.5 && solution == 4){
+			 	  	  				turnOnLED(5);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 247.5 && average < 292.5 && solution == 5){
+			 	  	  				turnOnLED(6);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 202.5 && average < 247.5 && solution == 6){
+			 	  	  				turnOnLED(7);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 157.5 && average < 202.5 && solution == 7){
+			 	  	  				turnOnLED(0);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else if (average > 112.5 && average < 157.5 && solution == 0){
+			 	  	  				turnOnLED(1);
+			 	  	  				break;
+			 	  	  			}
+			 	  	  			else{
+			 	  	  				//turn on all LED's
+			 	  	  				turnOnFour();
+
+			 	  	  			}
+
+			 	  	  			HAL_Delay(100);
+			 	  	    	}
+			   // END MAGNETOMETER LOOP
+
+
+			   // START ADC LOOP
+			   // calibrate ADC1
+			   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+
+			   // while the system is still searching for solutions
+			   int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
+			   ADC_Solutions[solution] = 1;
+			   int SolCounter = 0;
+			   while (SolCounter < 1){
+			 	// Poll each LED in sequence
+			 	for (int i = 0; i < 8; i++){
+			 		LDRChannels[i]();
+			 		HAL_ADC_Start(&hadc1);
+			 		HAL_ADC_PollForConversion(&hadc1, 1000);
+			 		int ADC_val = HAL_ADC_GetValue(&hadc1);
+			 		HAL_ADC_Stop(&hadc1);
+
+			 		// read the value from ADC, full range is 12 bits
+			 		uint8_t scale = ADC_val / (0xfff / 8);  // divide the scale into 8 even partitions (for 8 leds)
+
+			 		// Mark LED to be triggered
+			 		if (scale > 3) {
+			 			LDRs[i] = 1;
+			 		} else {
+			 			LDRs[i] = 0;
+			 		}
+			 	}
+
+			 	// Check if solution is a match+
+			 	for (int i = 0; i <= 8; i++){
+			 		if (i == 8){
+			 			SolCounter++;
+			 		}
+			 		else if (LDRs[i] == ADC_Solutions[i]){
+			 			continue;
+			 		} else{
+			 			break;
+			 		}
+			 	}
+			   }
+
+			   // Send Serial Code to core STM32 discovery board. - TEMP
+			   turnOnAll();
+
+  HAL_UART_Transmit(&huart1, (uint8_t*) "]", strlen("]"), HAL_MAX_DELAY);
 
 
   /* USER CODE END 2 */
