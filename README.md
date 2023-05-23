@@ -102,7 +102,7 @@ ___
 
 5. Repeating the Process: The servo will then start moving towards the next predefined angle. You will need to repeat the process of setting the potentiometer to the correct angle for the new servo position. This cycle will continue until all 5 predefined angles have been entered correctly, in sequence.
 
-Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise.
+Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise. The first of the four rectangles will light up green on the GUI.
 
 Remember, the objective is to accurately follow the servo's movements with the lock dial (potentiometer), entering the correct sequence of 5 angles.
 ___
@@ -142,7 +142,9 @@ ___
 ## Subtasks
 1. Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letterm into its corresponding Morse signal.
 2. Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter. 
-3. Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully, and the GUI will report this
+3. Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully.
+
+Completion of the Exercise: After the correct sequence of Morse code has been entered, second rectangle on the GUI will light up green, signaling the completion of the second exercise.
 
 ___
 ## Modularisation
