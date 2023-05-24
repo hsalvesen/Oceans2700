@@ -25,6 +25,19 @@ Some notable functions are:
 - poll_ADC(): this function will consistantly check and re-intialise the LDRs to ensure they're ready to receive a change.
 - check_match(): this function will cycle through the array of LDRs and the solution array and compare the values. In the solution array, only 1 value is 1 while all else is 0. The LDR array will contain the current LDR data, meaning that if the the current LDR being looked at has a value of 1 in the array and the value in the solution is also equal to 1 at that index, the loop will break and the challenge is completed. Otherwise it will continue cycling until a correct answer is inputted.
 ___
+##Pin Out
+- PA1: "North", ADC Channel 2
+- PA2: "North East", ADC Channel 3
+- PA3: "East", ADC Channel 4
+- PF4: "South East", ADC Channel 5
+- PC0: "South", ADC Channel 6
+- PC1: "South West", ADC Channel 7
+- PC2: "West", ADC Channel 8
+- PC3: "North West", ADC Channel 9
+- GND: Ground
+- 3V: 3 Volts Power Supply
+
+___
 ## User instructions:
 1. Startup Program: Uploading code onto STM32F3 Discovery Board. Once the previous two challenges have been completed, this challenge will automatically begin.
 
