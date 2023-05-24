@@ -68,13 +68,17 @@ This experience includes a simulated vault cracking sequence which is realised t
 ## Subtasks
 1. Interfacing with Potentiometer: The STM32F303 Discovery board must be programmed to read the analog inputs from the potentiometer, which represents the dial on the vault. The position of the dial is determined by the resistance of the potentiometer, which changes as it is turned.
 2. Mimicking Lock-Picking Robot's Servo: Based on the analog inputs from the potentiometer, the board will simulate the actions of a lock-picking robot's servo. This includes rotating the dial to certain positions and pausing for a specified amount of time to mimic the process of 'feeling' for the correct combination.
-3. Checking Combination: The board will be programmed to recognise specific sequences of movements as combinations. For example, if the dial, on  moves to the right to 30 degrees, then left to 20 degrees, and finally right to 10 degrees, this could be recognized as a correct combination.
+3. Checking Combination: The board produce a random sequence of combinations upon each reset. The servo will mimic the same end angle movement as the randomised combination sequence. For example, if the dial on the vault copies the servo and moves to the right to 30 degrees, then left to 20 degrees, and finally right to 10 degrees, this could be recognised as a correct combination.
 4. LED Light Activation: Once a correct combination is entered, the board will send a signal to light up the LED. This serves as a visual confirmation that the correct combination has been entered and the vault is 'unlocked'.
+
+Completion of Tasks: after this Exercise has been completed, the LED will remain on and the solenoid will activate, unlocking the vault and signalling the completion of this exercise. 
 
 ___
 
 ## Modularisation:
-Numerous functions perform specific tasks, and follows an intuitive design with functions being delacred in ascending order.
+All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 1).
+This reduces the main.c file to 80 lines, enabling portability, reusable, ease of reading through and ease of debugging.
+There are 19 modules, including main.c. These are: adc.c, gpio.c, i2c.c, main.c, motor.c, peripherals.c, ptu_i2c.c, safecracker.c, serial.c, spi.c, stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, sysmem.c, system_stm32f3xx.c, tim.c, usart.c, usb.c.
 ___
 
 ## Functions:
@@ -102,7 +106,7 @@ ___
 
 5. Repeating the Process: The servo will then start moving towards the next predefined angle. You will need to repeat the process of setting the potentiometer to the correct angle for the new servo position. This cycle will continue until all 5 predefined angles have been entered correctly, in sequence.
 
-Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise. The first of the four rectangles will light up green on the GUI.
+Completion of the Exercise: After the correct sequence of angles has been entered, the servo will reset to 0 degrees and stop moving. The green LED will light up and stay on, signaling the successful completion of the exercise. This will be communicated to the GUI; the first of the four rectangles will light up green on the GUI.
 
 Remember, the objective is to accurately follow the servo's movements with the lock dial (potentiometer), entering the correct sequence of 5 angles.
 ___
