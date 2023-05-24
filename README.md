@@ -55,8 +55,8 @@ The responsibilities for each of the Exercises and subtasks are detailed above u
 ___
 ___
 
-## Lab Minutes
-Lab minutes are recorded as READMEs, located in the corresponding "minutes" folder
+## Minutes
+Lab minutes and outside-of-lab minutes for meetings are recorded as READMEs, located in the corresponding "minutes" folder. Each are dated and include goals, regular progress reporting and actionables.
 ___
 ___
 
