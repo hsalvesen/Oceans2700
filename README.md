@@ -243,19 +243,21 @@ ___
 
 3. Found correct Orientation: Once the orientation is found, the LED display will show the corresponding direction on the LED display (due to the LED display having a direction towards North, East, South, West). *NOTE that the program will not continue to the next stage until the correct orientation is found*
 
-4. Shining a Light: Once the LED is displayed, the user will use the torch provided to shine a light into the corresponding direction in the box underneath. Inside the box are LDR's waiting to be triggered. *NOTE that the right LDR must be triggered to be completed*
+4. Shining a Light: Once the LED is displayed, the user will use the torch provided to shine a light into the corresponding direction in the box underneath. Inside the box are LDR's waiting to be triggered. *NOTE that ONLY the right LDR must be triggered to be completed*
 
-5. Completion of the Exercise: When completed, all LED's will light up on the LED display.
+5. Stages 1-4 will repeat 5 times with a random solution to be found.
+
+6. Completion of the Exercise: When completed, all LED's will light up on the LED display.
 ___
 
 ## Constraints and Limitations:
-Light and LDR sensitivity: The LDRs are based on a chnage in light resulting in a changed resistance, which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used.
+Light and LDR sensitivity: The LDRs measure its senses the surrounding light level letting us measure a change in light too (resulting in a changed resistance), which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used. Additionally the LDRs can only meaninfully detect changes in light in a certain range meaning the surrounding environment must not be too bright for the system to function correctly.
 
 Wiring Issues: As this exercise is heavily dependant on correct wiring, any wiring mishaps could cause this project to break and work erratically. Mishaps could include loose wiring, exposed wiring, or wires that have fallen out completely. Wires should be checked before each test to ensure accurate testing and a smooth run-through.
 
 LDR Functionality: The LDRs are a major part of the second half of the challenge. Ensuring that ALL LDRs are correctly functioning is crucial for this project to be functional.
 
-Magnetometer Position: The Magnetometer is positioned off-center on the STM but is positioned centered on the physical challenge colosseum. With research on magnetic fields and how magnetometers work, we discovered that having the magnetometer off-centre means that our readings may be slightly disrupted. However, as we're sorting the readings into 8, it doesn't have an effect on the functionality.
+Magnetometer Position: The Magnetometer is positioned off-center on the STM but is positioned centered on the physical challenge colosseum. With research on magnetic fields and how magnetometers work, we discovered that having the magnetometer off-centre means that our readings may be slightly disrupted. However, as we're sorting the readings into 8 sections, it doesn't have an effect on the functionality as our readings dont need to be incredibly accurate.
 
 Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to the erratic behavior of the board and disrupt the escape room simulation.
 ___
