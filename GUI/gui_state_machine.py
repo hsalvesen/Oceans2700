@@ -28,10 +28,10 @@ class GUIStateMachine:
             self.gui.set_feedback_box("Safe Opened")
         elif self.state == "Module2":
             self.gui.enable_button(1)
-            self.gui.set_description_box("The police have started to mobilise. Lets try to jam their communications")
+            self.gui.set_description_box("The police have started to mobilise. Lets try to jam their communications. Adjust the magnetic field until the board's lights tell you where to shine your torch")
         elif self.state == "Module3":
             self.gui.enable_button(2)
-            self.gui.set_description_box("Quick - disable the alarm system before the guards get notified.")
+            self.gui.set_description_box("Quick - disable the alarm system before the guards get notified - Look at the STM to see which wires need to be pressed.")
         elif self.state == "Done":
             self.gui.enable_button(3)
             self.gui.set_description_box("Congratulations. You're out")
@@ -80,4 +80,4 @@ class GUIStateMachine:
                 elif line[-1] == 94:
                     self.gui.set_feedback_box("")
 
-        return g.gui.main_update_loop()
+        return self.gui.main_update_loop()

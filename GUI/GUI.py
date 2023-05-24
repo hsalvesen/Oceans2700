@@ -19,8 +19,8 @@ class GUI:
 
         self.layout = [
             [sg.T("Ocean's 2700", key="Title", text_color="#eeeeee", font=("consolas", 40), background_color="#1e1e1e", grab=True)],
-            [sg.Multiline(size=(30, 5), key='DescriptionBox', default_text=self.description_display_string,
-                          font=("consolas", 20), text_color="#11ff11", background_color="#111111", no_scrollbar=True)],
+            [sg.Multiline(size=(45, 6), key='DescriptionBox', default_text=self.description_display_string,
+                          font=("consolas", 15), text_color="#11ff11", background_color="#111111", no_scrollbar=True)],
             [sg.Text("", size=(20, 1), font=("consolas", 35), justification='c', key="FeedbackBox")],
             [[sg.Button(str(i), size=(3, 2), button_color=("red", "red"), font=self.big_font, key="Button"+str(i)) for i in range(4)]]
         ]
