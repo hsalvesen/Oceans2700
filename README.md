@@ -2,11 +2,11 @@
 ### Major Project
 
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
-technology for a 5-minute escape room experience.
+technology for a 5-minute escape room experience. 
 
 
 # Escape Room Storyline: The Bank Heist
-In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon.
+In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon. View [this video](https://www.youtube.com/watch?v=20ZFejAKmJQ) for an exposition of your task. 
 
 ### Exercise 1: Safe Crack
 
@@ -139,6 +139,9 @@ Angle-to-Servo Mapping Test: To verify that each angle set via the potentiometer
 Sequence Stepping Test: Similar to string stepping functionality, we should test the system's ability to progress through the sequence of angles. After entering each correct angle, the system should move to the next step in the sequence. This can be tested by entering correct angles and verifying the progression to the subsequent servo positions.
 
 Wraparound Test: Like the wraparound function for binary bits, the potentiometer's rotation should wrap around within the 0-180 degrees range. This can be tested by rotating the potentiometer beyond 180 degrees and verifying that the system correctly interprets this as a wraparound within the servo's range.
+
+Finally, all of the modules were tested together to check for cohesive functionality. 
+
 ___
 ___
 
@@ -172,7 +175,7 @@ ___
 2.	The user must determine how to spell out the word “H-E-I-S-T” in Morse code. A break in letters is represented by a pause of inputs greater than a duration of 1 second long.
 3.	It is then up to the user to transmit “H-E-I-S-T” in Morse code: 
 
-i.	• • • •,		 SPACE, 
+i.	• • • •,	 SPACE, 
 
 ii.	•, 		 SPACE, 
 
