@@ -92,10 +92,12 @@ for (uint32_t i = 0; i < 5; i++)
 		   predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
     }
  ```
-- adc: Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
-- safecracker: Enables a stepping through of each of the 5 lock combinations. 
-- serial: Communicates that the module has been completed to our GUI.
-- usart: enables communication to GUI
+- adc(): Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
+- safecracker(): Enables a stepping through of each of the 5 lock combinations. 
+- serial(): Communicates that the module has been completed to our GUI.
+- usart(): enables communication to GUI
+- Init_Peripherals(): initialises all necessary peripherals, defined elsewhere.
+- run_safecracker(): begins infinite loop.
 
 ___
 
