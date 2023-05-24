@@ -136,19 +136,19 @@ ___
 # Exercise 2 : Reporting to Mission Control
 
 ## High Level Overview:
-This scenario involves an encoded message delivery operation simulated via interactions between the lock-picking robot and manual Morse code translation. The premise hinges on the idea of a message coded in Morse that needs to be relayed accurately by tapping on the robot's accelerometer. The GUI acts as a channel that can report back if the correct message has been sent and recieved by Mission Control
+This scenario involves an encoded message delivery operation simulated via interactions between the lock-picking robot and manual Morse code translation. The premise hinges on the idea of a message coded in Morse that needs to be relayed accurately by tapping on the robot's accelerometer. The GUI acts as a channel that can report back if the correct message has been sent and received by Mission Control
 
 ___
 ## Subtasks
-1. Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letterm into its corresponding Morse signal.
-2. Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter. 
-3. Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully.
-
-Completion of the Exercise: After the correct sequence of Morse code has been entered, second rectangle on the GUI will light up green, signaling the completion of the second exercise.
-
+1.	Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letter into its corresponding Morse signal.
+2.	Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter.
+3.	Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully.
+Completion of the Exercise: After the correct sequence of Morse code has been entered, second rectangle on the GUI will light up green, signalling the completion of the second exercise.
 ___
 ## Modularisation
-xxx
+All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 2).
+This reduces the main.c file to 80 lines, enabling portability, reusable, ease of reading through and ease of debugging.
+There are 14 modules, including main.c. These are: gpio.c, i2c.c, knocking.c, main.c, ptu_i2c.c, stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, sysmem.c, system_stm32f3xx.c, tim.c, usart.c, usb.c.
 ___
 
 ## Functions
@@ -157,7 +157,16 @@ xxx
 
 
 ## User Instructions
-xxx
+1.	Upon system initialisation, the user is greeted with a message informing them that the communication lines have been jammed. 
+2.	The user must determine how to spell out the word “H-E-I-S-T” in Morse code, where each dot represents a physical tap, and each dash represents a physical slide movement on the accelerometer. A break in letters is represented by a pause of inputs greater than a duration of 1 second long.
+3.	It is then up to the user to covertly transmit “H-E-I-S-T” in Morse code: 
+i.	• • • •,		 SPACE, 
+ii.	•, 		 SPACE, 
+iii.	• •, 		 SPACE, 
+iv.	• • •,		 SPACE, 
+v.	–, 		 *COMPLETE*.
+to the Mission Control by tapping the combination on the head of the accelerometer board. Incorrect inputs will require the user to begin the sequence again.
+4.	Upon completion of the module, a message will appear on the GUI congratulating the user.
 ___
 
 ## Constraints and Limitations:
@@ -241,39 +250,38 @@ ___
 
 # Exercise 4 - Capacitive Touch: 
 
-
 ## High Level Overview:
-
-
+This scenario requires the heist robot to help you hack into a system of capacitive sensors in order to secure a safe exit out of the bank. Assuming that the robot has already been physically connected to the exit door, it will help you decipher the exit code combination that need to be manually inputted by the user in the correct sequence. The combination of LED colours displayed on the STM32F303 Discovery board’s LED’s will correlate with the colours of wires that must be simultaneously manually pressed. After this exercise has been completed, you will have escaped out the secret exit of the bank and seamlessly blend into the busy crowd with your stolen bounty intact. 
 ___
 
 ## Subtasks
-xxx
-
+1.	Observation of the LEDs: the code displayed on the STM32F303 by coloured LEDs must be observed.
+2.	The corresponding wire or combination of wires on the physical module must be pressed.
+3.	If the correct corresponding wires are pressed, the next sequence of LEDs will light up, and the task will continue.
+Completion of the Exercise: After the correct sequence of capacitive touch entries have been made, the final rectangle on the GUI will light up green, signalling the completion of the final exercise.
 ___
 
 ## Modularisation:
-The code was split up into several functions, for example a transmit_char function and an enableUSART function. This allowed the code to be reused from previous tasks and in multiple places in code.
+All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 4).
+This reduces the main.c file to 60 lines, enabling portability, reusable, ease of reading through and ease of debugging.
+There are 12 modules, including main.c. These are: gpio.c, leds.c, main.c, stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, system_stm32f3xx.c, touch.c, tsc.c, usart.c, usb.c.
 ___
 
 ## Functions:
-- enableUSART1: Enable GPIO C and USART1's clocks, set GPIO C to use UART as alternate function, set the baud rate and ready USART 1 for both receive and transmit
-- enableInterrupts: Signify that the external interrupt should occur on the rising edge, enable interrupts from EXTI0 and set priority and enable interrupts
-- EXTI0_IRQHandler: Run the intended functionality for the interrupt and then resets interrupt.
-- sendAscii: Utilises the functions from part 2 to transmit containing an integer to putty.
+-x
 ___
 
 ## User Instructions:
-The code needs to be built and Putty opened at a abud rate of 115200. When the button is pushed a numerical string is sent to putty. 
+1.	Upon system initialisation, the user is greeted with a message informing them that all that is standing in their way is a maze of capacitive touch sensors to be deciphered by the robot and then manually inputted by the user.
+2.	The user must observe the combination of LED lights that are lit on the STM32F303 board. 
+3.	It is then up to the user to use both of their hands to manually press the correct entry of wires. If, for instance, the green and red LEDs are lit, then the green and red exposed wires must be pressed, simultaneously. 
+4.	Upon completion of the module, a message will appear on the GUI congratulating the user on their escape.
 ___
 
 ## Constraints and Limitations:
-The system is constrained as the button cannot be pressed while the delay is still occuring. This was not mentioned in the assignment notification, and it would take significant time and additional knowledge that we do not have.
+x
 ___
 
 ## Testing Procedures:
-To test the integration process, each board's LED patterns can be observed to see if they match the expected output. 
-The UART transmission and reception can be checked by monitoring the transmitted and received characters on a computer terminal program. 
-The delay function can be tested with different parameter values to ensure that the delay time is variable. 
-Boards Each pair of boards (1-2, 2-3, 1-3) can be tested individually when all three are not available.
+x
 ___
