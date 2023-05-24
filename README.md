@@ -270,9 +270,19 @@ Magnetometer Readings: The first and largest test was to ensure that the magneto
 
 Once these tests were completed and functioning correctly, the magnetometer could be implemented into the project.
 
+ADC Segment:
+
+1. Read an analog signal from one LDR: Shine a strong light on LDR voltage divider circuit. This was temporarily configured to a STM32 Discovery board LED which was expected to light up when sufficient light was detected. This worked as expected.
+2. Change sensitivity of ADC trigger threshold: Configure software sensitivity to high then shine a weak light over LDR circuit. The circuit did not transmit a high enough voltage to trigger the discovery board's LED. This worked as expected.
+3. Read from multiple ADC channels at once: Connect one LDR voltage divider circuit to one pin on the discovery board connected to a configured ADC channel. Configure for high sensitivity and shine a light on it. We configured each individual ADC channel to trigger their unique LED on the discovery board. Shining a light on the circuit activated the correct LED and when it was rewired to a different channel's pin, its respective LED turned on while the previous one turned off. This is as expected and demonstrates the ability to read from multiple channels.
+4. Read from multiple LDR voltage divider circuits at once: Connect 8 LDR Voltage divider circuits to 8 unique channels configured for high sensitivity. Shine a torch on chosen LDRs and their respective LEDs assigned by software on the board should activate. This worked as expected.
+5. Compare activated LDRs to an external solution array: An external solution array was created which corresponded to the desired states of the each LDR voltage divider. These LDRs were activated simultaneously using a torch to see if the system would detect the current state of the LDRs to match the external solution. The match passed which locked the system. This was as desired
+
+With these tests completed and functioning as expected, the ADC could be fully implemented into the rest of the project.
+
 Light: One of the tedious tasks to test for was the light that shined on the LDRs. Our first test was with an iPhone flashlight. We discovered that this light was not enough to produce a change in the LDRs. Our two options were to create a larger hole to input light but that risked having light leak into the chambers, compromising the sensitivity of the LDRs. We decided on a torch that was much brighter than a phone light that will be given in the challenge alongside the other physical components.
 
-Integrating the two parts: Our main test for integration was that the second half would not commence until the first half (finding the angle to shine in the light) was completed. We tested each LDR singularly to ensure that it does not show the completion screen without finding the correct magnet orientation. 
+Integrating the two parts: Our main test for integration was that the second half would not commence until the first half (finding the angle to shine in the light) was completed. We tested each LDR singularly to ensure that it does not show the completion screen without finding the correct magnet orientation.
 
 ___
 
