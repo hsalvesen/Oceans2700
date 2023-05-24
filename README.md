@@ -1,4 +1,4 @@
-# Ocean's 2700
+	# Ocean's 2700
 ### Major Project
 
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
@@ -318,4 +318,20 @@ ___
 - All wires: All 16 combinations of wires begin pressed/not pressed to ensure the thresholds worked for all combinations.
 - LEDs: the turn_on_colour and turn_off_colour functions were tested with each colour to ensure that all the LEDs worked and the function correctly toggles the right colour.
 - Integration: The entire system was tested to ensure that it functioned as expected.
+___
+
+# GUI: 
+
+## High Level Overview:
+The GUI controls the overall flow of the program and provides feedback and instruction to the user.
+___
+
+## Subtasks
+1.	Receive Serial messages from boards
+2. 	Parse Serial inputs and update the GUI accordingly
+3. 	Provide information to the user via the description box
+___
+
+## Modularisation:
+The code has been separated into a main file, a GUI controller file, a UART controller file, and a general state machine file which contains the system logic.
 ___
