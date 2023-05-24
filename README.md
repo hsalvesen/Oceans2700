@@ -78,7 +78,8 @@ ___
 
 ## Modularisation:
 All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 1).
-This reduces the main.c file to 80 lines, enabling portability, reusable, ease of reading through and ease of debugging.
+This reduces the main.c file to 10 lines, heavily simplifying it. This enables portability, reusability, ease of reading and ease of debugging.
+
 There are 19 modules, including main.c. These are: adc.c, gpio.c, i2c.c, main.c, motor.c, peripherals.c, ptu_i2c.c, safecracker.c, serial.c, spi.c, stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, sysmem.c, system_stm32f3xx.c, tim.c, usart.c, usb.c.
 ___
 
