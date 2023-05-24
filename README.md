@@ -51,6 +51,7 @@ ___
 
 ## Roles
 HJLLMS functioned like a start-up, forming a lateral hierachy, where each member was responsible for their own work, and there was no one overarching lead.
+The responsibilities for each of the Exercises and subtasks are detailed above under Group Members.
 ___
 ___
 
