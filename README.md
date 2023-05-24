@@ -286,12 +286,16 @@ ___
 
 ## Modularisation:
 All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 4).
-This reduces the main.c file to 60 lines, enabling portability, reusable, ease of reading through and ease of debugging.
-There are 12 modules, including main.c. These are: gpio.c, leds.c, main.c, stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, system_stm32f3xx.c, touch.c, tsc.c, usart.c, usb.c.
+This reduces the main.c file to 10 lines, enabling portability, reusable, ease of reading through and ease of debugging.
+There are 14 modules, including main.c. These are: gpio.c, leds.c, main.c, peripherals.c, security_module.c stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, system_stm32f3xx.c, touch.c, tsc.c, usart.c, usb.c.
 ___
 
 ## Functions:
--x
+- init_peripherals() - This function initialised the STM board, HAL, and the various peripherals like i2c, USART, and the Touch Sensing Controller (TSC)
+- run_security_module() - This function contains the main loop of the program - it generates a colour combination, displays it, then waits until the user inputs the correct combination, before repeating this a specified number of times
+- readTSC() - This function discharges, then starts a touch acquisition, before waiting until the acquisition is complete. This is necessary to get touch data.
+- get_TSC_colours() - This function reads all the touch sensors, and compares them against their threshold, before returning a number whose bits represent the wires that are touched.
+
 ___
 
 ## User Instructions:
@@ -302,9 +306,13 @@ ___
 ___
 
 ## Constraints and Limitations:
-x
+Number of wires - The module cannot have more than 8 wires as the STM32F3 has only 8 TSC groups. There are also only 4 colours of LEDs on the board, so we would have to start using external LEDS to have more than 4 colours.
+
 ___
 
 ## Testing Procedures:
-x
+- Individual Wires: Each wire was tested individually to determine a threshold of detection.
+- All wires: All 16 combinations of wires begin pressed/not pressed to ensure the thresholds worked for all combinations.
+- LEDs: the turn_on_colour and turn_off_colour functions were tested with each colour to ensure that all the LEDs worked and the function correctly toggles the right colour.
+- Integration: The entire system was tested to ensure that it functioned as expected.
 ___
