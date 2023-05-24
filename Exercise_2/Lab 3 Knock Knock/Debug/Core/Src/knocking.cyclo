@@ -1,0 +1,2 @@
+knocking.c:4:10:process_knock	10
+knocking.c:52:6:detect_knock_pattern	4
