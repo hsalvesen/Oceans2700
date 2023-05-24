@@ -139,6 +139,9 @@ Angle-to-Servo Mapping Test: To verify that each angle set via the potentiometer
 Sequence Stepping Test: Similar to string stepping functionality, we should test the system's ability to progress through the sequence of angles. After entering each correct angle, the system should move to the next step in the sequence. This can be tested by entering correct angles and verifying the progression to the subsequent servo positions.
 
 Wraparound Test: Like the wraparound function for binary bits, the potentiometer's rotation should wrap around within the 0-180 degrees range. This can be tested by rotating the potentiometer beyond 180 degrees and verifying that the system correctly interprets this as a wraparound within the servo's range.
+
+Finally, all of the modules were tested together to check for cohesive functionality. 
+
 ___
 ___
 
@@ -171,7 +174,7 @@ xxx
 2.	The user must determine how to spell out the word “H-E-I-S-T” in Morse code, where each dot represents a physical tap, and each dash represents a physical slide movement on the accelerometer. A break in letters is represented by a pause of inputs greater than a duration of 1 second long.
 3.	It is then up to the user to covertly transmit “H-E-I-S-T” in Morse code: 
 
-i.	• • • •,		 SPACE, 
+i.	• • • •,	 SPACE, 
 
 ii.	•, 		 SPACE, 
 
