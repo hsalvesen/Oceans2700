@@ -3,15 +3,15 @@
 23-05-2023
 ___
 ## Agenda
-Escape room planning 
+Adding immersion and working on hardware and modularisation.
 ___
 
 | Present  | Apologies | Absent |
 | ------------- | ------------- | ------------- |
-| Haz  |  Luis |    Lachland |
-| Sam  |  Joel |   |
+| Haz  |  Joel |    Lachland |
+| Sam  |    |   |
 | Matylda  |    |   |
-|   |    |    |
+|  Luis |    |    |
 |  |    |   |
 |  |   |   |
 
@@ -31,7 +31,7 @@ ___
 **10:00**   
 
           - Rotational Lock: Haz is testing functionality with LED re-integration
-          - Magnetometer: Tilly and Luis are working on obtaining an array of solutions for Exerxise 2, so that the magnetometer exercise can be repeated over multiple angles.
+          - Magnetometer: Tilly and Luis are working on obtaining an array of solutions for Exercise 2, so that the magnetometer exercise can be repeated over multiple angles.
           - Capacitive Touch: Sam is reworking capactive touch unit to make it more immersive.
           - Communicating to Mission Control: Task completed.
           
