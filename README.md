@@ -37,7 +37,7 @@ Exercise 1 : Safe Crack (servo peripheral), integration for Exercise 1
 Exercise 1 : Safe Crack (potentiometer, LED peripherals), Hardware, Documentation
 
 3. Lachlan Irving   | 490627792      
-Exercise 4 : Capacitive Touch, Minutes
+Exercise 4 : Capacitive Touch ideation, Minutes
 
 4. Matylda Hayne    | 520471933       
 Exercise 3 : Hacking Police Radio Channel (Sundial (magnetometer))
