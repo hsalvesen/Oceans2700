@@ -127,6 +127,8 @@ Potentiometer Rotation: Unlike the servo, the potentiometer can rotate beyond 18
 Input Voltage Calibration: The potentiometer's calibration is another crucial aspect. The input voltage should be set to 3V to ensure accurate readings. Any deviation from this voltage might lead to incorrect detection of the dial position and hence, failure in unlocking the vault.
 
 Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to erratic behavior of the board and disrupt the escape room simulation.
+
+Solenoid: The solenoid lock requires 5V input to actuate. Because the SMT32F303 board is unable to supply 5V from one of its output pins, another 5V source is required. Fortunately, the robot has a 5V output pin, which can be controlled by using an NPN transistor (2n3904) as a switch, triggered by a STM32F303 pin (pin PE8).
 ___
 
 ## Testing Proceedures:
