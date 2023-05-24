@@ -251,7 +251,7 @@ ___
 ___
 
 ## Constraints and Limitations:
-Light and LDR sensitivity: The LDRs measure its senses the surrounding light level letting us measure a change in light too (resulting in a changed resistance), which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used. Additionally the LDRs can only meaninfully detect changes in light in a certain range meaning the surrounding environment must not be too bright for the system to function correctly.
+Light and LDR sensitivity: The LDRs measure the surrounding light level letting us detect a change in light too (resulting in a changed resistance), which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used. Additionally the LDRs can only meaninfully detect changes in light in a certain range meaning the surrounding environment must not be too bright for the system to function correctly.
 
 Wiring Issues: As this exercise is heavily dependant on correct wiring, any wiring mishaps could cause this project to break and work erratically. Mishaps could include loose wiring, exposed wiring, or wires that have fallen out completely. Wires should be checked before each test to ensure accurate testing and a smooth run-through.
 
