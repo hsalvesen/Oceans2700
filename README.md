@@ -190,8 +190,9 @@ to the Mission Control by tapping the combination on the head of the acceleromet
 ___
 
 ## Constraints and Limitations:
-Dashes - the Gyroscope is not able to detect dashes. Luckily, the first four letters of the word HEIST all only contain dots, and the last character is a single dash.
-Movement - the system cannot be used while the servos are moving, or on a soft surface, as this creates vibrations which are falsely registered as taps.
+- Dashes - the Gyroscope is not able to detect dashes. Fortunately, the first four letters of the word H-E-I-S-T all only contain dots in Morse code, and the last character is a single dash.
+
+- Movement - the system cannot be used while the servos are moving, or on a soft surface, as this creates vibrations which are falsely registered as taps.
 ___
 
 ## Testing Procedure:
