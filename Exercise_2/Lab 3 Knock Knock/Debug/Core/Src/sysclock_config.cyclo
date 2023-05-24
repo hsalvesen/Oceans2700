@@ -1,0 +1,2 @@
+sysclock_config.c:3:6:SystemClock_Config	4
+sysclock_config.c:57:6:Error_Handler	1
