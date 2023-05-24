@@ -9,7 +9,7 @@ ___
 | Present  | Apologies | Absent |
 | ------------- | ------------- | ------------- |
 | Haz  |  Luis |    Lachland |
-| Sam  |  Joel |   |
+| Sam  |    |  Joel |
 | Matylda  |    |   |
 |   |    |    |
 |  |    |   |
@@ -24,37 +24,26 @@ ___
           
           3/6 Arrives; Haz, Matylda arrive at Sam's.
           
-**09:50**  
+**17:50**  
           
-          Haz has re-wired the circuit for Exercise 1 and glued together all loose wires.
+          - Sam begins modularising Haz' code. 
+          - Haz begins writing Documentation for Sam's two modules. 
+          - Matlyda continues with integrating her and Luis' code before modularising it, manually.
 
-**10:00**   
+**19:45**   
 
-          - Rotational Lock: Haz is testing functionality with LED re-integration
-          - Magnetometer: Tilly and Luis are working on obtaining an array of solutions for Exerxise 2, so that the magnetometer exercise can be repeated over multiple angles.
-          - Capacitive Touch: Sam is reworking capactive touch unit to make it more immersive.
-          - Communicating to Mission Control: Task completed.
-          
-          
-**13:00**   
-
-          - Tilly and Haz get multiple solutions for Magnetometer activity working
-          
-**15:00**   
-
-          - Sam has modularised his code for both Capacitive Touch and communicating to Mission Control exercises.
-          
-          
-**16:00**   
-
-          - Luis and Matlyda have each modularised their code for their respective halves of the Magnetomoeter exercise         
+          - Sam has decreased main.c lines in Haz' code from 843 lines down to 100 lines.
+          - Haz has written Documentation for the High-level Overview, Sub-tasks, Modules and User Instructions
+          - Tilly is making slow but steady progress on her and Luis' section.
+    
+ 
 ___
 ## Actionables
 
 **Haz + Sam**  
           
-         Modularising Exercise 1 code.
-         Writing Documentation for Exercise 2 and 4.
+         Modularising Exercise 1 code finished.
+         Writing Documentation for Exercise 2, 4 and complete.
         
           
 **Matylda + Luis**  
