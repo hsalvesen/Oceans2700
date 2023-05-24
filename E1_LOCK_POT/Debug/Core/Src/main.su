@@ -1,13 +1,1 @@
-../Core/Src/main.c:81:6:enable_clocks	4	static
-../Core/Src/main.c:87:6:initialise_board	16	static
-../Core/Src/main.c:111:6:HAL_TIM_IC_CaptureCallback	56	static
-../Core/Src/main.c:135:5:main	152	static
-../Core/Src/main.c:397:6:SystemClock_Config	128	static
-../Core/Src/main.c:449:13:MX_ADC1_Init	48	static
-../Core/Src/main.c:515:13:MX_I2C1_Init	8	static
-../Core/Src/main.c:563:13:MX_SPI1_Init	8	static
-../Core/Src/main.c:603:13:MX_TIM1_Init	56	static
-../Core/Src/main.c:663:13:MX_TIM2_Init	48	static
-../Core/Src/main.c:716:13:MX_USB_PCD_Init	8	static
-../Core/Src/main.c:747:13:MX_GPIO_Init	48	static
-../Core/Src/main.c:810:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:5:5:main	8	static

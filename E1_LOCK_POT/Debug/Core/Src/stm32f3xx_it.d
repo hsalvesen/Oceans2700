@@ -34,6 +34,13 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
+ ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/i2c.h ../Core/Inc/spi.h \
+ ../Core/Inc/tim.h ../Core/Inc/usart.h ../Core/Inc/usb.h \
+ ../Core/Inc/gpio.h ../Core/Inc/ptu_definitions.h ../Core/Inc/ptu_i2c.h \
+ ../Core/Inc/serial.h ../Core/Inc/sysclock_config.h \
+ ../Core/Inc/peripherals.h ../Core/Inc/motor.h ../Core/Inc/safecracker.h \
  ../Core/Inc/stm32f3xx_it.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
@@ -71,4 +78,21 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi_ex.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h:
+../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h:
+../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h:
+../Core/Inc/adc.h:
+../Core/Inc/main.h:
+../Core/Inc/i2c.h:
+../Core/Inc/spi.h:
+../Core/Inc/tim.h:
+../Core/Inc/usart.h:
+../Core/Inc/usb.h:
+../Core/Inc/gpio.h:
+../Core/Inc/ptu_definitions.h:
+../Core/Inc/ptu_i2c.h:
+../Core/Inc/serial.h:
+../Core/Inc/sysclock_config.h:
+../Core/Inc/peripherals.h:
+../Core/Inc/motor.h:
+../Core/Inc/safecracker.h:
 ../Core/Inc/stm32f3xx_it.h:

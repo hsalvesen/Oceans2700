@@ -10,6 +10,15 @@
 
 #include <stdint.h>
 
+#define laser_wr  0xc4
+#define laser_rd  0xc5
+
+#define gyro_wr 0xD2
+#define gyro_rd 0xD3
+
+#define accel_wr 0xA6    //
+#define accel_rd 0xA7    //
+
 #define ADXL345_TO_READ 6
 
 #define ADXL345_POWER_CTL 0x2D
@@ -62,6 +71,46 @@
 #define L3G4200D_INT1_DURATION 0x38
 
 #define L3G4200D_OUT_XYZ_CONT  0xA8
+
+
+
+#define HAL_I2C_TIMEOUT_MAX 100  // timeout in milliseconds
+
+#define gyro_wr 0xD2
+#define gyro_rd 0xD3
+
+#define I2CSlaveAddressWrite 0x32
+#define I2CSlaveAddressRead 0x32
+
+
+typedef struct GYRO_CFG_STRUCT {
+  uint8_t ctl_register;
+  uint8_t ctl_value;
+} GYRO_CFG_STRUCT;
+
+
+// data structures containing the raw values
+typedef struct AccelRaw {
+  uint16_t x;
+  uint16_t y;
+  uint16_t z;
+} AccelRaw;
+
+// structure containing the config parameters for the accelerometer
+typedef struct ACCELEROMETER_CFG_STRUCT {
+  uint8_t power_ctl_register;
+  uint8_t power_ctl_value;
+  uint8_t data_format_register;
+  uint8_t data_format_value;
+} ACCELEROMETER_CFG_STRUCT;
+
+
+
+// LIDAR lite code
+
+#define LIDARLITE_ADDR_DEFAULT 0x62
+#define LIDAR_WR 0xC4
+#define LIDAR_RD 0xC5
 
 
 #endif /* INC_PTU_DEFINITIONS_H_ */

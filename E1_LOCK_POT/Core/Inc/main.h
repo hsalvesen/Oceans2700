@@ -28,6 +28,28 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
+#include "adc.h"
+#include "i2c.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "usb.h"
+#include "gpio.h"
+
+
+#include "ptu_definitions.h"
+#include "ptu_i2c.h"
+#include "serial.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "math.h"
+#include "sysclock_config.h"
+#include "peripherals.h"
+#include "motor.h"
+#include "safecracker.h"
+
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -49,8 +71,6 @@ extern "C" {
 
 /* USER CODE END EM */
 
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -59,6 +79,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
+#define RESET_ANGLE 1600
+#define UPPER_CALIBRATION 3800
+#define LOWER_CALIBRATION 1200
+#define TOLERANCE 400
+#define ROBOT_ZERO_ANGLE 650
+#define NUM_ENTRIES 5
+
 #define DRDY_Pin GPIO_PIN_2
 #define DRDY_GPIO_Port GPIOE
 #define CS_I2C_SPI_Pin GPIO_PIN_3
