@@ -165,11 +165,17 @@ xxx
 1.	Upon system initialisation, the user is greeted with a message informing them that the communication lines have been jammed. 
 2.	The user must determine how to spell out the word “H-E-I-S-T” in Morse code, where each dot represents a physical tap, and each dash represents a physical slide movement on the accelerometer. A break in letters is represented by a pause of inputs greater than a duration of 1 second long.
 3.	It is then up to the user to covertly transmit “H-E-I-S-T” in Morse code: 
+
 i.	• • • •,		 SPACE, 
+
 ii.	•, 		 SPACE, 
+
 iii.	• •, 		 SPACE, 
+
 iv.	• • •,		 SPACE, 
+
 v.	–, 		 *COMPLETE*.
+
 to the Mission Control by tapping the combination on the head of the accelerometer board. Incorrect inputs will require the user to begin the sequence again.
 4.	Upon completion of the module, a message will appear on the GUI congratulating the user.
 ___
