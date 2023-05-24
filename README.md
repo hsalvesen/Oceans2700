@@ -193,7 +193,7 @@ ___
 xxx
 ___
 
-# Exercise 3 - Radio Wave Interference:
+# Exercise 3 : Radio Wave Interference:
 ## High Level Overview:
 This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 difference ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage devider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
 
@@ -264,7 +264,7 @@ Integrating the two parts: Our main test for integration was that the second hal
 ___
 
 
-# Exercise 4 - Capacitive Touch: 
+# Exercise 4 : Capacitive Touch: 
 
 ## High Level Overview:
 This scenario requires the heist robot to help you hack into a system of capacitive sensors in order to secure a safe exit out of the bank. Assuming that the robot has already been physically connected to the exit door, it will help you decipher the exit code combination that need to be manually inputted by the user in the correct sequence. The combination of LED colours displayed on the STM32F303 Discovery board’s LED’s will correlate with the colours of wires that must be simultaneously manually pressed. After this exercise has been completed, you will have escaped out the secret exit of the bank and seamlessly blend into the busy crowd with your stolen bounty intact. 
