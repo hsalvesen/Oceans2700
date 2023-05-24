@@ -3,7 +3,7 @@
 24-05-2023
 ___
 ## Agenda
-Escape room planning 
+Modularising code, writing documentation and integrating Exercise 3.
 ___
 
 | Present  | Apologies | Absent |
