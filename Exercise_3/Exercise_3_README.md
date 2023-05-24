@@ -11,23 +11,19 @@ ___
 ___
 
 ## Modularisation
-XXXX
+All modules have been separated into the respective .c files with a corresponding header file. The main file totals 9 lines with only the necessary functions for ease of readability, re-usability and ease of debugging. These files are named accordingly as: ADC_functions.c, board_config.c, calculation_functions.c, main.c, peripherals.c, and radio_interference.c. 
 ___
 
 ## Functions:
 Some notable functions are:
-- enable_clocks() & enableLED(): Enable the clocks and LED's on the STM board
-- Channel Select functions:
-	- ADC_select_CH2 (void): 
-	- ADC_select_CH3 (void):
-	- ADC_select_CH4 (void):
-	- ADC_select_CH5 (void):
-	- ADC_select_CH6 (void):
-	- ADC_select_CH7 (void):
-	- ADC_select_CH8 (void):
-	- ADC_select_CH9 (void):
-- shuffleArray(float array[], float degrees): Used when calculating average of previous magnetometer data, this specific funcion will move the data one place left in the array each cycle and add the new read in data as the last element. This ensures a moving average can be calculated.
-- turnOnLED(int pos): Will turn on the LED on the display corresponding to the integer value it receives.
+- radio_interfere(): this is the function that calls the entire project. it contains the main overview of the Magnetometer and the ADC modules.
+- mag_config(): this functions sets the correct registers for reading and writing data and sets the magnetometer to continuously read in data.
+- read_x_data(), read_y_data(), read_z_data(): these functions read the raw magnetometer data from the LSM303AGR magnetometer inside the STM32F3.
+- calculate_degrees(): uses the x and y axis data from the magnetometer to calulate the angle using an arctan function. Due to the four quadrants (All Stations To Central), we have to adjust the data accordingly by adding 180 to data in quadrants 1 and 2 and adding 360 to the thrid quadrants data.
+- calculate_average(): takes the most recent 10 data degree entries and averages them. it accounts for more incoming data using a shuffle function that means only the most recent data is used.
+- check_solution(): compares the angle the magnetometer is looking at to the randomised solution, if correct, breaks the magnetometer loop and moves to the next internal module.
+- poll_ADC(): this function will consistantly check and re-intialise the LDRs to ensure they're ready to receive a change.
+- check_match(): this function will cycle through the array of LDRs and the solution array and compare the values. In the solution array, only 1 value is 1 while all else is 0. The LDR array will contain the current LDR data, meaning that if the the current LDR being looked at has a value of 1 in the array and the value in the solution is also equal to 1 at that index, the loop will break and the challenge is completed. Otherwise it will continue cycling until a correct answer is inputted.
 ___
 ## User instructions:
 1. Startup Program: Uploading code onto STM32F3 Discovery Board. Once the previous two challenges have been completed, this challenge will automatically begin.
@@ -78,5 +74,3 @@ With these tests completed and functioning as expected, the ADC could be fully i
 Light: One of the tedious tasks to test for was the light that shined on the LDRs. Our first test was with an iPhone flashlight. We discovered that this light was not enough to produce a change in the LDRs. Our two options were to create a larger hole to input light but that risked having light leak into the chambers, compromising the sensitivity of the LDRs. We decided on a torch that was much brighter than a phone light that will be given in the challenge alongside the other physical components.
 
 Integrating the two parts: Our main test for integration was that the second half would not commence until the first half (finding the angle to shine in the light) was completed. We tested each LDR singularly to ensure that it does not show the completion screen without finding the correct magnet orientation.
-
-___
