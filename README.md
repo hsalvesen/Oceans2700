@@ -1,5 +1,5 @@
 # Ocean's 2700
-Major Project
+###Major Project
 
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
 technology for a 5-minute escape room experience.
