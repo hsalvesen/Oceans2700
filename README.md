@@ -92,10 +92,12 @@ for (uint32_t i = 0; i < 5; i++)
 		   predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
     }
  ```
-- adc: Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
-- safecracker: Enables a stepping through of each of the 5 lock combinations. 
-- serial: Communicates that the module has been completed to our GUI.
-- usart: enables communication to GUI
+- adc(): Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
+- safecracker(): Enables a stepping through of each of the 5 lock combinations. 
+- serial(): Communicates that the module has been completed to our GUI.
+- usart(): enables communication to GUI
+- Init_Peripherals(): initialises all necessary peripherals, defined elsewhere.
+- run_safecracker(): begins infinite loop.
 
 ___
 
@@ -191,7 +193,7 @@ ___
 xxx
 ___
 
-# Exercise 3 - Radio Wave Interference:
+# Exercise 3 : Radio Wave Interference:
 ## High Level Overview:
 This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 difference ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage devider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
 
@@ -245,7 +247,7 @@ Magnetometer Position: The Magnetometer is positioned off-center on the STM but 
 Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to the erratic behavior of the board and disrupt the escape room simulation.
 ___
 
-#### Test cases:
+## Test cases:
 Magnetometer Readings: The first and largest test was to ensure that the magnetometer read in data and it read it in correctly. This was broken down into 4 major stages:
 
 1. Read in non-zero and changing data: This process involved using the datasheet to confirm correct registers, correct functions, correct configuration values and using HAL. Multiple print statements were used to ensure that the values the magnetometer returned were non-zero. This was returned in milli gauss (mG) and displayed the strength of the magnetic field on the x, y, and z axis of the magnetometer. As the magnetometer moved, we had to check that the values also changed. Once this was confirmed, we could move on to interpreting the results.
@@ -262,7 +264,7 @@ Integrating the two parts: Our main test for integration was that the second hal
 ___
 
 
-# Exercise 4 - Capacitive Touch: 
+# Exercise 4 : Capacitive Touch: 
 
 ## High Level Overview:
 This scenario requires the heist robot to help you hack into a system of capacitive sensors in order to secure a safe exit out of the bank. Assuming that the robot has already been physically connected to the exit door, it will help you decipher the exit code combination that need to be manually inputted by the user in the correct sequence. The combination of LED colours displayed on the STM32F303 Discovery board’s LED’s will correlate with the colours of wires that must be simultaneously manually pressed. After this exercise has been completed, you will have escaped out the secret exit of the bank and seamlessly blend into the busy crowd with your stolen bounty intact. 
