@@ -1,0 +1,10 @@
+../Core/Src/ADC_functions.c:3:6:poll_ADC	32	static
+../Core/Src/ADC_functions.c:25:6:ADC_select_CH2	8	static
+../Core/Src/ADC_functions.c:38:6:ADC_select_CH3	8	static
+../Core/Src/ADC_functions.c:51:6:ADC_select_CH4	8	static
+../Core/Src/ADC_functions.c:64:6:ADC_select_CH5	8	static
+../Core/Src/ADC_functions.c:77:6:ADC_select_CH6	8	static
+../Core/Src/ADC_functions.c:90:6:ADC_select_CH7	8	static
+../Core/Src/ADC_functions.c:103:6:ADC_select_CH8	8	static
+../Core/Src/ADC_functions.c:116:6:ADC_select_CH9	8	static
+../Core/Src/ADC_functions.c:130:5:check_match	24	static

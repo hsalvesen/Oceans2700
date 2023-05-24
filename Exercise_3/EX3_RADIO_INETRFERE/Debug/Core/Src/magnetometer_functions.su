@@ -1,0 +1,4 @@
+../Core/Src/magnetometer_functions.c:12:6:mag_config	32	static
+../Core/Src/magnetometer_functions.c:23:7:read_x_data	40	static
+../Core/Src/magnetometer_functions.c:36:7:read_y_data	40	static
+../Core/Src/magnetometer_functions.c:46:7:read_z_data	40	static

@@ -1,7 +1,0 @@
-../Core/Src/hal_functions.c:12:6:SystemClock_Config	128	static
-../Core/Src/hal_functions.c:64:6:MX_ADC1_Init	48	static
-../Core/Src/hal_functions.c:130:6:MX_I2C1_Init	8	static
-../Core/Src/hal_functions.c:178:6:MX_USART1_UART_Init	8	static
-../Core/Src/hal_functions.c:213:6:MX_USB_PCD_Init	8	static
-../Core/Src/hal_functions.c:244:6:MX_GPIO_Init	48	static
-../Core/Src/hal_functions.c:295:6:Error_Handler	4	static,ignoring_inline_asm

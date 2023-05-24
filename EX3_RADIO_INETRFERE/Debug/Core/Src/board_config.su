@@ -1,5 +1,0 @@
-../Core/Src/board_config.c:10:6:enable_clocks	4	static
-../Core/Src/board_config.c:15:6:enableLED	16	static
-../Core/Src/board_config.c:24:6:turnOnLED	16	static
-../Core/Src/board_config.c:30:6:turnOnAll	4	static
-../Core/Src/board_config.c:34:6:turnOnFour	4	static

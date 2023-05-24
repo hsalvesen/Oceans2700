@@ -1,10 +1,10 @@
-14:45:52 **** Incremental Build of configuration Debug for project E1_LOCK_POT ****
+21:44:30 **** Incremental Build of configuration Debug for project E1_LOCK_POT ****
 make -j7 all 
 arm-none-eabi-size   E1_LOCK_POT.elf 
    text	   data	    bss	    dec	    hex	filename
-  38420	    176	   2760	  41356	   a18c	E1_LOCK_POT.elf
+  32500	     20	   2868	  35388	   8a3c	E1_LOCK_POT.elf
 Finished building: default.size.stdout
  
 
-14:45:52 Build Finished. 0 errors, 0 warnings. (took 244ms)
+21:44:30 Build Finished. 0 errors, 0 warnings. (took 282ms)
 
