@@ -1,0 +1,4 @@
+../Core/Src/calculation_functions.c:9:6:shuffle_array	24	static
+../Core/Src/calculation_functions.c:17:7:calculate_degrees	48	static
+../Core/Src/calculation_functions.c:71:7:calculate_average	40	static
+../Core/Src/calculation_functions.c:93:5:check_solution	24	static
