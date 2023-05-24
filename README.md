@@ -100,6 +100,30 @@ for (uint32_t i = 0; i < 5; i++)
 - run_safecracker(): begins infinite loop.
 
 ___
+## Troubleshooting 
+
+### Wiring
+#### Servo
+- PTU -> STM32
+- GND -> GND
+- PWM1 -> PA15
+
+#### Potentiometer
+GND -> GND
+V_in -> 3.3V V_in
+Input -> PA2 (Analog to Digital Conversion)
+
+#### LED
+GND -> 100 Ohm resistor -> GND
+V_in -> PE7
+
+#### Solenoid
+GND -> Transistor 
+V_in -> Transistor -> 5V DC
+Transistor switch leg -> PE8
+
+
+___
 
 ## User Instructions
 1. Starting the Program: Upon uploading the code to the STM32F303 Discovery board, the escape room simulation will automatically start.
