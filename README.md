@@ -2,11 +2,11 @@
 ### Major Project
 
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
-technology for a 5-minute escape room experience.
+technology for a 5-minute escape room experience. 
 
 
 # Escape Room Storyline: The Bank Heist
-In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon.
+In the heart of the city lies an infamous bank, a fortress reputed for its invincible vault. Today, your team embarks on a daring mission: infiltrate the bank, crack the vault, secure the priceless artifact, and escape without leaving a trace. Precision is key, and silence is your weapon. View [this video](https://www.youtube.com/watch?v=20ZFejAKmJQ) for an exposition of your task. 
 
 ### Exercise 1: Safe Crack
 
