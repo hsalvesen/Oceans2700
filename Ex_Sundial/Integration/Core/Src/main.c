@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <ADC_channels.h>
 #include "main.h"
 #include <stdlib.h>;
 #include <stdio.h>
@@ -24,7 +25,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ADC_channel_select.h"
 I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart1;
 
@@ -434,11 +434,12 @@ int main(void)
 			   // END MAGNETOMETER LOOP
 
 
-			   // START ADC LOOP
-			   // calibrate ADC1
-			   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+	  // START ADC LOOP
+	  // calibrate ADC1
+	  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
 
-        void (*LDRChannels[8])() = {
+	  // Create channel function pointer arrays
+	  void (*LDRChannels[8])() = {
           &ADC_select_CH2,
           &ADC_select_CH3,
           &ADC_select_CH4,
@@ -447,52 +448,22 @@ int main(void)
           &ADC_select_CH7,
           &ADC_select_CH8,
           &ADC_select_CH9
-        };
+      };
 
-        // Array to record LDR status
-        int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
+      // Array to record LDR status
+      int LDRs[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-			   // while the system is still searching for solutions
-			   int ADC_Solutions[8] = {0,0,0,0,0,0,0,0};
-			   ADC_Solutions[solution] = 1;
-			   int SolCounter = 0;
-			   while (SolCounter < 1){
-			 	// Poll each LED in sequence
-			 	for (int i = 0; i < 8; i++){
-			 		LDRChannels[i](&hadc1, &sConfig);
-			 		HAL_ADC_Start(&hadc1);
-			 		HAL_ADC_PollForConversion(&hadc1, 1000);
-			 		int ADC_val = HAL_ADC_GetValue(&hadc1);
-			 		HAL_ADC_Stop(&hadc1);
+      // Set Solution array to match against
+      int ADC_Solutions[] = {0,0,0,0,0,0,0,0};
+      ADC_Solutions[solution] = 1;
 
-			 		// read the value from ADC, full range is 12 bits
-			 		uint8_t scale = ADC_val / (0xfff / 8);  // divide the scale into 8 even partitions (for 8 leds)
+      // check LDRs and match to solution:
+      while (ADC_check(LDRChannels, LDRs, ADC_Solutions, &hadc1, &sConfig) != 1){}
+      // END ADC LOOP
 
-			 		// Mark LED to be triggered
-			 		if (scale > 3) {
-			 			LDRs[i] = 1;
-			 		} else {
-			 			LDRs[i] = 0;
-			 		}
-			 	}
-
-			 	// Check if solution is a match+
-			 	for (int i = 0; i <= 8; i++){
-			 		if (i == 8){
-			 			SolCounter++;
-			 		}
-			 		else if (LDRs[i] == ADC_Solutions[i]){
-			 			continue;
-			 		} else{
-			 			break;
-			 		}
-			 	}
-			   }
-
-			   // Send Serial Code to core STM32 discovery board. - TEMP
-			   turnOnAll();
-
-  HAL_UART_Transmit(&huart1, (uint8_t*) "]", strlen("]"), HAL_MAX_DELAY);
+      // Send Serial Code to core STM32 discovery board and display success on discovery board
+      turnOnAll();
+      HAL_UART_Transmit(&huart1, (uint8_t*) "]", strlen("]"), HAL_MAX_DELAY);
 
 
   /* USER CODE END 2 */

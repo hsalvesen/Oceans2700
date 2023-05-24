@@ -5,7 +5,37 @@
 #include "main.h"
 
 
+int ADC_check(void (*LDRChannels[8])(), int* LDRs, int* ADC_Solutions, ADC_HandleTypeDef *hadc1, ADC_ChannelConfTypeDef *sConfig){
+	// Poll each LED in sequence
+	for (int i = 0; i < 8; i++){
+		LDRChannels[i](hadc1, sConfig);
+		HAL_ADC_Start(hadc1);
+		HAL_ADC_PollForConversion(hadc1, 1000);
+		int ADC_val = HAL_ADC_GetValue(hadc1);
+		HAL_ADC_Stop(hadc1);
 
+		// read the value from ADC, full range is 12 bits
+		uint8_t scale = ADC_val / (0xfff / 8);  // divide the scale into 8 even partitions (for 8 leds)
+
+		// Mark LED to be triggered
+		if (scale > 3) {
+			LDRs[i] = 1;
+		} else {
+			LDRs[i] = 0;
+		}
+	}
+
+	// Check if solution is a match+
+	for (int i = 0; i <= 8; i++){
+		if (i == 8){
+			return 1;
+		} else if (LDRs[i] == ADC_Solutions[i]){
+			continue;
+		} else{
+			return 0;
+		}
+	}
+}
 
 void ADC_select_CH2 (ADC_HandleTypeDef *hadc1, ADC_ChannelConfTypeDef *sConfig){
 sConfig->Channel = ADC_CHANNEL_2;
