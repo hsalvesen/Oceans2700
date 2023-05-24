@@ -1,8 +1,0 @@
-../Core/Src/ADC_channel_select.c:10:6:ADC_select_CH2	16	static
-../Core/Src/ADC_channel_select.c:23:6:ADC_select_CH3	16	static
-../Core/Src/ADC_channel_select.c:36:6:ADC_select_CH4	16	static
-../Core/Src/ADC_channel_select.c:49:6:ADC_select_CH5	16	static
-../Core/Src/ADC_channel_select.c:62:6:ADC_select_CH6	16	static
-../Core/Src/ADC_channel_select.c:75:6:ADC_select_CH7	16	static
-../Core/Src/ADC_channel_select.c:88:6:ADC_select_CH8	16	static
-../Core/Src/ADC_channel_select.c:101:6:ADC_select_CH9	16	static
