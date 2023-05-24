@@ -165,6 +165,7 @@ There are 17 modules, including main.c. These are: gpio.c, gyro.c, i2c.c, knocki
 ___
 
 ## Functions
+Some notable functions are:
 - init_peripherals() - This function initialises the board and its peripherals, like the USART module and i2c bus.
 - detect_knock_pattern() - This function detects user knocks, checks them against the desired code, and returns when the code is entered correctly. It also prints characters to the USART1 bus whenever the user gets the code right or wrong, which are then interpreted by the GUI program.
 - read_gyro() - This function reads the value of the specified axis of the gyroscope and returns it.
@@ -221,6 +222,7 @@ XXXX
 ___
 
 ## Functions:
+Some notable functions are:
 - enable_clocks() & enableLED(): Enable the clocks and LED's on the STM board
 - Channel Select functions:
 	- ADC_select_CH2 (void): 
@@ -295,6 +297,7 @@ There are 14 modules, including main.c. These are: gpio.c, leds.c, main.c, perip
 ___
 
 ## Functions:
+Some notable functions are:
 - init_peripherals() - This function initialised the STM board, HAL, and the various peripherals like i2c, USART, and the Touch Sensing Controller (TSC)
 - run_security_module() - This function contains the main loop of the program - it generates a colour combination, displays it, then waits until the user inputs the correct combination, before repeating this a specified number of times
 - readTSC() - This function discharges, then starts a touch acquisition, before waiting until the acquisition is complete. This is necessary to get touch data.
