@@ -152,18 +152,7 @@ xxx
 ___
 
 ## Functions
-- enable_clocks() & enableLED(): Enable the clocks and LED's on the STM board
-- Channel Select functions:
-	- ADC_select_CH2 (void): 
-	- ADC_select_CH3 (void):
-	- ADC_select_CH4 (void):
-	- ADC_select_CH5 (void):
-	- ADC_select_CH6 (void):
-	- ADC_select_CH7 (void):
-	- ADC_select_CH8 (void):
-	- ADC_select_CH9 (void):
-- shuffleArray(float array[], float degrees): Used when calculating average of previous magnetometer data, this specific funcion will move the data one place left in the array each cycle and add the new read in data as the last element. This ensures a moving average can be calculated.
-- turnOnLED(int pos): Will turn on the LED on the display corresponding to the integer value it receives.
+xxx
 
 
 
@@ -196,7 +185,18 @@ XXXX
 ___
 
 ## Functions:
-XXXX
+- enable_clocks() & enableLED(): Enable the clocks and LED's on the STM board
+- Channel Select functions:
+	- ADC_select_CH2 (void): 
+	- ADC_select_CH3 (void):
+	- ADC_select_CH4 (void):
+	- ADC_select_CH5 (void):
+	- ADC_select_CH6 (void):
+	- ADC_select_CH7 (void):
+	- ADC_select_CH8 (void):
+	- ADC_select_CH9 (void):
+- shuffleArray(float array[], float degrees): Used when calculating average of previous magnetometer data, this specific funcion will move the data one place left in the array each cycle and add the new read in data as the last element. This ensures a moving average can be calculated.
+- turnOnLED(int pos): Will turn on the LED on the display corresponding to the integer value it receives.
 ___
 ## User instructions:
 1. Startup Program: Uploading code onto STM32F3 Discovery Board. Once the previous two challenges have been completed, this challenge will automatically begin.
@@ -223,17 +223,18 @@ Power to STM32 Board: To ensure constant and correct power supply to the STM32 b
 ___
 
 #### Test cases:
-Magnetometer Readings: The first and largest test was to ensure that the magnetometer read in data and it read it in correctly. This was broken down into X stages:
+Magnetometer Readings: The first and largest test was to ensure that the magnetometer read in data and it read it in correctly. This was broken down into 4 major stages:
 
-1. Read in non-zero and changing data: This process involved using the datasheet to confirm correct registers, correct functions, correct configuration values and using HAL. Multiple print statements were used to ensure that the values the magnetometer returned were non-zero. This was returned in milli gauss (mG) and displayed the strength of the magnetic field on the x, y and z axis of the magnetometer. As the magnetometer moved, we had to check that the values also changed. Once this was confirmed, we could move on to intrpreting the resutls.
+1. Read in non-zero and changing data: This process involved using the datasheet to confirm correct registers, correct functions, correct configuration values and using HAL. Multiple print statements were used to ensure that the values the magnetometer returned were non-zero. This was returned in milli gauss (mG) and displayed the strength of the magnetic field on the x, y, and z axis of the magnetometer. As the magnetometer moved, we had to check that the values also changed. Once this was confirmed, we could move on to interpreting the results.
 2. Graph data and interpret results: Using the Arduino Serial Plotter, each cycle of the program returned and printed the corresponding values for each axis. This change in values was plotted on a graph. This data was showing the strength of the magnetic fields present. Tests with things such as fridge magnets, whiteboard erasers, car keys and iPhones showed spikes in data as the field changed from the Earth's magnetic field to the closer one.
 3. Calculating degrees from the data: Now that the data was accurately reading in chnages in magnetic fields, we could use the data to calculate what direction the magnetometer was facing based on a local magnetic field (we decided to use a local field as using the Earths proved to have too much interference and the field wasn't strong enough for our use). This was done by taking the x and y-axis data and using the inverse tan function to calculate the angle from the x-axis. Each quadrant of a coordinate graph would produce an angle, however, we had to ensure that we defined a reference point as angle 0 and measured from there, and adjusted the measurement accordingly. E.g. In quadrant 2 (stating that quadrant 1 is the top right quadrant and the quadrants move anti-clockwise), calculating the angle using inverse tan (giving a negative angle) means you then need to add 180 degrees. Similarly, in quadrant 3, you receive a positive result and also add 180. 
-4. Displaying the data: The final step was to ensure that the STM LED dispaly would correctly show the LED corresponding to the angle it was facing. 
+4. Displaying the data: The final step was to ensure that the STM LED display would correctly show the LED corresponding to the angle it was facing. 
 
 Once these tests were completed and functioning correctly, the magnetometer could be implemented into the project.
 
 Light: One of the tedious tasks to test for was the light that shined on the LDRs. Our first test was with an iPhone flashlight. We discovered that this light was not enough to produce a change in the LDRs. Our two options were to create a larger hole to input light but that risked having light leak into the chambers, compromising the sensitivity of the LDRs. We decided on a torch that was much brighter than a phone light that will be given in the challenge alongside the other physical components.
 
+Integrating the two parts: Our main test for integration was that the second half would not commence until the first half (finding the angle to shine in the light) was completed. We tested each LDR singularly to ensure that it does not show the completion screen without finding the correct magnet orientation. 
 
 ___
 
