@@ -4,7 +4,7 @@
 This document serves to document high-level information about the practical implementation of C language to program a STM32F303 microcontroller to design and implement a proof-of-concept
 technology for a 5-minute escape room experience. 
 
-[![IMAGE Link to Live Demo](https://i.imgur.com/S9S9dgt.png)](http://www.youtube.com/watch?v=6ht2r9PENI8 "Ocean's 2700 Live Demo")
+[![IMAGE Link to Live Demo](https://i.imgur.com/S9S9dgt.png)](https://www.youtube.com/watch?v=DRQaRWyRdBQ")
 [![IMAGE Link to Exposition](https://i.imgur.com/x0ZxC2m.png)](http://www.youtube.com/watch?v=BdD9xIvt8MA "Ocean's 2700 Exposition")
 
 
