@@ -5,7 +5,7 @@ This document serves to document high-level information about the practical impl
 technology for a 5-minute escape room experience. 
 
 [![IMAGE Link to Live Demo](https://i.imgur.com/S9S9dgt.png)](https://www.youtube.com/watch?v=DRQaRWyRdBQ")
-[![IMAGE Link to Exposition](https://i.imgur.com/x0ZxC2m.png)](http://www.youtube.com/watch?v=BdD9xIvt8MA "Ocean's 2700 Exposition")
+
 
 
 # Escape Room Storyline: The Bank Heist
@@ -29,6 +29,7 @@ With the authorities temporarily misled, your escape path is clear, save for one
 
 Undeterred, you deactivate the sensors and, with your team, make a swift exit, melting into the shadows just as the confused police return to the now silent bank. Your heist is a triumph: the priceless artifact is yours, and the legend of the impenetrable bank vault is no more.
 
+[![IMAGE Link to Exposition](https://i.imgur.com/x0ZxC2m.png)](http://www.youtube.com/watch?v=BdD9xIvt8MA "Ocean's 2700 Exposition")
 ___
 ___
 
