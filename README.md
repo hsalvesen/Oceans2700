@@ -5,7 +5,7 @@ This document serves to document high-level information about the practical impl
 technology for a 5-minute escape room experience. 
 
 [![IMAGE Link to Live Demo](https://i.imgur.com/S9S9dgt.png)](http://www.youtube.com/watch?v=6ht2r9PENI8 "Ocean's 2700 Live Demo")
-[![IMAGE Link to Exposition](http://img.youtube.com/vi/BdD9xIvt8MA/0.jpg)](http://www.youtube.com/watch?v=BdD9xIvt8MA "Ocean's 2700 Exposition")
+[![IMAGE Link to Exposition](https://i.imgur.com/x0ZxC2m.png)](http://www.youtube.com/watch?v=BdD9xIvt8MA "Ocean's 2700 Exposition")
 
 
 # Escape Room Storyline: The Bank Heist
