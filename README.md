@@ -13,7 +13,7 @@ In the heart of the city lies an infamous bank, a fortress reputed for its invin
 
 ### Exercise 1: Safe Crack
 
-Your first challenge is to crack the vault. This is no ordinary vault; it boasts an antiquated dial lock system that demands meticulous manipulation. Your ally in this endeavor is a specialized bank heist robot, designed to decode the right combination to pick the lock. As the robot deciphers each part of the combination, an LED illuminates, signaling your progress. With the robot's help, you breach the vault and secure the coveted artifact.
+Your first challenge is to crack the vault. This is no ordinary vault; it boasts an antiquated dial lock system that demands meticulous manipulation. Your ally in this endeavor is a specialized bank heist robot, designed to decode the right combination to pick the lock. As the robot deciphers each part of the combination, an LED illuminates, signalling your progress. With the robot's help, you breach the vault and secure the coveted artifact.
 
 ### Exercise 2: Report to Mission Control
 
@@ -53,21 +53,21 @@ Exercise 3 : Hacking Police Radio Channe (Sundial (LDRs))
 ___
 
 ## Roles
-HJLLMS functioned like a start-up, forming a lateral hierachy, where each member was responsible for their own work, and there was no one overarching lead.
+HJLLMS functioned like a start-up, forming a lateral hierarchy, where each member was responsible for their own work, and there was no one overarching lead.
 The responsibilities for each of the Exercises and subtasks are detailed above under Group Members.
 ___
 ___
 
 ## Minutes
-Lab minutes and outside-of-lab minutes for meetings are recorded as READMEs, located in the corresponding "minutes" folder. Each are dated and include goals, regular progress reporting and actionables.
+Lab minutes and outside-of-lab minutes for meetings are recorded as READMEs, located in the corresponding "minutes" folder. Each is dated and includes goals, regular progress reporting and actionable.
 ___
 ___
 
 
 # Exercise 1 : Safe Crack
 
-## High Level Overview:
-This experience includes a simulated vault cracking sequence which is realised through the interaction between an STM32F303 Discovery board, a potentiometer, a lock-picking robot's servo, and an LED light. The concept is centered around the notion of a vault with a dial lock. The dial, represented by the potentiometer, rests on a Cartesian plane and needs to be manipulated in a certain pattern to 'crack' the vault's code, similar to how a lock-picking robot would function. The STM32F303 Discovery board is the heart of the system, responsible for interfacing with the potentiometer and mimicking the movements of a lock-picking robot's servo.
+## High-Level Overview:
+This experience includes a simulated vault cracking sequence which is realised through the interaction between an STM32F303 Discovery board, a potentiometer, a lock-picking robot's servo, and an LED light. The concept is centred around the notion of a vault with a dial lock. The deal, represented by the potentiometer, rests on a Cartesian plane and needs to be manipulated in a certain pattern to 'crack' the vault's code, similar to how a lock-picking robot would function. The STM32F303 Discovery board is the heart of the system, responsible for interfacing with the potentiometer and mimicking the movements of a lock-picking robot's servo.
 
 ## Subtasks
 1. Interfacing with Potentiometer: The STM32F303 Discovery board must be programmed to read the analog inputs from the potentiometer, which represents the dial on the vault. The position of the dial is determined by the resistance of the potentiometer, which changes as it is turned.
@@ -95,12 +95,12 @@ for (uint32_t i = 0; i < 5; i++)
 		   predefined_angles_degrees[i] = (SysTick->VAL % 181); // generate a random number within the loop
     }
  ```
-- adc(): Converts angles generated into appropriate form to be recognised and interpretted by the potentiometer and the panning servo motor.
-- safecracker(): Enables a stepping through of each of the 5 lock combinations. 
+- adc(): Converts angles generated into an appropriate form to be recognised and interpreted by the potentiometer and the panning servo motor.
+- safecracker(): Enables stepping through of each of the 5 lock combinations. 
 - serial(): Communicates that the module has been completed to our GUI.
 - usart(): enables communication to GUI
 - Init_Peripherals(): initialises all necessary peripherals, defined elsewhere.
-- run_safecracker(): begins infinite loop.
+- run_safecracker(): begins the infinite loop.
 
 ___
 ## Troubleshooting 
@@ -153,12 +153,12 @@ Potentiometer Rotation: Unlike the servo, the potentiometer can rotate beyond 18
 
 Input Voltage Calibration: The potentiometer's calibration is another crucial aspect. The input voltage should be set to 3V to ensure accurate readings. Any deviation from this voltage might lead to incorrect detection of the dial position and hence, failure in unlocking the vault.
 
-Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to erratic behavior of the board and disrupt the escape room simulation.
+Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to erratic behaviour of the board and disrupt the escape room simulation.
 
 Solenoid: The solenoid lock requires 5V input to actuate. Because the SMT32F303 board is unable to supply 5V from one of its output pins, another 5V source is required. Fortunately, the robot has a 5V output pin, which can be controlled by using an NPN transistor (2n3904) as a switch, triggered by a STM32F303 pin (pin PE8).
 ___
 
-## Testing Proceedures:
+## Testing Procedures:
 Directional Rotation Test: By providing different inputs via the potentiometer, we can test the lock-picking robot's servo ability to mimic both anticlockwise and clockwise rotations. Verification will involve ensuring that the servo's direction of rotation matches the potentiometer's movement.
 
 LED Confirmation Test: The LED light should only activate upon entering a correct angle. Test this by providing a range of correct and incorrect inputs, and verifying that the LED lights up only for correct inputs.
@@ -177,15 +177,15 @@ ___
 
 # Exercise 2 : Reporting to Mission Control
 
-## High Level Overview:
+## High-Level Overview:
 This module involves the user tapping the IMU on the PTU to transmit an encoded morse-code message to mission control. The user must enter the correct code to continue.
 
 ___
 ## Subtasks
 1.	Morse Code Translation: A predefined text message ("HEIST") must be manually converted, letter-by-letter into its corresponding Morse signal.
-2.	Tapping in the correct message: the Morse code must be entered in by tapping the accelerometer. The number of taps must correspond to each respective letter.
+2.	Tapping in the correct message: the Morse code must be entered by tapping the accelerometer. The number of taps must correspond to each respective letter.
 3.	Confirming the Message: The board will compare the signal received by the accelerometer with the original, predefined word in Morse code. If they match, it means the message has been transmitted successfully.
-Completion of the Exercise: After the correct sequence of Morse code has been entered, second rectangle on the GUI will light up green, signalling the completion of the second exercise.
+Completion of the Exercise: After the correct sequence of Morse code has been entered, the second rectangle on the GUI will light up green, signalling the completion of the second exercise.
 ___
 ## Modularisation
 All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 2).
@@ -222,7 +222,7 @@ ___
 ## Constraints and Limitations:
 - Dashes - the Gyroscope is not able to detect dashes. Fortunately, the first four letters of the word H-E-I-S-T all only contain dots in Morse code, and the last character is a single dash.
 
-- Movement - the system cannot be used while the servos are moving, or on a soft surface, as this creates vibrations which are falsely registered as taps.
+- Movement - the system cannot be used while the servos are moving, or on a soft surface, as this creates vibrations that are falsely registered as taps.
 ___
 
 ## Testing Procedure:
@@ -235,15 +235,15 @@ Integration - the entire system was tested to ensure it matched the desired outp
 ___
 
 # Exercise 3 : Radio Wave Interference:
-## High Level Overview:
-This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 difference ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage devider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
+## High-Level Overview:
+This experience includes a simulated 'Radio Wave detector and Jammer' experience, simulated through interfacing our STM32F303 Discovery board with a magnetometer module as well an ADC module reading from 8 different ADC channels simultaneously. The experience flow is as follows: determine the correct "radio wave frequency band" by rotating a magnetic field around the magnetometer until it detects the correct orientation which is then displayed explicitly on the discovery board using LEDs, then jam the correct 'frequency band' using a 'broad wave emission device' (a bright torch) shinning on the correct LDR voltage divider circuit. The STM32F303 Discovery board interfaces with these external sensors manipulated by the user and controls the flow of the exercise. When the exercise is complete, the board will transmit a successful signal through its serial point to the host computer.
 
 ___
 
 ## Subtasks
 1. Interfacing with GPIO for LED display: The STM32F303 Discovery board must be able to manipulate the state of its LEDs for communication purposes between the system flow and the user.
-2. Interfacing with Magnetometer: Then Discovery board's integrated magnetometer must be activated, configured and read from to determine the board's bearing relative to its surrounding magnetic field. This magnetic field is produced by strong surrounding magnets which can be manipulated by the user. The raw reading recieved must be sorted into 8 bins to mirror the 8 chambers of interfaced ADCs and checked against the internally stored solution.
-3. Interfacing with ADCs: The Discovery board must be able to recieve and process analog inputs for all 8 sectors containing seperate LDR voltage divider circuits simultaneously. It must then  tuned to determine which of these circuits have been triggered and compare that to an internally stored solution.
+2. Interfacing with Magnetometer: Then Discovery board's integrated magnetometer must be activated, configured and read from to determine the board's bearing relative to its surrounding magnetic field. This magnetic field is produced by strong surrounding magnets which can be manipulated by the user. The raw reading received must be sorted into 8 bins to mirror the 8 chambers of interfaced ADCs and checked against the internally stored solution.
+3. Interfacing with ADCs: The Discovery board must be able to receive and process analog inputs for all 8 sectors containing separate LDR voltage divider circuits simultaneously. It must then  be tuned to determine which of these circuits have been triggered and compare that to an internally stored solution.
 ___
 
 ## Modularisation
@@ -253,13 +253,13 @@ ___
 ## Functions:
 Some notable functions are:
 - radio_interfere(): this is the function that calls the entire project. it contains the main overview of the Magnetometer and the ADC modules.
-- mag_config(): this functions sets the correct registers for reading and writing data and sets the magnetometer to continuously read in data.
+- mag_config(): this function sets the correct registers for reading and writing data and sets the magnetometer to continuously read in data.
 - read_x_data(), read_y_data(), read_z_data(): these functions read the raw magnetometer data from the LSM303AGR magnetometer inside the STM32F3.
-- calculate_degrees(): uses the x and y axis data from the magnetometer to calulate the angle using an arctan function. Due to the four quadrants (All Stations To Central), we have to adjust the data accordingly by adding 180 to data in quadrants 1 and 2 and adding 360 to the thrid quadrants data.
-- calculate_average(): takes the most recent 10 data degree entries and averages them. it accounts for more incoming data using a shuffle function that means only the most recent data is used.
+- calculate_degrees(): uses the x and y axis data from the magnetometer to calculate the angle using an arctan function. Due to the four quadrants (All Stations To Central), we have to adjust the data accordingly by adding 180 to data in quadrants 1 and 2 and adding 360 to the third quadrants data.
+- calculate_average(): takes the most recent 10 data degree entries and averages them. it accounts for more incoming data using a shuffle function which means only the most recent data is used.
 - check_solution(): compares the angle the magnetometer is looking at to the randomised solution, if correct, breaks the magnetometer loop and moves to the next internal module.
-- poll_ADC(): this function will consistantly check and re-intialise the LDRs to ensure they're ready to receive a change.
-- check_match(): this function will cycle through the array of LDRs and the solution array and compare the values. In the solution array, only 1 value is 1 while all else is 0. The LDR array will contain the current LDR data, meaning that if the the current LDR being looked at has a value of 1 in the array and the value in the solution is also equal to 1 at that index, the loop will break and the challenge is completed. Otherwise it will continue cycling until a correct answer is inputted.
+- poll_ADC(): this function will consistently check and re-initialise the LDRs to ensure they're ready to receive a change.
+- check_match(): this function will cycle through the array of LDRs and the solution array and compare the values. In the solution array, only 1 value is 1 while all else is 0. The LDR array will contain the current LDR data, meaning that if the current LDR being looked at has a value of 1 in the array and the value in the solution is also equal to 1 at that index, the loop will break and the challenge is completed. Otherwise, it will continue cycling until a correct answer is inputted.
 
 ___
 ##Pin Out
@@ -278,46 +278,46 @@ ___
 ## User instructions:
 1. Startup Program: Uploading code onto STM32F3 Discovery Board. Once the previous two challenges have been completed, this challenge will automatically begin.
 
-2. Finding Correct Magnet Orientation: The LED display on the STM board will light up with 4 LED's. The LED's will stay in this state until the correct orientation of the magnetic field is present. 
+2. Finding Correct Magnet Orientation: The LED display on the STM board will light up with 4 LEDs. The LEDs will stay in this state until the correct orientation of the magnetic field is present. 
 
 3. Found correct Orientation: Once the orientation is found, the LED display will show the corresponding direction on the LED display (due to the LED display having a direction towards North, East, South, West). *NOTE that the program will not continue to the next stage until the correct orientation is found*
 
-4. Shining a Light: Once the LED is displayed, the user will use the torch provided to shine a light into the corresponding direction in the box underneath. Inside the box are LDR's waiting to be triggered. *NOTE that ONLY the right LDR must be triggered to be completed*
+4. Shining a Light: Once the LED is displayed, the user will use the torch provided to shine a light in the corresponding direction in the box underneath. Inside the box are LDRs waiting to be triggered. *NOTE that ONLY the right LDR must be triggered to be completed*
 
 5. Stages 1-4 will repeat 5 times with a random solution to be found.
 
-6. Completion of the Exercise: When completed, all LED's will light up on the LED display.
+6. Completion of the Exercise: When completed, all LEDs will light up on the LED display.
 ___
 
 ## Constraints and Limitations:
-Light and LDR sensitivity: The LDRs measure the surrounding light level letting us detect a change in light too (resulting in a changed resistance), which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used. Additionally the LDRs can only meaninfully detect changes in light in a certain range meaning the surrounding environment must not be too bright for the system to function correctly.
+Light and LDR sensitivity: The LDRs measure the surrounding light level letting us detect a change in light too (resulting in a changed resistance), which is what we are measuring in our challenge. It is necessary to calibrate the LDR sensitivity to the amount of light in the room testing in and the brightness of the light used. Additionally, the LDRs can only meaningfully detect changes in light in a certain range meaning the surrounding environment must not be too bright for the system to function correctly.
 
-Wiring Issues: As this exercise is heavily dependant on correct wiring, any wiring mishaps could cause this project to break and work erratically. Mishaps could include loose wiring, exposed wiring, or wires that have fallen out completely. Wires should be checked before each test to ensure accurate testing and a smooth run-through.
+Wiring Issues: As this exercise is heavily dependent on correct wiring, any wiring mishaps could cause this project to break and work erratically. Mishaps could include loose wiring, exposed wiring, or wires that have fallen out completely. Wires should be checked before each test to ensure accurate testing and a smooth run-through.
 
 LDR Functionality: The LDRs are a major part of the second half of the challenge. Ensuring that ALL LDRs are correctly functioning is crucial for this project to be functional.
 
-Magnetometer Position: The Magnetometer is positioned off-center on the STM but is positioned centered on the physical challenge colosseum. With research on magnetic fields and how magnetometers work, we discovered that having the magnetometer off-centre means that our readings may be slightly disrupted. However, as we're sorting the readings into 8 sections, it doesn't have an effect on the functionality as our readings dont need to be incredibly accurate.
+Magnetometer Position: The Magnetometer is positioned off-centre on the STM but is positioned centred on the physical challenge colosseum. With research on magnetic fields and how magnetometers work, we discovered that having the magnetometer off-centre means that our readings may be slightly disrupted. However, as we're sorting the readings into 8 sections, it doesn't have an effect on the functionality as our readings don't need to be incredibly accurate.
 
-Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to the erratic behavior of the board and disrupt the escape room simulation.
+Power to STM32 Board: To ensure constant and correct power supply to the STM32 board, it's recommended that the computer used to upload the code be plugged into a charger. A lack of adequate power can lead to the erratic behaviour of the board and disrupt the escape room simulation.
 ___
 
 ## Test cases:
-Magnetometer Readings: The first and largest test was to ensure that the magnetometer read in data and it read it in correctly. This was broken down into 4 major stages:
+Magnetometer Readings: The first and largest test was to ensure that the magnetometer read data and it read it correctly. This was broken down into 4 major stages:
 
-1. Read in non-zero and changing data: This process involved using the datasheet to confirm correct registers, correct functions, correct configuration values and using HAL. Multiple print statements were used to ensure that the values the magnetometer returned were non-zero. This was returned in milli gauss (mG) and displayed the strength of the magnetic field on the x, y, and z axis of the magnetometer. As the magnetometer moved, we had to check that the values also changed. Once this was confirmed, we could move on to interpreting the results.
+1. Read in non-zero and changing data: This process involved using the datasheet to confirm correct registers, correct functions, correct configuration values and using HAL. Multiple print statements were used to ensure that the values the magnetometer returned were non-zero. This was returned in milli gauss (mG) and displayed the strength of the magnetic field on the x, y, and z-axis of the magnetometer. As the magnetometer moved, we had to check that the values also changed. Once this was confirmed, we could move on to interpreting the results.
 2. Graph data and interpret results: Using the Arduino Serial Plotter, each cycle of the program returned and printed the corresponding values for each axis. This change in values was plotted on a graph. This data was showing the strength of the magnetic fields present. Tests with things such as fridge magnets, whiteboard erasers, car keys and iPhones showed spikes in data as the field changed from the Earth's magnetic field to the closer one.
-3. Calculating degrees from the data: Now that the data was accurately reading in chnages in magnetic fields, we could use the data to calculate what direction the magnetometer was facing based on a local magnetic field (we decided to use a local field as using the Earths proved to have too much interference and the field wasn't strong enough for our use). This was done by taking the x and y-axis data and using the inverse tan function to calculate the angle from the x-axis. Each quadrant of a coordinate graph would produce an angle, however, we had to ensure that we defined a reference point as angle 0 and measured from there, and adjusted the measurement accordingly. E.g. In quadrant 2 (stating that quadrant 1 is the top right quadrant and the quadrants move anti-clockwise), calculating the angle using inverse tan (giving a negative angle) means you then need to add 180 degrees. Similarly, in quadrant 3, you receive a positive result and also add 180. 
+3. Calculating degrees from the data: Now that the data was accurately reading changes in magnetic fields, we could use the data to calculate what direction the magnetometer was facing based on a local magnetic field (we decided to use a local field as using the Earths proved to have too much interference and the field wasn't strong enough for our use). This was done by taking the x and y-axis data and using the inverse tan function to calculate the angle from the x-axis. Each quadrant of a coordinate graph would produce an angle, however, we had to ensure that we defined a reference point as angle 0 and measured from there, and adjusted the measurement accordingly. E.g. In quadrant 2 (stating that quadrant 1 is the top right quadrant and the quadrants move anti-clockwise), calculating the angle using inverse tan (giving a negative angle) means you then need to add 180 degrees. Similarly, in quadrant 3, you receive a positive result and also add 180. 
 4. Displaying the data: The final step was to ensure that the STM LED display would correctly show the LED corresponding to the angle it was facing. 
 
 Once these tests were completed and functioning correctly, the magnetometer could be implemented into the project.
 
 ADC Segment:
 
-1. Read an analog signal from one LDR: Shine a strong light on LDR voltage divider circuit. This was temporarily configured to a STM32 Discovery board LED which was expected to light up when sufficient light was detected. This worked as expected.
-2. Change sensitivity of ADC trigger threshold: Configure software sensitivity to high then shine a weak light over LDR circuit. The circuit did not transmit a high enough voltage to trigger the discovery board's LED. This worked as expected.
-3. Read from multiple ADC channels at once: Connect one LDR voltage divider circuit to one pin on the discovery board connected to a configured ADC channel. Configure for high sensitivity and shine a light on it. We configured each individual ADC channel to trigger their unique LED on the discovery board. Shining a light on the circuit activated the correct LED and when it was rewired to a different channel's pin, its respective LED turned on while the previous one turned off. This is as expected and demonstrates the ability to read from multiple channels.
+1. Read an analog signal from one LDR: Shine a strong light on the LDR voltage divider circuit. This was temporarily configured to a STM32 Discovery board LED which was expected to light up when sufficient light was detected. This worked as expected.
+2. Change sensitivity of ADC trigger threshold: Configure software sensitivity to high then shine a weak light over the LDR circuit. The circuit did not transmit a high enough voltage to trigger the discovery board's LED. This worked as expected.
+3. Read from multiple ADC channels at once: Connect one LDR voltage divider circuit to one pin on the discovery board connected to a configured ADC channel. Configure for high sensitivity and shine a light on it. We configured each individual ADC channel to trigger its unique LED on the discovery board. Shining a light on the circuit activated the correct LED and when it was rewired to a different channel's pin, its respective LED turned on while the previous one turned off. This is as expected and demonstrates the ability to read from multiple channels.
 4. Read from multiple LDR voltage divider circuits at once: Connect 8 LDR Voltage divider circuits to 8 unique channels configured for high sensitivity. Shine a torch on chosen LDRs and their respective LEDs assigned by software on the board should activate. This worked as expected.
-5. Compare activated LDRs to an external solution array: An external solution array was created which corresponded to the desired states of the each LDR voltage divider. These LDRs were activated simultaneously using a torch to see if the system would detect the current state of the LDRs to match the external solution. The match passed which locked the system. This was as desired
+5. Compare activated LDRs to an external solution array: An external solution array was created which corresponded to the desired states of each LDR voltage divider. These LDRs were activated simultaneously using a torch to see if the system would detect the current state of the LDRs to match the external solution. The match passed which locked the system. This was as desired
 
 With these tests completed and functioning as expected, the ADC could be fully implemented into the rest of the project.
 
@@ -330,27 +330,27 @@ ___
 
 # Exercise 4 : Capacitive Touch: 
 
-## High Level Overview:
-This scenario requires the heist robot to help you hack into a system of capacitive sensors in order to secure a safe exit out of the bank. Assuming that the robot has already been physically connected to the exit door, it will help you decipher the exit code combination that need to be manually inputted by the user in the correct sequence. The combination of LED colours displayed on the STM32F303 Discovery board’s LED’s will correlate with the colours of wires that must be simultaneously manually pressed. After this exercise has been completed, you will have escaped out the secret exit of the bank and seamlessly blend into the busy crowd with your stolen bounty intact. 
+## High-Level Overview:
+This scenario requires the heist robot to help you hack into a system of capacitive sensors in order to secure a safe exit out of the bank. Assuming that the robot has already been physically connected to the exit door, it will help you decipher the exit code combination that needs to be manually inputted by the user in the correct sequence. The combination of LED colours displayed on the STM32F303 Discovery board’s LEDs will correlate with the colours of wires that must be simultaneously manually pressed. After this exercise has been completed, you will have escaped out of the secret exit of the bank and seamlessly blend into the busy crowd with your stolen bounty intact. 
 ___
 
 ## Subtasks
 1.	Observation of the LEDs: the code displayed on the STM32F303 by coloured LEDs must be observed.
 2.	The corresponding wire or combination of wires on the physical module must be pressed.
 3.	If the correct corresponding wires are pressed, the next sequence of LEDs will light up, and the task will continue.
-Completion of the Exercise: After the correct sequence of capacitive touch entries have been made, the final rectangle on the GUI will light up green, signalling the completion of the final exercise.
+Completion of the Exercise: After the correct sequence of capacitive touch entries has been made, the final rectangle on the GUI will light up green, signalling the completion of the final exercise.
 ___
 
 ## Modularisation:
 All modules have been separated into appropriate peripheral files, each with a respective .c file in the Source folder and a .h file in the Includes folder for the exercise (Exercise 4).
 This reduces the main.c file to 10 lines, enabling portability, reusable, ease of reading through and ease of debugging.
-There are 14 modules, including main.c. These are: gpio.c, leds.c, main.c, peripherals.c, security_module.c stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, system_stm32f3xx.c, touch.c, tsc.c, usart.c, usb.c.
+There are 14 modules, including main.c. These are: gpio.c, LEDs.c, main.c, peripherals.c, security_module.c stm32fxx_hal_msp.c, stm32f3xx.it.c, syscalls.c, sysclock_config.c, system_stm32f3xx.c, touch.c, tsc.c, usart.c, usb.c.
 ___
 
 ## Functions:
 Some notable functions are:
 - init_peripherals() - This function initialised the STM board, HAL, and the various peripherals like i2c, USART, and the Touch Sensing Controller (TSC)
-- run_security_module() - This function contains the main loop of the program - it generates a colour combination, displays it, then waits until the user inputs the correct combination, before repeating this a specified number of times
+- run_security_module() - This function contains the main loop of the program - it generates a colour combination, displays it, and then waits until the user inputs the correct combination, before repeating this a specified number of times
 - readTSC() - This function discharges, then starts a touch acquisition, before waiting until the acquisition is complete. This is necessary to get touch data.
 - get_TSC_colours() - This function reads all the touch sensors, and compares them against their threshold, before returning a number whose bits represent the wires that are touched.
 
@@ -364,7 +364,7 @@ ___
 ___
 
 ## Constraints and Limitations:
-Number of wires - The module cannot have more than 8 wires as the STM32F3 has only 8 TSC groups. There are also only 4 colours of LEDs on the board, so we would have to start using external LEDS to have more than 4 colours.
+The number of wires - The module cannot have more than 8 wires as the STM32F3 has only 8 TSC groups. There are also only 4 colours of LEDs on the board, so we would have to start using external LEDS to have more than 4 colours.
 
 ___
 
@@ -377,7 +377,7 @@ ___
 
 # GUI: 
 
-## High Level Overview:
+## High-Level Overview:
 The GUI controls the overall flow of the program and provides feedback and instruction to the user.
 ___
 
